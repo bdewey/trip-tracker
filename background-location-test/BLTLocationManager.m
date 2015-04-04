@@ -1,0 +1,163 @@
+//
+//  BLTLocationManager.m
+//  background-location-test
+//
+//  Created by Brian Dewey on 4/1/15.
+//  Copyright (c) 2015 Brian's Brain. All rights reserved.
+//
+
+#import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
+
+#import "BLTLocation.h"
+#import "BLTLocationManager.h"
+#import "BLTVisit.h"
+
+const BOOL kDebugNotificationsEnabled = NO;
+
+@interface BLTLocationManager () <CLLocationManagerDelegate>
+
+@end
+
+@implementation BLTLocationManager
+{
+  NSMutableArray *_blocksToPerformWhenAuthorized;
+}
+
+- (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
+                   managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+  self = [super init];
+  if (self != nil) {
+    _locationManager = locationManager;
+    _locationManager.delegate = self;
+    _managedObjectContext = managedObjectContext;
+    _blocksToPerformWhenAuthorized = [[NSMutableArray alloc] init];
+  }
+  return self;
+}
+
+- (void)dealloc
+{
+  _locationManager.delegate = nil;
+}
+
+- (void)startRecordingLocationHistory
+{
+  [self _performBlockWhenAuthorized:^{
+    NSAssert([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways,
+             @"Should be authorized if we get here");
+    _recordingLocationHistory = YES;
+    [_locationManager startUpdatingLocation];
+  }];
+}
+
+- (void)stopRecordingLocationHistory
+{
+  [_locationManager stopUpdatingLocation];
+  _recordingLocationHistory = NO;
+}
+
+- (void)startRecordingVisits
+{
+  [self _performBlockWhenAuthorized:^{
+    [_locationManager startMonitoringVisits];
+    _recordingVisits = YES;
+  }];
+}
+
+- (void)stopRecordingVisits
+{
+  [_locationManager stopMonitoringVisits];
+  _recordingVisits = NO;
+}
+
+- (void)_performBlockWhenAuthorized:(dispatch_block_t)block
+{
+  if (block == NULL) {
+    return;
+  }
+  CLAuthorizationStatus currentAuthorizationStatus = [CLLocationManager authorizationStatus];
+  if (currentAuthorizationStatus == kCLAuthorizationStatusDenied || currentAuthorizationStatus == kCLAuthorizationStatusRestricted) {
+    [self.delegate bltLocationManagerDidFailAuthorization:self];
+    return;
+  }
+  if (currentAuthorizationStatus != kCLAuthorizationStatusAuthorizedAlways) {
+    [_blocksToPerformWhenAuthorized addObject:block];
+    [_locationManager requestAlwaysAuthorization];
+  } else {
+    block();
+  }
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)      locationManager:(CLLocationManager *)manager
+ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+  if (status == kCLAuthorizationStatusAuthorizedAlways) {
+    for (dispatch_block_t block in _blocksToPerformWhenAuthorized) {
+      block();
+    }
+    [_blocksToPerformWhenAuthorized removeAllObjects];
+  } else {
+    [self.delegate bltLocationManagerDidFailAuthorization:self];
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+  NSLog(@"Shit: %@", error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+  if (!_recordingLocationHistory) {
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    for (CLLocation *location in locations) {
+      BLTLocation *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTLocation" inManagedObjectContext:_managedObjectContext];
+      locationObject.location = location;
+      locationObject.timestamp = location.timestamp;
+    }
+    [_managedObjectContext save:NULL];
+  }];
+}
+
+- (void)_dispatchNotification:(NSString *)notificationMessage
+{
+  if (kDebugNotificationsEnabled) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      UILocalNotification *notification = [[UILocalNotification alloc] init];
+      notification.alertAction = nil;
+      notification.alertBody = notificationMessage;
+      [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    });
+  }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didVisit:(CLVisit *)visit
+{
+  if (!_recordingVisits) {
+    [self _dispatchNotification:[NSString stringWithFormat:@"Got visit but not recording: %@", visit]];
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    BLTVisit *visitObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTVisit" inManagedObjectContext:_managedObjectContext];
+    if (visitObject == nil) {
+      [self _dispatchNotification:@"visitObject is nil. WTF?"];
+    } else {
+      visitObject.visit = visit;
+      visitObject.arrivalDate = visit.arrivalDate;
+      visitObject.departureDate = visit.departureDate;
+      NSError *error;
+      BOOL didSave = [_managedObjectContext save:&error];
+      NSString *notificationMessage = [NSString stringWithFormat:@"Visit %@ save %d", visit, didSave];
+      [self _dispatchNotification:notificationMessage];
+    }
+  }];
+}
+
+@end

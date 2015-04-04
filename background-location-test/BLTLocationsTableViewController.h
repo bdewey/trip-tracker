@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  BLTLocationsTableViewController.h
 //  background-location-test
 //
 //  Created by Brian Dewey on 4/1/15.
@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class BLTDatabase;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface BLTLocationsTableViewController : UITableViewController
 
 @end
-
