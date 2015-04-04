@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MKPolyline;
+
 @interface BLTMapViewController : UIViewController
 
 @property (nonatomic, readwrite, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, readwrite, strong) MKPolyline *route;
 
 @end

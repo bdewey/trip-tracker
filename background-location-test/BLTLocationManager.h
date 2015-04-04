@@ -11,6 +11,8 @@
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
+typedef void (^BLTTripBuilderCallback)(NSArray *trips);
+
 @protocol BLTLocationManagerDelegate;
 
 @interface BLTLocationManager : NSObject
@@ -21,6 +23,9 @@
 @property (nonatomic, readonly, assign, getter=isRecordingLocationHistory) BOOL recordingLocationHistory;
 @property (nonatomic, readonly, assign, getter=isRecordingVisits) BOOL recordingVisits;
 
++ (BLTLocationManager *)sharedLocationManager;
++ (void)setSharedLocationManager:(BLTLocationManager *)locationManager;
+
 - (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
                    managedObjectContext:(NSManagedObjectContext *)managedObjectContext NS_DESIGNATED_INITIALIZER;
 
@@ -29,6 +34,8 @@
 
 - (void)startRecordingVisits;
 - (void)stopRecordingVisits;
+
+- (void)buildTrips:(BLTTripBuilderCallback)callback;
 
 @end
 

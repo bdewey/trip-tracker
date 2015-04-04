@@ -12,9 +12,12 @@
 
 #import "BLTLocation.h"
 #import "BLTLocationManager.h"
+#import "BLTTrip.h"
 #import "BLTVisit.h"
 
 const BOOL kDebugNotificationsEnabled = NO;
+
+static BLTLocationManager *g_sharedLocationManager;
 
 @interface BLTLocationManager () <CLLocationManagerDelegate>
 
@@ -41,6 +44,16 @@ const BOOL kDebugNotificationsEnabled = NO;
 - (void)dealloc
 {
   _locationManager.delegate = nil;
+}
+
++ (BLTLocationManager *)sharedLocationManager
+{
+  return g_sharedLocationManager;
+}
+
++ (void)setSharedLocationManager:(BLTLocationManager *)locationManager
+{
+  g_sharedLocationManager = locationManager;
 }
 
 - (void)startRecordingLocationHistory
@@ -71,6 +84,40 @@ const BOOL kDebugNotificationsEnabled = NO;
 {
   [_locationManager stopMonitoringVisits];
   _recordingVisits = NO;
+}
+
+- (void)buildTrips:(BLTTripBuilderCallback)callback
+{
+  if (callback == NULL) {
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    NSFetchRequest *visitFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTVisit"];
+    NSSortDescriptor *sortByArrivalDate = [[NSSortDescriptor alloc] initWithKey:@"arrivalDate" ascending:YES];
+    visitFetchRequest.sortDescriptors = @[sortByArrivalDate];
+    NSArray *visits = [_managedObjectContext executeFetchRequest:visitFetchRequest error:NULL];
+    NSDate *lastDepartureDate = nil;
+    NSMutableArray *allTrips = [[NSMutableArray alloc] init];
+    for (BLTVisit *managedVisitObject in visits) {
+      if (lastDepartureDate != nil && managedVisitObject.arrivalDate != [NSDate distantPast]) {
+        NSFetchRequest *locationFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
+        NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+        NSPredicate *locationsInTimeRange = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", lastDepartureDate, managedVisitObject.arrivalDate];
+        locationFetchRequest.sortDescriptors = @[sortByTimestamp];
+        locationFetchRequest.predicate = locationsInTimeRange;
+        NSArray *locations = [_managedObjectContext executeFetchRequest:locationFetchRequest error:NULL];
+        BLTTrip *trip = [[BLTTrip alloc] initWithStartDate:lastDepartureDate endDate:managedVisitObject.arrivalDate locations:locations];
+        [allTrips addObject:trip];
+        lastDepartureDate = nil;
+      }
+      if (managedVisitObject.departureDate != [NSDate distantFuture]) {
+        lastDepartureDate = managedVisitObject.departureDate;
+      }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      callback(allTrips);
+    });
+  }];
 }
 
 - (void)_performBlockWhenAuthorized:(dispatch_block_t)block

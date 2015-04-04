@@ -32,6 +32,7 @@
   _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager managedObjectContext:[_database newPrivateQueueManagedObjectContextWithName:@"background save"]];
   [_locationManager startRecordingLocationHistory];
   [_locationManager startRecordingVisits];
+  [BLTLocationManager setSharedLocationManager:_locationManager];
   return YES;
 }
 

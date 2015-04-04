@@ -23,6 +23,7 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 {
   BLTDatabase *_database;
   NSFetchedResultsController *_fetchedResultsController;
+  NSDateFormatter *_dateFormatter;
 }
 
 - (void)dealloc
@@ -35,10 +36,15 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   [super viewDidLoad];
   _database = [BLTDatabase sharedDatabase];
   NSAssert(_database != nil, @"Must have a database");
-  
+
+  _dateFormatter = [[NSDateFormatter alloc] init];
+  _dateFormatter.dateStyle = NSDateFormatterShortStyle;
+  _dateFormatter.timeStyle = NSDateFormatterShortStyle;
   NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
   NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
   fetchRequest.sortDescriptors = @[sortDescriptor];
+  fetchRequest.predicate = _locationFilterPredicate;
+  _fetchedResultsController.delegate = nil;
   _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                   managedObjectContext:_database.managedObjectContext
                                                                     sectionNameKeyPath:nil
@@ -72,8 +78,8 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   }
   BLTLocation *locationObject = _fetchedResultsController.fetchedObjects[indexPath.row];
   CLLocation *location = locationObject.location;
-  cell.textLabel.text = [NSString stringWithFormat:@"%.4f, @%.4f", location.coordinate.latitude, location.coordinate.longitude];
-  cell.detailTextLabel.text = location.timestamp.description;
+  cell.textLabel.text = [_dateFormatter stringFromDate:location.timestamp];
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"%.4f, %.4f", location.coordinate.latitude, location.coordinate.longitude];
   return cell;
 }
 

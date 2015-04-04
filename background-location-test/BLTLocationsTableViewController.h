@@ -12,4 +12,6 @@
 
 @interface BLTLocationsTableViewController : UITableViewController
 
+@property (nonatomic, readwrite, strong) NSPredicate *locationFilterPredicate;
+
 @end

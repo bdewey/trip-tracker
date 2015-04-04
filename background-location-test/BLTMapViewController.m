@@ -10,7 +10,7 @@
 
 #import "BLTMapViewController.h"
 
-@interface BLTMapViewController ()
+@interface BLTMapViewController () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -21,8 +21,15 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.mapView.centerCoordinate = _coordinate;
-  self.mapView.region = MKCoordinateRegionMakeWithDistance(_coordinate, 500, 500);
+  MKMapView *mapView = self.mapView;
+  if (_route != nil) {
+    [mapView addOverlay:_route level:MKOverlayLevelAboveRoads];
+    mapView.centerCoordinate = _route.coordinate;
+    mapView.region = MKCoordinateRegionMakeWithDistance(_route.coordinate, 500, 500);
+  } else {
+    mapView.centerCoordinate = _coordinate;
+    mapView.region = MKCoordinateRegionMakeWithDistance(_coordinate, 500, 500);
+  }
 }
 
 - (void)didReceiveMemoryWarning
@@ -30,14 +37,15 @@
   [super didReceiveMemoryWarning];
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+#pragma mark - MKMapViewDelegate
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+  MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+  polylineRenderer.strokeColor = [UIColor greenColor];
+  polylineRenderer.alpha = 0.7;
+  polylineRenderer.lineWidth = 4;
+  return polylineRenderer;
+}
 
 @end
