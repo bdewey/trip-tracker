@@ -160,7 +160,7 @@
             </objects>
             <point key="canvasLocation" x="1210" y="1240"/>
         </scene>
-        <!--Trips Table View Controller-->
+        <!--Trips-->
         <scene sceneID="rfu-0q-aiU">
             <objects>
                 <tableViewController id="Qza-0v-hWK" customClass="BLTTripsTableViewController" sceneMemberID="viewController">
@@ -199,7 +199,13 @@
                             <outlet property="delegate" destination="Qza-0v-hWK" id="zMw-BP-PTb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Pph-7P-WVX"/>
+                    <navigationItem key="navigationItem" title="Trips" id="Pph-7P-WVX">
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="TCJ-A6-chf">
+                            <connections>
+                                <action selector="_didTapRefresh:" destination="Qza-0v-hWK" id="xIu-GK-lWb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SrF-5B-Xd8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

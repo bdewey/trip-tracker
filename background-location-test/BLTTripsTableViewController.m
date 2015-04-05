@@ -41,15 +41,15 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   _dateFormatter.timeStyle = NSDateFormatterShortStyle;
   _dateComponentsFormatter = [[NSDateComponentsFormatter alloc] init];
   _dateComponentsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+  [self _didTapRefresh:nil];
+}
+
+- (IBAction)_didTapRefresh:(UIBarButtonItem *)sender
+{
   [_locationManager buildTrips:^(NSArray *trips) {
     _trips = trips;
     [self.tableView reloadData];
   }];
-}
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
