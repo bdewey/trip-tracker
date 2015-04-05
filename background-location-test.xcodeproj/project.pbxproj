@@ -219,6 +219,11 @@
 					D301976F1ACCF6DD00AF466B = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = K2UU8WDD8H;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					D301978B1ACCF6DD00AF466B = {
 						CreatedOnToolsVersion = 6.2;

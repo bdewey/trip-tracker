@@ -29,6 +29,7 @@
   UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
   [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
   CLLocationManager *coreLocationManager = [[CLLocationManager alloc] init];
+  coreLocationManager.activityType = CLActivityTypeFitness;
   _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager managedObjectContext:[_database newPrivateQueueManagedObjectContextWithName:@"background save"]];
   [_locationManager startRecordingLocationHistory];
   [_locationManager startRecordingVisits];
