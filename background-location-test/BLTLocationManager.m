@@ -10,12 +10,14 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
+#import "BLTDatabase.h"
 #import "BLTLocation.h"
 #import "BLTLocationManager.h"
 #import "BLTTrip.h"
 #import "BLTVisit.h"
 
 const BOOL kDebugNotificationsEnabled = YES;
+static BOOL DisableLocationMonitoringWhenStationary = NO;
 
 static BLTLocationManager *g_sharedLocationManager;
 
@@ -30,13 +32,14 @@ static BLTLocationManager *g_sharedLocationManager;
 }
 
 - (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
-                   managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+                               database:(BLTDatabase *)database
 {
   self = [super init];
   if (self != nil) {
     _locationManager = locationManager;
     _locationManager.delegate = self;
-    _managedObjectContext = managedObjectContext;
+    _database = database;
+    _managedObjectContext = [_database newPrivateQueueManagedObjectContextWithName:@"location monitoring"];
     _blocksToPerformWhenAuthorized = [[NSMutableArray alloc] init];
   }
   return self;
@@ -59,6 +62,7 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)startRecordingLocationHistory
 {
+  [_database logMessage:@"startRecordingLocationHistory" displayAsNotification:NO];
   [self _performBlockWhenAuthorized:^{
     NSAssert([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways,
              @"Should be authorized if we get here");
@@ -69,6 +73,7 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)stopRecordingLocationHistory
 {
+  [_database logMessage:@"stopRecordingLocationHistory" displayAsNotification:NO];
   [_locationManager stopUpdatingLocation];
   _recordingLocationHistory = NO;
 }
@@ -139,18 +144,6 @@ static BLTLocationManager *g_sharedLocationManager;
   }
 }
 
-- (void)_dispatchNotification:(NSString *)notificationMessage
-{
-  if (kDebugNotificationsEnabled) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      UILocalNotification *notification = [[UILocalNotification alloc] init];
-      notification.alertAction = nil;
-      notification.alertBody = notificationMessage;
-      [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    });
-  }
-}
-
 #pragma mark - CLLocationManagerDelegate
 
 - (void)      locationManager:(CLLocationManager *)manager
@@ -176,8 +169,11 @@ static BLTLocationManager *g_sharedLocationManager;
   if (!_recordingLocationHistory) {
     return;
   }
-  [_locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:CLTimeIntervalMax];
-  _isDeferringUpdates = YES;
+  if (!_isDeferringUpdates) {
+    [_database logMessage:@"Asking for deferred updates" displayAsNotification:YES];
+    [_locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:CLTimeIntervalMax];
+    _isDeferringUpdates = YES;
+  }
   [_managedObjectContext performBlock:^{
     for (CLLocation *location in locations) {
       BLTLocation *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTLocation" inManagedObjectContext:_managedObjectContext];
@@ -190,27 +186,30 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)locationManager:(CLLocationManager *)manager didFinishDeferredUpdatesWithError:(NSError *)error
 {
-  [self _dispatchNotification:[NSString stringWithFormat:@"Finished deferred updates. Error = %@", error]];
+  [_database logMessage:[NSString stringWithFormat:@"Finished deferred updates. Error = %@", error]
+  displayAsNotification:kDebugNotificationsEnabled];
   _isDeferringUpdates = NO;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didVisit:(CLVisit *)visit
 {
   if (!_recordingVisits) {
-    [self _dispatchNotification:[NSString stringWithFormat:@"Got visit but not recording: %@", visit]];
+    [_database logMessage:[NSString stringWithFormat:@"Got visit but not recording: %@", visit] displayAsNotification:kDebugNotificationsEnabled];
     return;
   }
-  if (visit.departureDate == [NSDate distantFuture]) {
-    [self _dispatchNotification:@"Arrived. Turning off location monitoring."];
-    [self stopRecordingLocationHistory];
-  } else {
-    [self _dispatchNotification:@"Departed. Monitoring location."];
-    [self startRecordingLocationHistory];
+  if (DisableLocationMonitoringWhenStationary) {
+    if (visit.departureDate == [NSDate distantFuture]) {
+      [_database logMessage:@"Arrived. Turning off location monitoring." displayAsNotification:kDebugNotificationsEnabled];
+      [self stopRecordingLocationHistory];
+    } else {
+      [_database logMessage:@"Departed. Monitoring location." displayAsNotification:kDebugNotificationsEnabled];
+      [self startRecordingLocationHistory];
+    }
   }
   [_managedObjectContext performBlock:^{
     BLTVisit *visitObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTVisit" inManagedObjectContext:_managedObjectContext];
     if (visitObject == nil) {
-      [self _dispatchNotification:@"visitObject is nil. WTF?"];
+      [_database logMessage:@"visitObject is nil. WTF?" displayAsNotification:kDebugNotificationsEnabled];
     } else {
       visitObject.visit = visit;
       visitObject.arrivalDate = visit.arrivalDate;
@@ -218,7 +217,7 @@ static BLTLocationManager *g_sharedLocationManager;
       NSError *error;
       BOOL didSave = [_managedObjectContext save:&error];
       NSString *notificationMessage = [NSString stringWithFormat:@"Visit %@ save %d", visit, didSave];
-      [self _dispatchNotification:notificationMessage];
+      [_database logMessage:notificationMessage displayAsNotification:kDebugNotificationsEnabled];
     }
   }];
 }

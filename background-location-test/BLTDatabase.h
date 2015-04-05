@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+extern NSString *const kBLTLogRecordEntityName;
+
 @interface BLTDatabase : NSObject
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -19,6 +21,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
+- (void)logMessage:(NSString *)message displayAsNotification:(BOOL)displayAsNotification;
 
 + (BLTDatabase *)sharedDatabase;
 + (void)setSharedDatabase:(BLTDatabase *)sharedDatabase;

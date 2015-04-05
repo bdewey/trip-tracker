@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class BLTDatabase;
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
@@ -18,6 +19,7 @@ typedef void (^BLTTripBuilderCallback)(NSArray *trips);
 @interface BLTLocationManager : NSObject
 
 @property (nonatomic, readonly, strong) CLLocationManager *locationManager;
+@property (nonatomic, readonly, strong) BLTDatabase *database;
 @property (nonatomic, readonly, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readwrite, weak) id<BLTLocationManagerDelegate> delegate;
 @property (nonatomic, readonly, assign, getter=isRecordingLocationHistory) BOOL recordingLocationHistory;
@@ -27,7 +29,7 @@ typedef void (^BLTTripBuilderCallback)(NSArray *trips);
 + (void)setSharedLocationManager:(BLTLocationManager *)locationManager;
 
 - (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
-                   managedObjectContext:(NSManagedObjectContext *)managedObjectContext NS_DESIGNATED_INITIALIZER;
+                               database:(BLTDatabase *)database NS_DESIGNATED_INITIALIZER;
 
 - (void)startRecordingLocationHistory;
 - (void)stopRecordingLocationHistory;

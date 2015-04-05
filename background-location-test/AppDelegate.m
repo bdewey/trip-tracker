@@ -30,9 +30,11 @@
   [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
   CLLocationManager *coreLocationManager = [[CLLocationManager alloc] init];
   coreLocationManager.activityType = CLActivityTypeFitness;
-  _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager managedObjectContext:[_database newPrivateQueueManagedObjectContextWithName:@"background save"]];
+  _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager database:_database];
+  [_locationManager startRecordingLocationHistory];
   [_locationManager startRecordingVisits];
   [BLTLocationManager setSharedLocationManager:_locationManager];
+  [_database logMessage:@"application:didFinishLaunchingWithOptions:" displayAsNotification:NO];
   return YES;
 }
 

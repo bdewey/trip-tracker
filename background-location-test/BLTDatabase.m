@@ -6,13 +6,19 @@
 //  Copyright (c) 2015 Brian's Brain. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 #import "BLTDatabase.h"
+#import "BLTLogRecord.h"
+
+NSString *const kBLTLogRecordEntityName = @"BLTLogRecord";
 
 static BLTDatabase *g_database;
 
 @implementation BLTDatabase
 {
   NSMutableDictionary *_nameToMocMap;
+  NSManagedObjectContext *_logContext;
 }
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -72,7 +78,11 @@ static BLTDatabase *g_database;
   NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"background_location_test.sqlite"];
   NSError *error = nil;
   NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-  if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+  NSDictionary *pscOptions = @{
+                               NSMigratePersistentStoresAutomaticallyOption: @YES,
+                               NSInferMappingModelAutomaticallyOption: @YES,
+                               };
+  if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:pscOptions error:&error]) {
     // Report any error we got.
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
@@ -105,6 +115,28 @@ static BLTDatabase *g_database;
                                                object:moc];
   }
   return moc;
+}
+
+- (void)logMessage:(NSString *)message displayAsNotification:(BOOL)displayAsNotification
+{
+  if (_logContext == nil) {
+    _logContext = [self newPrivateQueueManagedObjectContextWithName:@"logging"];
+  }
+  [_logContext performBlock:^{
+    BLTLogRecord *logRecord = [NSEntityDescription insertNewObjectForEntityForName:kBLTLogRecordEntityName inManagedObjectContext:_logContext];
+    NSAssert(logRecord != nil, @"Must be able to create a log record");
+    logRecord.timestamp = [NSDate date];
+    logRecord.message = message;
+    [_logContext save:NULL];
+    if (displayAsNotification) {
+      UILocalNotification *notification = [[UILocalNotification alloc] init];
+      notification.alertAction = nil;
+      notification.alertBody = message;
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+      });
+    }
+  }];
 }
 
 - (void)_processChangeNotification:(NSNotification *)notification

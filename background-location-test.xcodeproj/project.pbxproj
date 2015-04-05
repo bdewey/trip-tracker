@@ -23,6 +23,8 @@
 		D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */; };
 		D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2B1ACD142E00C030EC /* BLTVisit.m */; };
 		D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */; };
+		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
+		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +68,10 @@
 		D3A82D2B1ACD142E00C030EC /* BLTVisit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisit.m; sourceTree = "<group>"; };
 		D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTVisitsTableViewController.h; sourceTree = "<group>"; };
 		D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisitsTableViewController.m; sourceTree = "<group>"; };
+		D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecord.h; sourceTree = "<group>"; };
+		D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecord.m; sourceTree = "<group>"; };
+		D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecordsTableViewController.h; sourceTree = "<group>"; };
+		D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecordsTableViewController.m; sourceTree = "<group>"; };
 		D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripsTableViewController.h; sourceTree = "<group>"; };
 		D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripsTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +125,8 @@
 				D30197831ACCF6DD00AF466B /* Images.xcassets */,
 				D30197851ACCF6DD00AF466B /* LaunchScreen.xib */,
 				D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */,
+				D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */,
+				D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */,
 				D3A82D2A1ACD142E00C030EC /* BLTVisit.h */,
 				D3A82D2B1ACD142E00C030EC /* BLTVisit.m */,
 				D301979F1ACD011300AF466B /* BLTLocation.h */,
@@ -138,6 +146,8 @@
 				D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */,
 				D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */,
 				D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */,
+				D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */,
+				D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -285,6 +295,8 @@
 				D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */,
 				D30197761ACCF6DD00AF466B /* main.m in Sources */,
 				D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */,
+				D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */,
+				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
 				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
 				D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */,
 			);
