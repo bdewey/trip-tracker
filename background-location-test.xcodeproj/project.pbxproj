@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D30197761ACCF6DD00AF466B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197751ACCF6DD00AF466B /* main.m */; };
+		D30197791ACCF6DD00AF466B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197781ACCF6DD00AF466B /* AppDelegate.m */; };
+		D301977C1ACCF6DD00AF466B /* background_location_test.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */; };
+		D30197821ACCF6DD00AF466B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D30197801ACCF6DD00AF466B /* Main.storyboard */; };
+		D30197841ACCF6DD00AF466B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D30197831ACCF6DD00AF466B /* Images.xcassets */; };
+		D30197871ACCF6DD00AF466B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30197851ACCF6DD00AF466B /* LaunchScreen.xib */; };
+		D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197921ACCF6DD00AF466B /* background_location_testTests.m */; };
+		D301979E1ACCF8CE00AF466B /* BLTLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */; };
+		D30197A11ACD011300AF466B /* BLTLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197A01ACD011300AF466B /* BLTLocation.m */; };
+		D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */; };
+		D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */; };
+		D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */; };
+		D3A82D261ACD04BA00C030EC /* BLTDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D251ACD04BA00C030EC /* BLTDatabase.m */; };
+		D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */; };
+		D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2B1ACD142E00C030EC /* BLTVisit.m */; };
+		D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */; };
+		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
+		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
+		D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D301978D1ACCF6DD00AF466B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D30197681ACCF6DD00AF466B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D301976F1ACCF6DD00AF466B;
+			remoteInfo = "background-location-test";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D30197701ACCF6DD00AF466B /* background-location-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "background-location-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D30197741ACCF6DD00AF466B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D30197751ACCF6DD00AF466B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D30197771ACCF6DD00AF466B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D30197781ACCF6DD00AF466B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D301977B1ACCF6DD00AF466B /* background_location_test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = background_location_test.xcdatamodel; sourceTree = "<group>"; };
+		D30197811ACCF6DD00AF466B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D30197831ACCF6DD00AF466B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D30197861ACCF6DD00AF466B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D301978C1ACCF6DD00AF466B /* background-location-testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "background-location-testTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D30197911ACCF6DD00AF466B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D30197921ACCF6DD00AF466B /* background_location_testTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = background_location_testTests.m; sourceTree = "<group>"; };
+		D301979C1ACCF8CE00AF466B /* BLTLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationManager.h; sourceTree = "<group>"; };
+		D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationManager.m; sourceTree = "<group>"; };
+		D301979F1ACD011300AF466B /* BLTLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocation.h; sourceTree = "<group>"; };
+		D30197A01ACD011300AF466B /* BLTLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocation.m; sourceTree = "<group>"; };
+		D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTMapViewController.h; sourceTree = "<group>"; };
+		D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTMapViewController.m; sourceTree = "<group>"; };
+		D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D396A48D1ACFB2F40021D0B4 /* BLTTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTrip.h; sourceTree = "<group>"; };
+		D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTrip.m; sourceTree = "<group>"; };
+		D3A82D241ACD04BA00C030EC /* BLTDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTDatabase.h; sourceTree = "<group>"; };
+		D3A82D251ACD04BA00C030EC /* BLTDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTDatabase.m; sourceTree = "<group>"; };
+		D3A82D271ACD05A300C030EC /* BLTLocationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationsTableViewController.h; sourceTree = "<group>"; };
+		D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationsTableViewController.m; sourceTree = "<group>"; };
+		D3A82D2A1ACD142E00C030EC /* BLTVisit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTVisit.h; sourceTree = "<group>"; };
+		D3A82D2B1ACD142E00C030EC /* BLTVisit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisit.m; sourceTree = "<group>"; };
+		D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTVisitsTableViewController.h; sourceTree = "<group>"; };
+		D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisitsTableViewController.m; sourceTree = "<group>"; };
+		D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecord.h; sourceTree = "<group>"; };
+		D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecord.m; sourceTree = "<group>"; };
+		D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecordsTableViewController.h; sourceTree = "<group>"; };
+		D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecordsTableViewController.m; sourceTree = "<group>"; };
+		D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripsTableViewController.h; sourceTree = "<group>"; };
+		D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripsTableViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D301976D1ACCF6DD00AF466B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30197891ACCF6DD00AF466B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D30197671ACCF6DD00AF466B = {
+			isa = PBXGroup;
+			children = (
+				D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */,
+				D30197721ACCF6DD00AF466B /* background-location-test */,
+				D301978F1ACCF6DD00AF466B /* background-location-testTests */,
+				D30197711ACCF6DD00AF466B /* Products */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+		};
+		D30197711ACCF6DD00AF466B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D30197701ACCF6DD00AF466B /* background-location-test.app */,
+				D301978C1ACCF6DD00AF466B /* background-location-testTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D30197721ACCF6DD00AF466B /* background-location-test */ = {
+			isa = PBXGroup;
+			children = (
+				D30197771ACCF6DD00AF466B /* AppDelegate.h */,
+				D30197781ACCF6DD00AF466B /* AppDelegate.m */,
+				D30197801ACCF6DD00AF466B /* Main.storyboard */,
+				D30197831ACCF6DD00AF466B /* Images.xcassets */,
+				D30197851ACCF6DD00AF466B /* LaunchScreen.xib */,
+				D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */,
+				D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */,
+				D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */,
+				D3A82D2A1ACD142E00C030EC /* BLTVisit.h */,
+				D3A82D2B1ACD142E00C030EC /* BLTVisit.m */,
+				D301979F1ACD011300AF466B /* BLTLocation.h */,
+				D30197A01ACD011300AF466B /* BLTLocation.m */,
+				D30197731ACCF6DD00AF466B /* Supporting Files */,
+				D301979C1ACCF8CE00AF466B /* BLTLocationManager.h */,
+				D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */,
+				D3A82D241ACD04BA00C030EC /* BLTDatabase.h */,
+				D3A82D251ACD04BA00C030EC /* BLTDatabase.m */,
+				D3A82D271ACD05A300C030EC /* BLTLocationsTableViewController.h */,
+				D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */,
+				D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */,
+				D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */,
+				D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */,
+				D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */,
+				D396A48D1ACFB2F40021D0B4 /* BLTTrip.h */,
+				D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */,
+				D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */,
+				D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */,
+				D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */,
+				D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */,
+			);
+			path = "background-location-test";
+			sourceTree = "<group>";
+		};
+		D30197731ACCF6DD00AF466B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D30197741ACCF6DD00AF466B /* Info.plist */,
+				D30197751ACCF6DD00AF466B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D301978F1ACCF6DD00AF466B /* background-location-testTests */ = {
+			isa = PBXGroup;
+			children = (
+				D30197921ACCF6DD00AF466B /* background_location_testTests.m */,
+				D30197901ACCF6DD00AF466B /* Supporting Files */,
+			);
+			path = "background-location-testTests";
+			sourceTree = "<group>";
+		};
+		D30197901ACCF6DD00AF466B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D30197911ACCF6DD00AF466B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D301976F1ACCF6DD00AF466B /* background-location-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D30197961ACCF6DD00AF466B /* Build configuration list for PBXNativeTarget "background-location-test" */;
+			buildPhases = (
+				D301976C1ACCF6DD00AF466B /* Sources */,
+				D301976D1ACCF6DD00AF466B /* Frameworks */,
+				D301976E1ACCF6DD00AF466B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "background-location-test";
+			productName = "background-location-test";
+			productReference = D30197701ACCF6DD00AF466B /* background-location-test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D301978B1ACCF6DD00AF466B /* background-location-testTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D30197991ACCF6DD00AF466B /* Build configuration list for PBXNativeTarget "background-location-testTests" */;
+			buildPhases = (
+				D30197881ACCF6DD00AF466B /* Sources */,
+				D30197891ACCF6DD00AF466B /* Frameworks */,
+				D301978A1ACCF6DD00AF466B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D301978E1ACCF6DD00AF466B /* PBXTargetDependency */,
+			);
+			name = "background-location-testTests";
+			productName = "background-location-testTests";
+			productReference = D301978C1ACCF6DD00AF466B /* background-location-testTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D30197681ACCF6DD00AF466B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = BLT;
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Brian's Brain";
+				TargetAttributes = {
+					D301976F1ACCF6DD00AF466B = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = K2UU8WDD8H;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+					D301978B1ACCF6DD00AF466B = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = D301976F1ACCF6DD00AF466B;
+					};
+				};
+			};
+			buildConfigurationList = D301976B1ACCF6DD00AF466B /* Build configuration list for PBXProject "background-location-test" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D30197671ACCF6DD00AF466B;
+			productRefGroup = D30197711ACCF6DD00AF466B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D301976F1ACCF6DD00AF466B /* background-location-test */,
+				D301978B1ACCF6DD00AF466B /* background-location-testTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D301976E1ACCF6DD00AF466B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D30197821ACCF6DD00AF466B /* Main.storyboard in Resources */,
+				D30197871ACCF6DD00AF466B /* LaunchScreen.xib in Resources */,
+				D30197841ACCF6DD00AF466B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D301978A1ACCF6DD00AF466B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D301976C1ACCF6DD00AF466B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D301979E1ACCF8CE00AF466B /* BLTLocationManager.m in Sources */,
+				D301977C1ACCF6DD00AF466B /* background_location_test.xcdatamodeld in Sources */,
+				D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */,
+				D30197791ACCF6DD00AF466B /* AppDelegate.m in Sources */,
+				D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */,
+				D30197A11ACD011300AF466B /* BLTLocation.m in Sources */,
+				D3A82D261ACD04BA00C030EC /* BLTDatabase.m in Sources */,
+				D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */,
+				D30197761ACCF6DD00AF466B /* main.m in Sources */,
+				D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */,
+				D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */,
+				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
+				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
+				D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30197881ACCF6DD00AF466B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D301978E1ACCF6DD00AF466B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D301976F1ACCF6DD00AF466B /* background-location-test */;
+			targetProxy = D301978D1ACCF6DD00AF466B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D30197801ACCF6DD00AF466B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D30197811ACCF6DD00AF466B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D30197851ACCF6DD00AF466B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D30197861ACCF6DD00AF466B /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D30197941ACCF6DD00AF466B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D30197951ACCF6DD00AF466B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D30197971ACCF6DD00AF466B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "background-location-test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D30197981ACCF6DD00AF466B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "background-location-test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D301979A1ACCF6DD00AF466B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "background-location-testTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/background-location-test.app/background-location-test";
+			};
+			name = Debug;
+		};
+		D301979B1ACCF6DD00AF466B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "background-location-testTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/background-location-test.app/background-location-test";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D301976B1ACCF6DD00AF466B /* Build configuration list for PBXProject "background-location-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D30197941ACCF6DD00AF466B /* Debug */,
+				D30197951ACCF6DD00AF466B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D30197961ACCF6DD00AF466B /* Build configuration list for PBXNativeTarget "background-location-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D30197971ACCF6DD00AF466B /* Debug */,
+				D30197981ACCF6DD00AF466B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D30197991ACCF6DD00AF466B /* Build configuration list for PBXNativeTarget "background-location-testTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D301979A1ACCF6DD00AF466B /* Debug */,
+				D301979B1ACCF6DD00AF466B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D301977B1ACCF6DD00AF466B /* background_location_test.xcdatamodel */,
+			);
+			currentVersion = D301977B1ACCF6DD00AF466B /* background_location_test.xcdatamodel */;
+			path = background_location_test.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D30197681ACCF6DD00AF466B /* Project object */;
+}
