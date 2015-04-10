@@ -13,6 +13,7 @@
 @class NSManagedObjectContext;
 
 typedef void (^BLTTripBuilderCallback)(NSArray *trips);
+typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 @protocol BLTLocationManagerDelegate;
 
@@ -38,6 +39,7 @@ typedef void (^BLTTripBuilderCallback)(NSArray *trips);
 - (void)stopRecordingVisits;
 
 - (void)buildTrips:(BLTTripBuilderCallback)callback;
+- (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback;
 
 @end
 

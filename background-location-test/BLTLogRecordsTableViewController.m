@@ -87,6 +87,18 @@ static NSString *const kLogRecordReuseIdentifier = @"BLTLogRecord";
   return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  BLTLogRecord *managedLogRecord = _fetchedResultsController.fetchedObjects[indexPath.row];
+  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Log Message" message:managedLogRecord.message preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+  }];
+  [alertController addAction:dismissAction];
+  [self presentViewController:alertController animated:YES completion:NULL];
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller

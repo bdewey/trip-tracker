@@ -12,6 +12,7 @@
 
 #import "BLTDatabase.h"
 #import "BLTLocation.h"
+#import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
 #import "BLTTrip.h"
 #import "BLTVisit.h"
@@ -126,6 +127,41 @@ static BLTLocationManager *g_sharedLocationManager;
   }];
 }
 
+- (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback
+{
+  static const NSTimeInterval kTenSeconds = 10.0;
+  if (callback == NULL) {
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
+    NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+    fetchRequest.sortDescriptors = @[sortByTimestamp];
+    NSArray *locations = [_managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSMutableArray *locationSummaries = [[NSMutableArray alloc] init];
+    BLTLocation *firstSummarizedLocation = nil;
+    BLTLocation *lastSummarizedLocation = nil;
+    NSUInteger countOfSummarizedLocations = 0;
+    for (BLTLocation *managedLocation in locations) {
+      NSTimeInterval delta = [lastSummarizedLocation.timestamp timeIntervalSinceDate:managedLocation.timestamp] * -1.0;
+      if (delta > kTenSeconds) {
+        BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedLocation.timestamp endDate:lastSummarizedLocation.timestamp countOfLocationObservations:countOfSummarizedLocations];
+        [locationSummaries addObject:summary];
+        firstSummarizedLocation = lastSummarizedLocation = nil;
+        countOfSummarizedLocations = 0;
+      }
+      firstSummarizedLocation = firstSummarizedLocation ?: managedLocation;
+      lastSummarizedLocation = managedLocation;
+      countOfSummarizedLocations++;
+    }
+    BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedLocation.timestamp endDate:lastSummarizedLocation.timestamp countOfLocationObservations:countOfSummarizedLocations];
+    [locationSummaries addObject:summary];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      callback(locationSummaries);
+    });
+  }];
+}
+
 - (void)_performBlockWhenAuthorized:(dispatch_block_t)block
 {
   if (block == NULL) {
@@ -161,7 +197,7 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-  NSLog(@"Shit: %@", error);
+  [_database logMessage:[NSString stringWithFormat:@"locationManager:didFailWithError: %@", error] displayAsNotification:YES];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations

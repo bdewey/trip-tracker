@@ -12,6 +12,8 @@
 
 #import "BLTDatabase.h"
 #import "BLTLocation.h"
+#import "BLTLocationDataSummary.h"
+#import "BLTLocationManager.h"
 
 static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 
@@ -22,13 +24,9 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 @implementation BLTLocationsTableViewController
 {
   BLTDatabase *_database;
-  NSFetchedResultsController *_fetchedResultsController;
-  NSDateFormatter *_dateFormatter;
-}
-
-- (void)dealloc
-{
-  _fetchedResultsController.delegate = nil;
+  BLTLocationManager *_locationManager;
+  NSArray *_locationSummaries;
+  NSDateIntervalFormatter *_dateIntervalFormatter;
 }
 
 - (void)viewDidLoad
@@ -36,26 +34,21 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   [super viewDidLoad];
   _database = [BLTDatabase sharedDatabase];
   NSAssert(_database != nil, @"Must have a database");
+  _locationManager = [BLTLocationManager sharedLocationManager];
+  NSAssert(_locationManager != nil, @"Must have a location manager");
 
-  _dateFormatter = [[NSDateFormatter alloc] init];
-  _dateFormatter.dateStyle = NSDateFormatterShortStyle;
-  _dateFormatter.timeStyle = NSDateFormatterShortStyle;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
-  NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
-  fetchRequest.sortDescriptors = @[sortDescriptor];
-  fetchRequest.predicate = _locationFilterPredicate;
-  _fetchedResultsController.delegate = nil;
-  _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                  managedObjectContext:_database.managedObjectContext
-                                                                    sectionNameKeyPath:nil
-                                                                             cacheName:nil];
-  _fetchedResultsController.delegate = self;
-  [_fetchedResultsController performFetch:NULL];
+  _dateIntervalFormatter = [[NSDateIntervalFormatter alloc] init];
+  _dateIntervalFormatter.dateStyle = NSDateIntervalFormatterShortStyle;
+  _dateIntervalFormatter.timeStyle = NSDateIntervalFormatterMediumStyle;
+  [self _refresh:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
+- (IBAction)_refresh:(id)sender
+{
+  [_locationManager buildLocationSummaries:^(NSArray *locationSummaries) {
+    _locationSummaries = [locationSummaries copy];
+    [self.tableView reloadData];
+  }];
 }
 
 #pragma mark - Table view data source
@@ -67,7 +60,7 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _fetchedResultsController.fetchedObjects.count;
+  return _locationSummaries.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -76,34 +69,10 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kLocationReuseIdentifier];
   }
-  BLTLocation *locationObject = _fetchedResultsController.fetchedObjects[indexPath.row];
-  CLLocation *location = locationObject.location;
-  cell.textLabel.text = [_dateFormatter stringFromDate:location.timestamp];
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"%.4f, %.4f", location.coordinate.latitude, location.coordinate.longitude];
+  BLTLocationDataSummary *locationSummary = _locationSummaries[indexPath.row];
+  cell.textLabel.text = [_dateIntervalFormatter stringFromDate:locationSummary.startDate toDate:locationSummary.endDate];
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu locations", locationSummary.countOfLocationObservations];
   return cell;
-}
-
-#pragma mark - NSFetchedResultsControllerDelegate
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-  [self.tableView beginUpdates];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-  [self.tableView endUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath
-{
-  NSAssert(type == NSFetchedResultsChangeInsert, @"Only know how to do inserts");
-  [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end
