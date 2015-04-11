@@ -29,7 +29,8 @@
   UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
   [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
   CLLocationManager *coreLocationManager = [[CLLocationManager alloc] init];
-  coreLocationManager.activityType = CLActivityTypeFitness;
+  coreLocationManager.activityType = CLActivityTypeOther;
+  coreLocationManager.pausesLocationUpdatesAutomatically = NO;
   _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager database:_database];
   [_locationManager startRecordingLocationHistory];
   [_locationManager startRecordingVisits];

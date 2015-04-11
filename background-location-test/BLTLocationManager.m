@@ -206,7 +206,7 @@ static BLTLocationManager *g_sharedLocationManager;
     return;
   }
   if (!_isDeferringUpdates) {
-    [_database logMessage:@"Asking for deferred updates" displayAsNotification:YES];
+    [_database logMessage:@"Asking for deferred updates" displayAsNotification:NO];
     [_locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:CLTimeIntervalMax];
     _isDeferringUpdates = YES;
   }
@@ -223,7 +223,7 @@ static BLTLocationManager *g_sharedLocationManager;
 - (void)locationManager:(CLLocationManager *)manager didFinishDeferredUpdatesWithError:(NSError *)error
 {
   [_database logMessage:[NSString stringWithFormat:@"Finished deferred updates. Error = %@", error]
-  displayAsNotification:kDebugNotificationsEnabled];
+  displayAsNotification:(kDebugNotificationsEnabled && error != nil)];
   _isDeferringUpdates = NO;
 }
 
