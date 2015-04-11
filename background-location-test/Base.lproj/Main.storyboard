@@ -230,7 +230,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z6O-U5-vHv">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z6O-U5-vHv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="BB6-Xs-beF" id="u6D-wK-Sas"/>
@@ -238,6 +238,12 @@
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Z6O-U5-vHv" secondAttribute="bottom" id="Pdv-Sa-of7"/>
+                            <constraint firstItem="Z6O-U5-vHv" firstAttribute="leading" secondItem="Wda-6Z-muf" secondAttribute="leading" id="h3Y-gD-Vlo"/>
+                            <constraint firstItem="Z6O-U5-vHv" firstAttribute="top" secondItem="Wda-6Z-muf" secondAttribute="top" id="keQ-cc-G8u"/>
+                            <constraint firstAttribute="trailing" secondItem="Z6O-U5-vHv" secondAttribute="trailing" id="rdP-rw-OlD"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="Z6O-U5-vHv" id="maJ-CU-Skn"/>

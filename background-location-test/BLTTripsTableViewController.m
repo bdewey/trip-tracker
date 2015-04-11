@@ -78,6 +78,17 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   return cell;
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+  if ([identifier isEqualToString:@"ShowTripMapSegue"]) {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    BLTTrip *trip = _trips[indexPath.row];
+    return trip.route.pointCount > 0;
+  } else {
+    return YES;
+  }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
