@@ -14,8 +14,12 @@
 #import "BLTVisit.h"
 
 static NSString *const kVisitReuseIdentifier = @"BLTVisit";
+static NSString *const kMapAnnotationReuseIdentifier = @"BLTVisit";
 
-@interface BLTVisitsTableViewController () <NSFetchedResultsControllerDelegate>
+@interface BLTVisitsTableViewController () <
+  BLTMapViewControllerDelegate,
+  NSFetchedResultsControllerDelegate
+>
 
 @end
 
@@ -23,6 +27,7 @@ static NSString *const kVisitReuseIdentifier = @"BLTVisit";
 {
   BLTDatabase *_database;
   NSFetchedResultsController *_fetchedResultsController;
+  BLTVisit *_selectedManagedVisitForMap;
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
 }
@@ -63,9 +68,24 @@ static NSString *const kVisitReuseIdentifier = @"BLTVisit";
   }
 }
 
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
+#pragma mark - BLTMapViewControllerDelegate
+
+- (void)mapViewController:(BLTMapViewController *)mapViewController willAppearWithMapView:(MKMapView *)mapView
+{
+  mapView.delegate = self;
+  CLVisit *visit = _selectedManagedVisitForMap.visit;
+  MKCircle *visitCircle = [MKCircle circleWithCenterCoordinate:visit.coordinate radius:visit.horizontalAccuracy];
+  [mapView addOverlay:visitCircle level:MKOverlayLevelAboveRoads];
+  CLLocationDistance distance = MAX(500, visit.horizontalAccuracy);
+  mapView.region = MKCoordinateRegionMakeWithDistance(visit.coordinate, distance, distance);
+}
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+  NSAssert([overlay isKindOfClass:[MKCircle class]], @"typecheck");
+  MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
+  renderer.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
+  return renderer;
 }
 
 #pragma mark - Table view data source
@@ -111,7 +131,8 @@ static NSString *const kVisitReuseIdentifier = @"BLTVisit";
     BLTMapViewController *mapViewController = segue.destinationViewController;
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     BLTVisit *managedVisitObject = _fetchedResultsController.fetchedObjects[selectedIndexPath.row];
-    mapViewController.coordinate = ((CLVisit *)managedVisitObject.visit).coordinate;
+    _selectedManagedVisitForMap = managedVisitObject;
+    mapViewController.delegate = self;
   }
 }
 

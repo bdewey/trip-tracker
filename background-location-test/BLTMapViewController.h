@@ -7,12 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 @class MKPolyline;
 
+@protocol BLTMapViewControllerDelegate;
+
 @interface BLTMapViewController : UIViewController
 
-@property (nonatomic, readwrite, assign) CLLocationCoordinate2D coordinate;
-@property (nonatomic, readwrite, strong) MKPolyline *route;
+@property (nonatomic, readwrite, weak) id<BLTMapViewControllerDelegate> delegate;
+
+@end
+
+@protocol BLTMapViewControllerDelegate <MKMapViewDelegate, NSObject>
+
+- (void)mapViewController:(BLTMapViewController *)mapViewController willAppearWithMapView:(MKMapView *)mapView;
 
 @end

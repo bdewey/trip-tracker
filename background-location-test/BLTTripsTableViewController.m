@@ -17,7 +17,7 @@
 
 static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
-@interface BLTTripsTableViewController ()
+@interface BLTTripsTableViewController () <BLTMapViewControllerDelegate>
 
 @end
 
@@ -25,6 +25,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 {
   BLTLocationManager *_locationManager;
   NSArray *_trips;
+  BLTTrip *_selectedTripForMapView;
   NSLengthFormatter *_lengthFormatter;
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
@@ -50,6 +51,52 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
     _trips = trips;
     [self.tableView reloadData];
   }];
+}
+
+#pragma mark - BLTMapViewControllerDelegate
+
+- (void)mapViewController:(BLTMapViewController *)mapViewController willAppearWithMapView:(MKMapView *)mapView
+{
+  mapView.delegate = self;
+  mapView.region = [[self class] _coordinateRegionForMultiPoint:_selectedTripForMapView.route];
+  [mapView addOverlay:_selectedTripForMapView.route level:MKOverlayLevelAboveRoads];
+}
+
++ (MKCoordinateRegion)_coordinateRegionForMultiPoint:(MKMultiPoint *)multiPoint
+{
+  NSUInteger countOfPoints = multiPoint.pointCount;
+  CLLocationCoordinate2D *coordinates = calloc(countOfPoints, sizeof(CLLocationCoordinate2D));
+  if (coordinates == NULL) {
+    return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
+  }
+  [multiPoint getCoordinates:coordinates range:NSMakeRange(0, countOfPoints)];
+  CLLocationDegrees minLatitude = 90;
+  CLLocationDegrees maxLatitude = -90;
+  CLLocationDegrees minLongitude = 180;
+  CLLocationDegrees maxLongitude = -180;
+  for (NSUInteger i = 0; i < countOfPoints; i++) {
+    CLLocationCoordinate2D coordinate = coordinates[i];
+    if (CLLocationCoordinate2DIsValid(coordinate)) {
+      minLatitude = MIN(minLatitude, coordinate.latitude);
+      maxLatitude = MAX(maxLatitude, coordinate.latitude);
+      minLongitude = MIN(minLongitude, coordinate.longitude);
+      maxLongitude = MAX(maxLongitude, coordinate.longitude);
+    }
+  }
+  CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLatitude + maxLatitude) / 2, (minLongitude + maxLongitude) / 2);
+  MKCoordinateSpan span = MKCoordinateSpanMake(maxLatitude - minLatitude, maxLongitude - minLongitude);
+  return MKCoordinateRegionMake(center, span);
+}
+
+#pragma mark - MKMapViewDelegate
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+  MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+  polylineRenderer.strokeColor = [UIColor greenColor];
+  polylineRenderer.alpha = 0.7;
+  polylineRenderer.lineWidth = 4;
+  return polylineRenderer;
 }
 
 #pragma mark - Table view data source
@@ -78,6 +125,8 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   return cell;
 }
 
+#pragma mark - Storyboard
+
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
   if ([identifier isEqualToString:@"ShowTripMapSegue"]) {
@@ -95,7 +144,8 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   BLTTrip *trip = _trips[indexPath.row];
   if ([segue.identifier isEqualToString:@"ShowTripMapSegue"]) {
     BLTMapViewController *mapViewController = segue.destinationViewController;
-    mapViewController.route = trip.route;
+    mapViewController.delegate = self;
+    _selectedTripForMapView = trip;
   } else if ([segue.identifier isEqualToString:@"ShowLocationDetailSegue"]) {
     BLTLocationsTableViewController *locationsTableViewController = segue.destinationViewController;
     locationsTableViewController.locationFilterPredicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", trip.startDate, trip.endDate];
