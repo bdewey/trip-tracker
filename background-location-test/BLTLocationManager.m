@@ -32,12 +32,13 @@ static BLTLocationManager *g_sharedLocationManager;
   BOOL _isDeferringUpdates;
 }
 
-- (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
-                               database:(BLTDatabase *)database
+- (instancetype)initWithDatabase:(BLTDatabase *)database
 {
   self = [super init];
   if (self != nil) {
-    _locationManager = locationManager;
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.activityType = CLActivityTypeOther;
+    _locationManager.pausesLocationUpdatesAutomatically = NO;
     _locationManager.delegate = self;
     _database = database;
     _managedObjectContext = [_database newPrivateQueueManagedObjectContextWithName:@"location monitoring"];

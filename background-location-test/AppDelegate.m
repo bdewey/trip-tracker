@@ -28,10 +28,7 @@
   [BLTDatabase setSharedDatabase:_database];
   UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
   [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
-  CLLocationManager *coreLocationManager = [[CLLocationManager alloc] init];
-  coreLocationManager.activityType = CLActivityTypeOther;
-  coreLocationManager.pausesLocationUpdatesAutomatically = NO;
-  _locationManager = [[BLTLocationManager alloc] initWithLocationManager:coreLocationManager database:_database];
+  _locationManager = [[BLTLocationManager alloc] initWithDatabase:_database];
   [_locationManager startRecordingLocationHistory];
   [_locationManager startRecordingVisits];
   [BLTLocationManager setSharedLocationManager:_locationManager];

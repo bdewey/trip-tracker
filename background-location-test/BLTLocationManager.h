@@ -29,8 +29,7 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 + (BLTLocationManager *)sharedLocationManager;
 + (void)setSharedLocationManager:(BLTLocationManager *)locationManager;
 
-- (instancetype)initWithLocationManager:(CLLocationManager *)locationManager
-                               database:(BLTDatabase *)database NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDatabase:(BLTDatabase *)database NS_DESIGNATED_INITIALIZER;
 
 - (void)startRecordingLocationHistory;
 - (void)stopRecordingLocationHistory;
