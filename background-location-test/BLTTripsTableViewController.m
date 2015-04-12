@@ -83,6 +83,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
       maxLongitude = MAX(maxLongitude, coordinate.longitude);
     }
   }
+  free(coordinates);
   CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLatitude + maxLatitude) / 2, (minLongitude + maxLongitude) / 2);
   MKCoordinateSpan span = MKCoordinateSpanMake(maxLatitude - minLatitude, maxLongitude - minLongitude);
   return MKCoordinateRegionMake(center, span);

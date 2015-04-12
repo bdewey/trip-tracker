@@ -32,6 +32,7 @@
       priorLocation = location;
     }
     _route = [MKPolyline polylineWithCoordinates:coordinates count:countOfCoordinates];
+    free(coordinates);
   }
   return self;
 }
