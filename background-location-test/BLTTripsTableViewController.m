@@ -14,6 +14,8 @@
 #import "BLTLocationsTableViewController.h"
 #import "BLTMapViewController.h"
 #import "BLTTrip.h"
+#import "BLTTripGroups.h"
+#import "BLTTripSummaryTableViewCell.h"
 
 static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
@@ -24,11 +26,9 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 @implementation BLTTripsTableViewController
 {
   BLTLocationManager *_locationManager;
-  NSArray *_trips;
+  BLTTripGroups *_tripGroups;
   BLTTrip *_selectedTripForMapView;
-  NSLengthFormatter *_lengthFormatter;
-  NSDateFormatter *_dateFormatter;
-  NSDateComponentsFormatter *_dateComponentsFormatter;
+  UIActivityIndicatorView *_activityIndicator;
 }
 
 - (void)viewDidLoad
@@ -36,20 +36,21 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   [super viewDidLoad];
   _locationManager = [BLTLocationManager sharedLocationManager];
   NSAssert(_locationManager != nil, @"We must have a location manager");
-  _lengthFormatter = [[NSLengthFormatter alloc] init];
-  _dateFormatter = [[NSDateFormatter alloc] init];
-  _dateFormatter.dateStyle = NSDateFormatterShortStyle;
-  _dateFormatter.timeStyle = NSDateFormatterShortStyle;
-  _dateComponentsFormatter = [[NSDateComponentsFormatter alloc] init];
-  _dateComponentsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+  _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  _activityIndicator.hidesWhenStopped = YES;
+  _activityIndicator.center = self.view.center;
+  _activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+  [self.view addSubview:_activityIndicator];
   [self _didTapRefresh:nil];
 }
 
 - (IBAction)_didTapRefresh:(UIBarButtonItem *)sender
 {
-  [_locationManager buildTrips:^(NSArray *trips) {
-    _trips = trips;
+  [_activityIndicator startAnimating];
+  [_locationManager buildTrips:^(BLTTripGroups *tripGroups) {
+    _tripGroups = tripGroups;
     [self.tableView reloadData];
+    [_activityIndicator stopAnimating];
   }];
 }
 
@@ -104,25 +105,23 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 1;
+  return _tripGroups.countOfTripGroups;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _trips.count;
+  return [_tripGroups countOfTripsInGroup:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+  return [_tripGroups nameOfTripGroup:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTripCellReuseIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kTripCellReuseIdentifier];
-  }
-  BLTTrip *trip = _trips[indexPath.row];
-  NSString *datePart = [_dateFormatter stringFromDate:trip.startDate];
-  NSString *durationPart = [_dateComponentsFormatter stringFromTimeInterval:[trip.endDate timeIntervalSinceDate:trip.startDate]];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", datePart, durationPart];
-  cell.detailTextLabel.text = [_lengthFormatter stringFromMeters:trip.distance];
+  BLTTripSummaryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTripCellReuseIdentifier forIndexPath:indexPath];
+  cell.trip = [_tripGroups tripForIndexPath:indexPath];
   return cell;
 }
 
@@ -132,7 +131,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 {
   if ([identifier isEqualToString:@"ShowTripMapSegue"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    BLTTrip *trip = _trips[indexPath.row];
+    BLTTrip *trip = [_tripGroups tripForIndexPath:indexPath];
     return trip.route.pointCount > 0;
   } else {
     return YES;
@@ -142,7 +141,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-  BLTTrip *trip = _trips[indexPath.row];
+  BLTTrip *trip = [_tripGroups tripForIndexPath:indexPath];
   if ([segue.identifier isEqualToString:@"ShowTripMapSegue"]) {
     BLTMapViewController *mapViewController = segue.destinationViewController;
     mapViewController.delegate = self;

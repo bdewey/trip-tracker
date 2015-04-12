@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @class BLTDatabase;
+@class BLTTripGroups;
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
-typedef void (^BLTTripBuilderCallback)(NSArray *trips);
+typedef void (^BLTTripBuilderCallback)(BLTTripGroups *tripGroups);
 typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 @protocol BLTLocationManagerDelegate;

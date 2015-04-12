@@ -18,6 +18,9 @@
 		D30197A11ACD011300AF466B /* BLTLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197A01ACD011300AF466B /* BLTLocation.m */; };
 		D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */; };
 		D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */; };
+		D31D08261ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */; };
+		D31D08291ADAD2DE006D95C7 /* BLTTripGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D08281ADAD2DE006D95C7 /* BLTTripGroups.m */; };
+		D31D082B1ADADAB8006D95C7 /* BLTTripGroupsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */; };
 		D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */; };
 		D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */; };
 		D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */; };
@@ -61,6 +64,11 @@
 		D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTStatisticsSummary.h; sourceTree = "<group>"; };
 		D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummary.m; sourceTree = "<group>"; };
 		D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummaryTests.m; sourceTree = "<group>"; };
+		D31D08241ADAC900006D95C7 /* BLTTripSummaryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripSummaryTableViewCell.h; sourceTree = "<group>"; };
+		D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripSummaryTableViewCell.m; sourceTree = "<group>"; };
+		D31D08271ADAD2DE006D95C7 /* BLTTripGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripGroups.h; sourceTree = "<group>"; };
+		D31D08281ADAD2DE006D95C7 /* BLTTripGroups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripGroups.m; sourceTree = "<group>"; };
+		D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripGroupsTests.m; sourceTree = "<group>"; };
 		D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTMapViewController.h; sourceTree = "<group>"; };
 		D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTMapViewController.m; sourceTree = "<group>"; };
 		D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -160,6 +168,10 @@
 				D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */,
 				D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */,
 				D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */,
+				D31D08241ADAC900006D95C7 /* BLTTripSummaryTableViewCell.h */,
+				D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */,
+				D31D08271ADAD2DE006D95C7 /* BLTTripGroups.h */,
+				D31D08281ADAD2DE006D95C7 /* BLTTripGroups.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -179,6 +191,7 @@
 				D30197921ACCF6DD00AF466B /* background_location_testTests.m */,
 				D30197901ACCF6DD00AF466B /* Supporting Files */,
 				D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */,
+				D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */,
 			);
 			path = "background-location-testTests";
 			sourceTree = "<group>";
@@ -302,8 +315,10 @@
 				D301977C1ACCF6DD00AF466B /* background_location_test.xcdatamodeld in Sources */,
 				D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */,
 				D30197791ACCF6DD00AF466B /* AppDelegate.m in Sources */,
+				D31D08261ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m in Sources */,
 				D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */,
 				D30197A11ACD011300AF466B /* BLTLocation.m in Sources */,
+				D31D08291ADAD2DE006D95C7 /* BLTTripGroups.m in Sources */,
 				D3A82D261ACD04BA00C030EC /* BLTDatabase.m in Sources */,
 				D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */,
 				D30197761ACCF6DD00AF466B /* main.m in Sources */,
@@ -322,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */,
+				D31D082B1ADADAB8006D95C7 /* BLTTripGroupsTests.m in Sources */,
 				D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

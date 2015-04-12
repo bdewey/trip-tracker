@@ -15,6 +15,7 @@
 #import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
 #import "BLTTrip.h"
+#import "BLTTripGroups.h"
 #import "BLTVisit.h"
 
 const BOOL kDebugNotificationsEnabled = YES;
@@ -105,7 +106,7 @@ static BLTLocationManager *g_sharedLocationManager;
     visitFetchRequest.sortDescriptors = @[sortByArrivalDate];
     NSArray *visits = [_managedObjectContext executeFetchRequest:visitFetchRequest error:NULL];
     NSDate *lastDepartureDate = nil;
-    NSMutableArray *allTrips = [[NSMutableArray alloc] init];
+    BLTTripGroups *tripGroups = [[BLTTripGroups alloc] init];
     for (BLTVisit *managedVisitObject in visits) {
       if (lastDepartureDate != nil && managedVisitObject.arrivalDate != [NSDate distantPast]) {
         NSFetchRequest *locationFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
@@ -115,7 +116,7 @@ static BLTLocationManager *g_sharedLocationManager;
         locationFetchRequest.predicate = locationsInTimeRange;
         NSArray *locations = [_managedObjectContext executeFetchRequest:locationFetchRequest error:NULL];
         BLTTrip *trip = [[BLTTrip alloc] initWithStartDate:lastDepartureDate endDate:managedVisitObject.arrivalDate locations:locations];
-        [allTrips addObject:trip];
+        tripGroups = [tripGroups tripGroupsByAddingTrip:trip];
         lastDepartureDate = nil;
       }
       if (managedVisitObject.departureDate != [NSDate distantFuture]) {
@@ -123,7 +124,7 @@ static BLTLocationManager *g_sharedLocationManager;
       }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-      callback(allTrips);
+      callback(tripGroups);
     });
   }];
 }
