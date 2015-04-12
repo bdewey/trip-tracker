@@ -91,7 +91,8 @@ static NSString *const kLogRecordReuseIdentifier = @"BLTLogRecord";
 {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   BLTLogRecord *managedLogRecord = _fetchedResultsController.fetchedObjects[indexPath.row];
-  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Log Message" message:managedLogRecord.message preferredStyle:UIAlertControllerStyleAlert];
+  NSString *title = [_dateFormatter stringFromDate:managedLogRecord.timestamp];
+  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:managedLogRecord.message preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     [self dismissViewControllerAnimated:YES completion:NULL];
   }];

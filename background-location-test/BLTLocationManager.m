@@ -250,6 +250,7 @@ static BLTLocationManager *g_sharedLocationManager;
       visitObject.visit = visit;
       visitObject.arrivalDate = visit.arrivalDate;
       visitObject.departureDate = visit.departureDate;
+      visitObject.timestamp = [NSDate date];
       NSError *error;
       BOOL didSave = [_managedObjectContext save:&error];
       NSString *notificationMessage = [NSString stringWithFormat:@"Visit %@ save %d", visit, didSave];

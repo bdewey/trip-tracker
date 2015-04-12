@@ -108,9 +108,13 @@ static NSString *const kMapAnnotationReuseIdentifier = @"BLTVisit";
   }
   BLTVisit *managedVisitObject = _fetchedResultsController.fetchedObjects[indexPath.row];
   CLVisit *visit = managedVisitObject.visit;
-  cell.textLabel.text = [NSString stringWithFormat:@"%.4f, @%.4f", visit.coordinate.latitude, visit.coordinate.longitude];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ (%.4f, @%.4f)", [_dateFormatter stringFromDate:managedVisitObject.timestamp], visit.coordinate.latitude, visit.coordinate.longitude];
   if (visit.arrivalDate == [NSDate distantPast]) {
-    cell.detailTextLabel.text = @"Unknown";
+    if (visit.departureDate == [NSDate distantFuture]) {
+      cell.detailTextLabel.text = @"Unknown";
+    } else {
+      cell.detailTextLabel.text = [NSString stringWithFormat:@"Depart at %@", [_dateFormatter stringFromDate:visit.departureDate]];
+    }
   } else {
     NSString *datePart = [_dateFormatter stringFromDate:visit.arrivalDate];
     NSString *durationPart = nil;
