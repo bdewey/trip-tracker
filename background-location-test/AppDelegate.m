@@ -26,6 +26,11 @@
 {
   _database = [[BLTDatabase alloc] init];
   [BLTDatabase setSharedDatabase:_database];
+
+  NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
+  NSString *databaseSizeMessage = [NSString stringWithFormat:@"Database size: %@", [formatter stringFromByteCount:_database.sizeOfDatabase.longLongValue]];
+  [_database logMessage:databaseSizeMessage displayAsNotification:NO];
+  
   UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
   [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
   _locationManager = [[BLTLocationManager alloc] initWithDatabase:_database];

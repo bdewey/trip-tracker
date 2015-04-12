@@ -66,6 +66,17 @@ static BLTDatabase *g_database;
   return _managedObjectModel;
 }
 
+- (NSURL *)_storeURL
+{
+  return [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"background_location_test.sqlite"];
+}
+
+- (NSNumber *)sizeOfDatabase
+{
+  NSDictionary *storeAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[self _storeURL].path error:NULL];
+  return storeAttributes[NSFileSize];
+}
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
   // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
   if (_persistentStoreCoordinator != nil) {
@@ -75,7 +86,7 @@ static BLTDatabase *g_database;
   // Create the coordinator and store
   
   _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-  NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"background_location_test.sqlite"];
+  NSURL *storeURL = [self _storeURL];
   NSError *error = nil;
   NSString *failureReason = @"There was an error creating or loading the application's saved data.";
   NSDictionary *pscOptions = @{
