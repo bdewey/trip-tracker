@@ -16,6 +16,8 @@
 		D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197921ACCF6DD00AF466B /* background_location_testTests.m */; };
 		D301979E1ACCF8CE00AF466B /* BLTLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */; };
 		D30197A11ACD011300AF466B /* BLTLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197A01ACD011300AF466B /* BLTLocation.m */; };
+		D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */; };
+		D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */; };
 		D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */; };
 		D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */; };
 		D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */; };
@@ -56,6 +58,9 @@
 		D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationManager.m; sourceTree = "<group>"; };
 		D301979F1ACD011300AF466B /* BLTLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocation.h; sourceTree = "<group>"; };
 		D30197A01ACD011300AF466B /* BLTLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocation.m; sourceTree = "<group>"; };
+		D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTStatisticsSummary.h; sourceTree = "<group>"; };
+		D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummary.m; sourceTree = "<group>"; };
+		D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummaryTests.m; sourceTree = "<group>"; };
 		D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTMapViewController.h; sourceTree = "<group>"; };
 		D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTMapViewController.m; sourceTree = "<group>"; };
 		D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -153,6 +158,8 @@
 				D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */,
 				D3D7BF271AD87BE600BCC4CE /* BLTLocationDataSummary.h */,
 				D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */,
+				D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */,
+				D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -171,6 +178,7 @@
 			children = (
 				D30197921ACCF6DD00AF466B /* background_location_testTests.m */,
 				D30197901ACCF6DD00AF466B /* Supporting Files */,
+				D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */,
 			);
 			path = "background-location-testTests";
 			sourceTree = "<group>";
@@ -302,6 +310,7 @@
 				D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */,
 				D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */,
 				D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */,
+				D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */,
 				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
 				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
 				D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */,
@@ -312,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */,
 				D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

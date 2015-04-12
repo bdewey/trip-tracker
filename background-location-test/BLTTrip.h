@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class BLTStatisticsSummary;
 @class MKPolyline;
 
 @interface BLTTrip : NSObject
@@ -17,6 +18,9 @@
 @property (nonatomic, readonly, strong) NSDate *endDate;
 @property (nonatomic, readonly, strong) MKPolyline *route;
 @property (nonatomic, readonly, assign) CLLocationDistance distance;
+@property (nonatomic, readonly, assign) CLLocationDistance altitudeGain;
+@property (nonatomic, readonly, strong) BLTStatisticsSummary *locationSpeedSummary;
+@property (nonatomic, readonly, strong) BLTStatisticsSummary *locationAccelerationSummary;
 
 - (instancetype)initWithStartDate:(NSDate *)startDate
                           endDate:(NSDate *)endDate
