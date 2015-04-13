@@ -14,7 +14,6 @@
 #import "BLTLocation.h"
 #import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
-#import "BLTLocationSlidingWindow.h"
 #import "BLTTrip.h"
 #import "BLTTripGroups.h"
 #import "BLTVisit.h"
@@ -98,62 +97,31 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)buildTrips:(BLTTripBuilderCallback)callback
 {
-  static const NSTimeInterval kSlidingWindowDuration = 2 * 60;
-  static const NSTimeInterval kCoalesceTripInterval = 2 * 60;
-  static const CLLocationSpeed kMinimumAverageMovingSpeed = 1.0;
-  static const CLLocationDistance kMinimumWindowTripDistance = kMinimumAverageMovingSpeed * kSlidingWindowDuration;
   if (callback == NULL) {
     return;
   }
   [_managedObjectContext performBlock:^{
-    BLTLocationSlidingWindow *slidingWindow = [[BLTLocationSlidingWindow alloc] initWithDesiredTimeInterval:kSlidingWindowDuration];
+    NSFetchRequest *visitFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTVisit"];
+    NSSortDescriptor *sortByArrivalDate = [[NSSortDescriptor alloc] initWithKey:@"arrivalDate" ascending:YES];
+    visitFetchRequest.sortDescriptors = @[sortByArrivalDate];
+    NSArray *visits = [_managedObjectContext executeFetchRequest:visitFetchRequest error:NULL];
+    NSDate *lastDepartureDate = nil;
     BLTTripGroups *tripGroups = [[BLTTripGroups alloc] init];
-    NSFetchRequest *locationFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
-    NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
-    locationFetchRequest.sortDescriptors = @[sortByTimestamp];
-    NSArray *locations = [_managedObjectContext executeFetchRequest:locationFetchRequest error:NULL];
-    NSUInteger startTripIndex = NSNotFound;
-    BLTLocation *startingManagedLocation = nil;
-    NSUInteger potentialEndTripIndex = NSNotFound;
-    BLTLocation *potentialEndManagedLocation = nil;
-    for (NSUInteger i = 0; i < locations.count; i++) {
-      BLTLocation *managedLocation = locations[i];
-      [slidingWindow addLocation:managedLocation.location];
-      
-      if (startTripIndex == NSNotFound) {
-        // Still looking for a potential start to a trip. Is this it?
-        if (slidingWindow.actualTimeInterval >= kSlidingWindowDuration && slidingWindow.distance >= kMinimumWindowTripDistance) {
-          // We've started a trip. Remember the start location.
-          startTripIndex = i;
-          startingManagedLocation = managedLocation;
-        }
-      } else {
-        // We're in a trip. See if it looks like we've stopped.
-        if (slidingWindow.distance >= kMinimumWindowTripDistance) {
-          // Definitely haven't stopped. If we had a potential end, get rid of it.
-          potentialEndTripIndex = NSNotFound;
-          potentialEndManagedLocation = nil;
-        } else if (potentialEndTripIndex == NSNotFound) {
-          // This is the first potential endpoint.
-          potentialEndTripIndex = i;
-          potentialEndManagedLocation = managedLocation;
-        } else if ([managedLocation.timestamp timeIntervalSinceDate:potentialEndManagedLocation.timestamp] > kCoalesceTripInterval) {
-          // We've gone sufficient time since we've been moving. Declare this an official trip.
-          NSArray *slice = [locations subarrayWithRange:NSMakeRange(startTripIndex, potentialEndTripIndex - startTripIndex)];
-          BLTTrip *trip = [[BLTTrip alloc] initWithStartDate:startingManagedLocation.timestamp endDate:potentialEndManagedLocation.timestamp locations:slice];
-          tripGroups = [tripGroups tripGroupsByAddingTrip:trip];
-          startTripIndex = NSNotFound;
-          startingManagedLocation = nil;
-          potentialEndTripIndex = NSNotFound;
-          potentialEndManagedLocation = nil;
-        }
+    for (BLTVisit *managedVisitObject in visits) {
+      if (lastDepartureDate != nil && managedVisitObject.arrivalDate != [NSDate distantPast]) {
+        NSFetchRequest *locationFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
+        NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+        NSPredicate *locationsInTimeRange = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", lastDepartureDate, managedVisitObject.arrivalDate];
+        locationFetchRequest.sortDescriptors = @[sortByTimestamp];
+        locationFetchRequest.predicate = locationsInTimeRange;
+        NSArray *locations = [_managedObjectContext executeFetchRequest:locationFetchRequest error:NULL];
+        BLTTrip *trip = [[BLTTrip alloc] initWithStartDate:lastDepartureDate endDate:managedVisitObject.arrivalDate locations:locations];
+        tripGroups = [tripGroups tripGroupsByAddingTrip:trip];
+        lastDepartureDate = nil;
       }
-    }
-    if (startTripIndex != NSNotFound) {
-      NSArray *slice = [locations subarrayWithRange:NSMakeRange(startTripIndex, locations.count - startTripIndex)];
-      BLTLocation *lastManagedLocation = locations.lastObject;
-      BLTTrip *trip = [[BLTTrip alloc] initWithStartDate:startingManagedLocation.timestamp endDate:lastManagedLocation.timestamp locations:slice];
-      tripGroups = [tripGroups tripGroupsByAddingTrip:trip];
+      if (managedVisitObject.departureDate != [NSDate distantFuture]) {
+        lastDepartureDate = managedVisitObject.departureDate;
+      }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
       callback(tripGroups);

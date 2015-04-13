@@ -31,20 +31,18 @@
       BLTLocation *managedLocationObject = locations[i];
       CLLocation *location = managedLocationObject.location;
       coordinates[i] = location.coordinate;
-      if (location.speed > 0) {
-        [_locationSpeedSummary addObservation:location.speed];
-        if (priorLocation != nil) {
-          _distance += [priorLocation distanceFromLocation:location];
-          CLLocationDistance altitudeDelta = location.altitude - priorLocation.altitude;
-          if (altitudeDelta > 0) {
-            _altitudeGain += altitudeDelta;
-          }
-          CLLocationSpeed speedDelta = location.speed - priorLocation.speed;
-          NSTimeInterval timeDelta = [location.timestamp timeIntervalSinceDate:priorLocation.timestamp];
-          [_locationAccelerationSummary addObservation:speedDelta/timeDelta];
+      [_locationSpeedSummary addObservation:location.speed];
+      if (priorLocation != nil) {
+        _distance += [priorLocation distanceFromLocation:location];
+        CLLocationDistance altitudeDelta = location.altitude - priorLocation.altitude;
+        if (altitudeDelta > 0) {
+          _altitudeGain += altitudeDelta;
         }
-        priorLocation = location;
+        CLLocationSpeed speedDelta = location.speed - priorLocation.speed;
+        NSTimeInterval timeDelta = [location.timestamp timeIntervalSinceDate:priorLocation.timestamp];
+        [_locationAccelerationSummary addObservation:speedDelta/timeDelta];
       }
+      priorLocation = location;
     }
     _route = [MKPolyline polylineWithCoordinates:coordinates count:countOfCoordinates];
     free(coordinates);
