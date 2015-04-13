@@ -49,6 +49,26 @@ static NSDateFormatter *_DateFormatter()
   return [self initWithTripGroupNames:@[] tripGroups:@[]];
 }
 
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding
+{
+  return YES;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+  NSArray *tripGroupNames = [aDecoder decodeObjectOfClass:[NSArray class] forKey:@"tripGroupNames"];
+  NSArray *tripGroups = [aDecoder decodeObjectOfClass:[NSArray class] forKey:@"tripGroups"];
+  return [self initWithTripGroupNames:tripGroupNames tripGroups:tripGroups];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+  [aCoder encodeObject:_tripGroupNames forKey:@"tripGroupNames"];
+  [aCoder encodeObject:_tripGroups forKey:@"tripGroups"];
+}
+
 - (NSUInteger)countOfTripGroups
 {
   return _tripGroupNames.count;

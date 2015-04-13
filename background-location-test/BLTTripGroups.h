@@ -10,7 +10,7 @@
 
 @class BLTTrip;
 
-@interface BLTTripGroups : NSObject
+@interface BLTTripGroups : NSObject <NSSecureCoding>
 
 @property (nonatomic, readonly, assign) NSUInteger countOfTripGroups;
 
