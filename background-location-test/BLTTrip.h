@@ -12,7 +12,7 @@
 @class BLTStatisticsSummary;
 @class MKPolyline;
 
-@interface BLTTrip : NSObject
+@interface BLTTrip : NSObject <NSSecureCoding>
 
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
@@ -24,6 +24,8 @@
 
 - (instancetype)initWithStartDate:(NSDate *)startDate
                           endDate:(NSDate *)endDate
-                        locations:(NSArray *)locations NS_DESIGNATED_INITIALIZER;
+                        locations:(NSArray *)locations;
+
+- (BOOL)isEqualToTrip:(BLTTrip *)trip;
 
 @end

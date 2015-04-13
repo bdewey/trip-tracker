@@ -16,6 +16,7 @@
 		D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197921ACCF6DD00AF466B /* background_location_testTests.m */; };
 		D301979E1ACCF8CE00AF466B /* BLTLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */; };
 		D30197A11ACD011300AF466B /* BLTLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197A01ACD011300AF466B /* BLTLocation.m */; };
+		D3099DF21ADB751D00A5C1F5 /* BLTTripTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3099DF11ADB751D00A5C1F5 /* BLTTripTests.m */; };
 		D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */; };
 		D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */; };
 		D31D08261ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */; };
@@ -61,6 +62,7 @@
 		D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationManager.m; sourceTree = "<group>"; };
 		D301979F1ACD011300AF466B /* BLTLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocation.h; sourceTree = "<group>"; };
 		D30197A01ACD011300AF466B /* BLTLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocation.m; sourceTree = "<group>"; };
+		D3099DF11ADB751D00A5C1F5 /* BLTTripTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripTests.m; sourceTree = "<group>"; };
 		D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTStatisticsSummary.h; sourceTree = "<group>"; };
 		D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummary.m; sourceTree = "<group>"; };
 		D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTStatisticsSummaryTests.m; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				D30197901ACCF6DD00AF466B /* Supporting Files */,
 				D31D081F1ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m */,
 				D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */,
+				D3099DF11ADB751D00A5C1F5 /* BLTTripTests.m */,
 			);
 			path = "background-location-testTests";
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31D08201ADA0F3F006D95C7 /* BLTStatisticsSummaryTests.m in Sources */,
+				D3099DF21ADB751D00A5C1F5 /* BLTTripTests.m in Sources */,
 				D31D082B1ADADAB8006D95C7 /* BLTTripGroupsTests.m in Sources */,
 				D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */,
 			);
