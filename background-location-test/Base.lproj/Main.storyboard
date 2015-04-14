@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VfH-Kb-344">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VfH-Kb-344">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -42,7 +42,7 @@
         <scene sceneID="YuO-cy-zdZ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PzJ-Dy-DhV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Locations" id="LnT-lK-klk"/>
+                    <tabBarItem key="tabBarItem" title="Locations" image="LocationTabIcon" id="LnT-lK-klk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zc7-Ws-daH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -159,7 +159,7 @@
         <scene sceneID="09C-i0-mFp">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Gfg-5U-jK5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Visits" id="ZxU-4n-wtd"/>
+                    <tabBarItem key="tabBarItem" title="Visits" image="VisitTabIcon" id="ZxU-4n-wtd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7DU-Zv-Chu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -320,7 +320,7 @@
         <scene sceneID="34g-oy-kYK">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="41i-xO-srG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Trips" id="L4q-qT-ZTj"/>
+                    <tabBarItem key="tabBarItem" title="Trips" image="TripTabIcon" id="L4q-qT-ZTj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jUw-cP-2v1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -366,7 +366,7 @@
         <scene sceneID="GXs-zn-ku7">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mBi-N6-iXR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Log" id="CEn-BG-8Zv"/>
+                    <tabBarItem key="tabBarItem" title="Log" image="LogTabIcon" id="CEn-BG-8Zv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hIB-t6-hbY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -382,4 +382,10 @@
             <point key="canvasLocation" x="1210" y="3455"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LocationTabIcon" width="32" height="32"/>
+        <image name="LogTabIcon" width="32" height="32"/>
+        <image name="TripTabIcon" width="32" height="32"/>
+        <image name="VisitTabIcon" width="32" height="32"/>
+    </resources>
 </document>
