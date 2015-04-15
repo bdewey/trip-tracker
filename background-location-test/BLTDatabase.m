@@ -79,7 +79,21 @@ static BLTDatabase *g_database;
 
 - (void)archiveDatabase
 {
+  NSError *error;
   NSURL *storeURL = [self _storeURL];
+  NSPersistentStoreCoordinator *psc = self.persistentStoreCoordinator;
+  NSPersistentStore *store = [psc persistentStoreForURL:storeURL];
+  if (![psc removePersistentStore:store error:&error]) {
+    NSString *errorMessage = [NSString stringWithFormat:@"Can't remove persistent store: %@", error];
+    [self logMessage:errorMessage displayAsNotification:YES];
+    return;
+  }
+  [self _makeBackupFromURL:storeURL error:NULL];
+  abort();
+}
+
+- (BOOL)_makeBackupFromURL:(NSURL *)storeURL error:(NSError **)error
+{
   NSString *lastPath = [storeURL lastPathComponent];
   NSString *lastPathWithoutExtension = [lastPath stringByDeletingPathExtension];
   NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond
@@ -88,19 +102,9 @@ static BLTDatabase *g_database;
   NSString *newPath = [lastPathWithoutExtension stringByAppendingString:dateString];
   NSString *newPathWithExtension = [newPath stringByAppendingPathExtension:@"sqlite"];
   NSURL *fullURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:newPathWithExtension];
-  
-  NSPersistentStoreCoordinator *psc = self.persistentStoreCoordinator;
-  NSPersistentStore *store = [psc persistentStoreForURL:storeURL];
-  NSError *error;
-  if (![psc removePersistentStore:store error:&error]) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Can't remove persistent store: %@", error];
-    [self logMessage:errorMessage displayAsNotification:YES];
-  } else {
-    if (![[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:fullURL error:&error]) {
-      [self logMessage:[NSString stringWithFormat:@"Can't move database from %@ to %@: %@", storeURL, fullURL, error] displayAsNotification:YES];
-    }
-    abort();
-  }
+
+  BOOL success = [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:fullURL error:error];
+  return success;
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
@@ -114,22 +118,25 @@ static BLTDatabase *g_database;
   _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
   NSURL *storeURL = [self _storeURL];
   NSError *error = nil;
-  NSString *failureReason = @"There was an error creating or loading the application's saved data.";
   NSDictionary *pscOptions = @{
                                NSMigratePersistentStoresAutomaticallyOption: @YES,
                                NSInferMappingModelAutomaticallyOption: @YES,
                                };
   if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:pscOptions error:&error]) {
-    // Report any error we got.
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
-    dict[NSLocalizedFailureReasonErrorKey] = failureReason;
-    dict[NSUnderlyingErrorKey] = error;
-    error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-    // Replace this with code to handle the error appropriately.
-    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    abort();
+    // backup and retry.
+    [self _makeBackupFromURL:storeURL error:NULL];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:pscOptions error:&error]) {
+      // Report any error we got.
+      NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+      dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
+      dict[NSLocalizedFailureReasonErrorKey] = @"There was an error creating or loading the application's saved data.";
+      dict[NSUnderlyingErrorKey] = error;
+      error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
+      // Replace this with code to handle the error appropriately.
+      // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      abort();
+    }
   }
   
   return _persistentStoreCoordinator;

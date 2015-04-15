@@ -141,22 +141,23 @@ static BLTLocationManager *g_sharedLocationManager;
     fetchRequest.sortDescriptors = @[sortByTimestamp];
     NSArray *locations = [_managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     NSMutableArray *locationSummaries = [[NSMutableArray alloc] init];
-    BLTLocation *firstSummarizedLocation = nil;
-    BLTLocation *lastSummarizedLocation = nil;
+    NSDate *firstSummarizedTimestamp = nil;
+    NSDate *lastSummarizedTimestamp = nil;
     NSUInteger countOfSummarizedLocations = 0;
     for (BLTLocation *managedLocation in locations) {
-      NSTimeInterval delta = [lastSummarizedLocation.timestamp timeIntervalSinceDate:managedLocation.timestamp] * -1.0;
+      NSDate *currentTimestamp = [NSDate dateWithTimeIntervalSince1970:managedLocation.timestamp];
+      NSTimeInterval delta = [lastSummarizedTimestamp timeIntervalSinceDate:currentTimestamp] * -1.0;
       if (delta > kTenSeconds) {
-        BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedLocation.timestamp endDate:lastSummarizedLocation.timestamp countOfLocationObservations:countOfSummarizedLocations];
+        BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedTimestamp endDate:lastSummarizedTimestamp countOfLocationObservations:countOfSummarizedLocations];
         [locationSummaries addObject:summary];
-        firstSummarizedLocation = lastSummarizedLocation = nil;
+        firstSummarizedTimestamp = lastSummarizedTimestamp = nil;
         countOfSummarizedLocations = 0;
       }
-      firstSummarizedLocation = firstSummarizedLocation ?: managedLocation;
-      lastSummarizedLocation = managedLocation;
+      firstSummarizedTimestamp = firstSummarizedTimestamp ?: currentTimestamp;
+      lastSummarizedTimestamp = currentTimestamp;
       countOfSummarizedLocations++;
     }
-    BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedLocation.timestamp endDate:lastSummarizedLocation.timestamp countOfLocationObservations:countOfSummarizedLocations];
+    BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedTimestamp endDate:lastSummarizedTimestamp countOfLocationObservations:countOfSummarizedLocations];
     [locationSummaries addObject:summary];
     dispatch_async(dispatch_get_main_queue(), ^{
       callback(locationSummaries);
@@ -204,6 +205,7 @@ static BLTLocationManager *g_sharedLocationManager;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
+  static CLLocation *previousLocation = nil;
   if (!_recordingLocationHistory) {
     return;
   }
@@ -215,8 +217,20 @@ static BLTLocationManager *g_sharedLocationManager;
   [_managedObjectContext performBlock:^{
     for (CLLocation *location in locations) {
       BLTLocation *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTLocation" inManagedObjectContext:_managedObjectContext];
-      locationObject.location = location;
-      locationObject.timestamp = location.timestamp;
+      locationObject.timestamp = [location.timestamp timeIntervalSince1970];
+      locationObject.altitude = location.altitude;
+      locationObject.course = location.course;
+      locationObject.horizontalAccuracy = location.horizontalAccuracy;
+      locationObject.latitude = location.coordinate.latitude;
+      locationObject.longitude = location.coordinate.longitude;
+      locationObject.speed = location.speed;
+      locationObject.verticalAccuracy = location.verticalAccuracy;
+      if (previousLocation != nil) {
+        locationObject.distanceFromLastLocation = [location distanceFromLocation:previousLocation];
+        locationObject.timeIntervalFromLastLocation = [location.timestamp timeIntervalSinceDate:previousLocation.timestamp];
+        locationObject.interpolatedSpeed = locationObject.distanceFromLastLocation / locationObject.timeIntervalFromLastLocation;
+      }
+      previousLocation = location;
     }
     [_managedObjectContext save:NULL];
   }];

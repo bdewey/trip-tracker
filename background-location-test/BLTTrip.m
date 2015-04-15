@@ -9,6 +9,7 @@
 #import <MapKit/MapKit.h>
 
 #import "BLTLocation.h"
+#import "BLTLocationHelpers.h"
 #import "BLTStatisticsSummary.h"
 #import "BLTTrip.h"
 
@@ -93,7 +94,7 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
   CLLocationDistance altitudeGain = 0;
   for (NSUInteger i = 0; i < countOfCoordinates; i++) {
     BLTLocation *managedLocationObject = locations[i];
-    CLLocation *location = managedLocationObject.location;
+    CLLocation *location = [BLTLocationHelpers locationFromManagedLocation:managedLocationObject];
     if (startOfTrip == nil) {
       startOfTrip = location;
     }

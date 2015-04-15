@@ -33,6 +33,7 @@
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
 		D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */; };
+		D5B2F5E31ADECD8300D56CD2 /* BLTLocationHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,8 @@
 		D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationDataSummary.m; sourceTree = "<group>"; };
 		D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripsTableViewController.h; sourceTree = "<group>"; };
 		D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripsTableViewController.m; sourceTree = "<group>"; };
+		D5B2F5E11ADECD8300D56CD2 /* BLTLocationHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationHelpers.h; sourceTree = "<group>"; };
+		D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationHelpers.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,8 @@
 				D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */,
 				D31D08271ADAD2DE006D95C7 /* BLTTripGroups.h */,
 				D31D08281ADAD2DE006D95C7 /* BLTTripGroups.m */,
+				D5B2F5E11ADECD8300D56CD2 /* BLTLocationHelpers.h */,
+				D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */,
 				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
 				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
+				D5B2F5E31ADECD8300D56CD2 /* BLTLocationHelpers.m in Sources */,
 				D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
