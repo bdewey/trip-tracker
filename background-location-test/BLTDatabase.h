@@ -20,6 +20,8 @@ extern NSString *const kBLTLogRecordEntityName;
 
 - (NSManagedObjectContext *)newPrivateQueueManagedObjectContextWithName:(NSString *)name;
 
+- (void)archiveDatabase;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

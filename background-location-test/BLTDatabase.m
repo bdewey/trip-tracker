@@ -77,6 +77,32 @@ static BLTDatabase *g_database;
   return storeAttributes[NSFileSize];
 }
 
+- (void)archiveDatabase
+{
+  NSURL *storeURL = [self _storeURL];
+  NSString *lastPath = [storeURL lastPathComponent];
+  NSString *lastPathWithoutExtension = [lastPath stringByDeletingPathExtension];
+  NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond
+                                                                 fromDate:[NSDate date]];
+  NSString *dateString = [NSString stringWithFormat:@"-%zd.%02zd.%02zd-%02zd.%02zd.%02zd", components.year, components.month, components.day, components.hour, components.minute, components.second];
+  NSString *newPath = [lastPathWithoutExtension stringByAppendingString:dateString];
+  NSString *newPathWithExtension = [newPath stringByAppendingPathExtension:@"sqlite"];
+  NSURL *fullURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:newPathWithExtension];
+  
+  NSPersistentStoreCoordinator *psc = self.persistentStoreCoordinator;
+  NSPersistentStore *store = [psc persistentStoreForURL:storeURL];
+  NSError *error;
+  if (![psc removePersistentStore:store error:&error]) {
+    NSString *errorMessage = [NSString stringWithFormat:@"Can't remove persistent store: %@", error];
+    [self logMessage:errorMessage displayAsNotification:YES];
+  } else {
+    if (![[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:fullURL error:&error]) {
+      [self logMessage:[NSString stringWithFormat:@"Can't move database from %@ to %@: %@", storeURL, fullURL, error] displayAsNotification:YES];
+    }
+    abort();
+  }
+}
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
   // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
   if (_persistentStoreCoordinator != nil) {

@@ -10,6 +10,7 @@
 
 #import "BLTTripsTableViewController.h"
 
+#import "BLTDatabase.h"
 #import "BLTLocationManager.h"
 #import "BLTLocationsTableViewController.h"
 #import "BLTMapViewController.h"
@@ -50,10 +51,14 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   UIAlertAction *refreshAction = [UIAlertAction actionWithTitle:@"Refresh" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     [self _didTapRefresh:nil];
   }];
+  [alertController addAction:refreshAction];
+  UIAlertAction *archiveAction = [UIAlertAction actionWithTitle:@"Archive" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+    [[BLTDatabase sharedDatabase] archiveDatabase];
+  }];
+  [alertController addAction:archiveAction];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
     // nothing
   }];
-  [alertController addAction:refreshAction];
   [alertController addAction:cancelAction];
   [self presentViewController:alertController animated:YES completion:NULL];
 }
