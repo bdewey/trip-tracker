@@ -8,12 +8,14 @@
 
 #import <CoreData/CoreData.h>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreMotion/CoreMotion.h>
 #import <UIKit/UIKit.h>
 
 #import "BLTDatabase.h"
 #import "BLTLocation.h"
 #import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
+#import "BLTMotionActivity.h"
 #import "BLTTrip.h"
 #import "BLTTripGroups.h"
 #import "BLTVisit.h"
@@ -31,6 +33,7 @@ static BLTLocationManager *g_sharedLocationManager;
 {
   NSMutableArray *_blocksToPerformWhenAuthorized;
   BOOL _isDeferringUpdates;
+  CMMotionActivityManager *_motionActivityManager;
 }
 
 - (instancetype)initWithDatabase:(BLTDatabase *)database
@@ -44,6 +47,9 @@ static BLTLocationManager *g_sharedLocationManager;
     _database = database;
     _managedObjectContext = [_database newPrivateQueueManagedObjectContextWithName:@"location monitoring"];
     _blocksToPerformWhenAuthorized = [[NSMutableArray alloc] init];
+    if ([CMMotionActivityManager isActivityAvailable]) {
+      _motionActivityManager = [[CMMotionActivityManager alloc] init];
+    }
   }
   return self;
 }
@@ -93,6 +99,54 @@ static BLTLocationManager *g_sharedLocationManager;
 {
   [_locationManager stopMonitoringVisits];
   _recordingVisits = NO;
+}
+
++ (BLTMotionActivity *)_newManagedActivityFromActivity:(CMMotionActivity *)activity inManagedObjectContext:(NSManagedObjectContext *)moc
+{
+  BLTMotionActivity *managedMotionActivity = [NSEntityDescription insertNewObjectForEntityForName:@"BLTMotionActivity" inManagedObjectContext:moc];
+  managedMotionActivity.stationary = activity.stationary;
+  managedMotionActivity.walking = activity.walking;
+  managedMotionActivity.running = activity.running;
+  managedMotionActivity.automotive = activity.automotive;
+  managedMotionActivity.cycling = activity.cycling;
+  managedMotionActivity.startDate = [activity.startDate timeIntervalSince1970];
+  return managedMotionActivity;
+}
+
+- (void)updateDatabaseWithMotionActivities
+{
+  if (_motionActivityManager == nil) {
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTMotionActivity"];
+    NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
+    fetchRequest.sortDescriptors = @[sortByTimestamp];
+    fetchRequest.fetchLimit = 1;
+    NSArray *existingObjects = [_managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSDate *now = [NSDate date];
+    NSDate *startDate = nil;
+    BLTMotionActivity *lastActivity = existingObjects.firstObject;
+    if (lastActivity == nil) {
+      startDate = [now dateByAddingTimeInterval:-1 * 7 * 24 * 60 * 60];
+    } else {
+      startDate = [NSDate dateWithTimeIntervalSince1970:lastActivity.startDate];
+    }
+    [_motionActivityManager queryActivityStartingFromDate:startDate toDate:now toQueue:[NSOperationQueue mainQueue] withHandler:^(NSArray *activities, NSError *error) {
+      if (error != nil) {
+        NSString *errorMessage = [NSString stringWithFormat:@"Error querying motion activities: %@", error];
+        [_database logMessage:errorMessage displayAsNotification:YES];
+      } else {
+        [_managedObjectContext performBlock:^{
+          for (CMMotionActivity *motionActivity in activities) {
+            [[self class] _newManagedActivityFromActivity:motionActivity
+                                   inManagedObjectContext:_managedObjectContext];
+          }
+          [_managedObjectContext save:NULL];
+        }];
+      }
+    }];
+  }];
 }
 
 - (void)buildTrips:(BLTTripBuilderCallback)callback

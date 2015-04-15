@@ -38,6 +38,8 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 - (void)startRecordingVisits;
 - (void)stopRecordingVisits;
 
+- (void)updateDatabaseWithMotionActivities;
+
 - (void)buildTrips:(BLTTripBuilderCallback)callback;
 - (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback;
 

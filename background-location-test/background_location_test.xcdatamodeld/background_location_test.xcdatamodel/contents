@@ -17,6 +17,16 @@
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
+    <entity name="BLTMotionActivity" representedClassName="BLTMotionActivity" syncable="YES">
+        <attribute name="automotive" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="confidence" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="cycling" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="running" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="stationary" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="unknown" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="walking" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
     <entity name="BLTVisit" representedClassName="BLTVisit" syncable="YES">
         <attribute name="arrivalDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="departureDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -26,6 +36,7 @@
     <elements>
         <element name="BLTLocation" positionX="-63" positionY="-18" width="128" height="210"/>
         <element name="BLTLogRecord" positionX="-63" positionY="18" width="128" height="73"/>
+        <element name="BLTMotionActivity" positionX="-63" positionY="63" width="128" height="165"/>
         <element name="BLTVisit" positionX="-63" positionY="0" width="128" height="105"/>
     </elements>
 </model>
