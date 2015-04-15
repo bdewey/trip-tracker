@@ -44,6 +44,20 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   [self _didTapRefresh:nil];
 }
 
+- (IBAction)_didTapSettings:(UIBarButtonItem *)sender
+{
+  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Settings" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+  UIAlertAction *refreshAction = [UIAlertAction actionWithTitle:@"Refresh" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [self _didTapRefresh:nil];
+  }];
+  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    // nothing
+  }];
+  [alertController addAction:refreshAction];
+  [alertController addAction:cancelAction];
+  [self presentViewController:alertController animated:YES completion:NULL];
+}
+
 - (IBAction)_didTapRefresh:(UIBarButtonItem *)sender
 {
   [_activityIndicator startAnimating];

@@ -244,9 +244,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Trips" id="Pph-7P-WVX">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="TCJ-A6-chf">
+                        <barButtonItem key="rightBarButtonItem" image="SettingsButton" id="TCJ-A6-chf">
                             <connections>
-                                <action selector="_didTapRefresh:" destination="Qza-0v-hWK" id="xIu-GK-lWb"/>
+                                <action selector="_didTapSettings:" destination="Qza-0v-hWK" id="ilP-7a-XOo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -385,6 +385,7 @@
     <resources>
         <image name="LocationTabIcon" width="32" height="32"/>
         <image name="LogTabIcon" width="32" height="32"/>
+        <image name="SettingsButton" width="22" height="22"/>
         <image name="TripTabIcon" width="32" height="32"/>
         <image name="VisitTabIcon" width="32" height="32"/>
     </resources>
