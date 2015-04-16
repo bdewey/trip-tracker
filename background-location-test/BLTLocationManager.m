@@ -109,7 +109,7 @@ static BLTLocationManager *g_sharedLocationManager;
   managedMotionActivity.running = activity.running;
   managedMotionActivity.automotive = activity.automotive;
   managedMotionActivity.cycling = activity.cycling;
-  managedMotionActivity.startDate = [activity.startDate timeIntervalSince1970];
+  managedMotionActivity.startDate = [activity.startDate timeIntervalSinceReferenceDate];
   return managedMotionActivity;
 }
 
@@ -130,7 +130,7 @@ static BLTLocationManager *g_sharedLocationManager;
     if (lastActivity == nil) {
       startDate = [now dateByAddingTimeInterval:-1 * 7 * 24 * 60 * 60];
     } else {
-      startDate = [NSDate dateWithTimeIntervalSince1970:lastActivity.startDate];
+      startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:lastActivity.startDate];
     }
     [_motionActivityManager queryActivityStartingFromDate:startDate toDate:now toQueue:[NSOperationQueue mainQueue] withHandler:^(NSArray *activities, NSError *error) {
       if (error != nil) {
@@ -199,7 +199,7 @@ static BLTLocationManager *g_sharedLocationManager;
     NSDate *lastSummarizedTimestamp = nil;
     NSUInteger countOfSummarizedLocations = 0;
     for (BLTLocation *managedLocation in locations) {
-      NSDate *currentTimestamp = [NSDate dateWithTimeIntervalSince1970:managedLocation.timestamp];
+      NSDate *currentTimestamp = [NSDate dateWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
       NSTimeInterval delta = [lastSummarizedTimestamp timeIntervalSinceDate:currentTimestamp] * -1.0;
       if (delta > kTenSeconds) {
         BLTLocationDataSummary *summary = [[BLTLocationDataSummary alloc] initWithStartDate:firstSummarizedTimestamp endDate:lastSummarizedTimestamp countOfLocationObservations:countOfSummarizedLocations];
@@ -271,7 +271,7 @@ static BLTLocationManager *g_sharedLocationManager;
   [_managedObjectContext performBlock:^{
     for (CLLocation *location in locations) {
       BLTLocation *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"BLTLocation" inManagedObjectContext:_managedObjectContext];
-      locationObject.timestamp = [location.timestamp timeIntervalSince1970];
+      locationObject.timestamp = [location.timestamp timeIntervalSinceReferenceDate];
       locationObject.altitude = location.altitude;
       locationObject.course = location.course;
       locationObject.horizontalAccuracy = location.horizontalAccuracy;

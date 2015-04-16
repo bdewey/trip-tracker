@@ -101,7 +101,7 @@ static NSString *_summaryOfManagedMotionActivity(BLTMotionActivity *motionActivi
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BLTMotionActivityCell" forIndexPath:indexPath];
   BLTMotionActivity *managedMotionActivity = [_fetchedResultsController objectAtIndexPath:indexPath];
   cell.textLabel.text = _summaryOfManagedMotionActivity(managedMotionActivity);
-  NSDate *date = [NSDate dateWithTimeIntervalSince1970:managedMotionActivity.startDate];
+  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:managedMotionActivity.startDate];
   cell.detailTextLabel.text = [_dateFormatter stringFromDate:date];
   return cell;
 }

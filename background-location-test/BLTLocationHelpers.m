@@ -17,7 +17,7 @@
 + (CLLocation *)locationFromManagedLocation:(BLTLocation *)managedLocation
 {
   CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(managedLocation.latitude, managedLocation.longitude);
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:managedLocation.timestamp];
+  NSDate *timestamp = [NSDate dateWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
   return [[CLLocation alloc] initWithCoordinate:coordinate
                                        altitude:managedLocation.altitude
                              horizontalAccuracy:managedLocation.horizontalAccuracy
