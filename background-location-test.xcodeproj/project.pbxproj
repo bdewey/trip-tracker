@@ -10,7 +10,6 @@
 		D30197761ACCF6DD00AF466B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197751ACCF6DD00AF466B /* main.m */; };
 		D30197791ACCF6DD00AF466B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197781ACCF6DD00AF466B /* AppDelegate.m */; };
 		D301977C1ACCF6DD00AF466B /* background_location_test.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */; };
-		D30197821ACCF6DD00AF466B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D30197801ACCF6DD00AF466B /* Main.storyboard */; };
 		D30197841ACCF6DD00AF466B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D30197831ACCF6DD00AF466B /* Images.xcassets */; };
 		D30197871ACCF6DD00AF466B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30197851ACCF6DD00AF466B /* LaunchScreen.xib */; };
 		D30197931ACCF6DD00AF466B /* background_location_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30197921ACCF6DD00AF466B /* background_location_testTests.m */; };
@@ -32,6 +31,9 @@
 		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
+		D3DD8DAD1AEBE26E001882D1 /* BLTGridSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */; };
+		D3DD8DB01AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */; };
+		D3DD8DB31AEBF0A5001882D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */; };
 		D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */; };
 		D56C2AB51ADEE7AC00F5899C /* BLTMotionActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = D56C2AB41ADEE7AC00F5899C /* BLTMotionActivity.m */; };
 		D56C2AB81ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D56C2AB71ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m */; };
@@ -55,7 +57,6 @@
 		D30197771ACCF6DD00AF466B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D30197781ACCF6DD00AF466B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D301977B1ACCF6DD00AF466B /* background_location_test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = background_location_test.xcdatamodel; sourceTree = "<group>"; };
-		D30197811ACCF6DD00AF466B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D30197831ACCF6DD00AF466B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D30197861ACCF6DD00AF466B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		D301978C1ACCF6DD00AF466B /* background-location-testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "background-location-testTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +94,11 @@
 		D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecordsTableViewController.m; sourceTree = "<group>"; };
 		D3D7BF271AD87BE600BCC4CE /* BLTLocationDataSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationDataSummary.h; sourceTree = "<group>"; };
 		D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationDataSummary.m; sourceTree = "<group>"; };
+		D3DD8DAB1AEBE26E001882D1 /* BLTGridSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGridSummary.h; sourceTree = "<group>"; };
+		D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGridSummary.m; sourceTree = "<group>"; };
+		D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGridSummariesTableViewController.h; sourceTree = "<group>"; };
+		D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGridSummariesTableViewController.m; sourceTree = "<group>"; };
+		D3DD8DB21AEBF0A5001882D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTTripsTableViewController.h; sourceTree = "<group>"; };
 		D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripsTableViewController.m; sourceTree = "<group>"; };
 		D56C2AB31ADEE7AC00F5899C /* BLTMotionActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTMotionActivity.h; sourceTree = "<group>"; };
@@ -146,9 +152,9 @@
 		D30197721ACCF6DD00AF466B /* background-location-test */ = {
 			isa = PBXGroup;
 			children = (
+				D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */,
 				D30197771ACCF6DD00AF466B /* AppDelegate.h */,
 				D30197781ACCF6DD00AF466B /* AppDelegate.m */,
-				D30197801ACCF6DD00AF466B /* Main.storyboard */,
 				D30197831ACCF6DD00AF466B /* Images.xcassets */,
 				D30197851ACCF6DD00AF466B /* LaunchScreen.xib */,
 				D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */,
@@ -189,6 +195,10 @@
 				D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */,
 				D56C2AB61ADEEC7100F5899C /* BLTMotionActivitesTableViewController.h */,
 				D56C2AB71ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m */,
+				D3DD8DAB1AEBE26E001882D1 /* BLTGridSummary.h */,
+				D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */,
+				D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */,
+				D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -309,7 +319,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D30197821ACCF6DD00AF466B /* Main.storyboard in Resources */,
+				D3DD8DB31AEBF0A5001882D1 /* Main.storyboard in Resources */,
 				D30197871ACCF6DD00AF466B /* LaunchScreen.xib in Resources */,
 				D30197841ACCF6DD00AF466B /* Images.xcassets in Resources */,
 			);
@@ -337,7 +347,9 @@
 				D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */,
 				D30197A11ACD011300AF466B /* BLTLocation.m in Sources */,
 				D31D08291ADAD2DE006D95C7 /* BLTTripGroups.m in Sources */,
+				D3DD8DB01AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m in Sources */,
 				D3A82D261ACD04BA00C030EC /* BLTDatabase.m in Sources */,
+				D3DD8DAD1AEBE26E001882D1 /* BLTGridSummary.m in Sources */,
 				D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */,
 				D30197761ACCF6DD00AF466B /* main.m in Sources */,
 				D56C2AB51ADEE7AC00F5899C /* BLTMotionActivity.m in Sources */,
@@ -375,20 +387,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D30197801ACCF6DD00AF466B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D30197811ACCF6DD00AF466B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D30197851ACCF6DD00AF466B /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				D30197861ACCF6DD00AF466B /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3DD8DB21AEBF0A5001882D1 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

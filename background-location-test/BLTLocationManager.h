@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class BLTDatabase;
+@class BLTGridSummary;
 @class BLTTripGroups;
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
 typedef void (^BLTTripBuilderCallback)(BLTTripGroups *tripGroups);
+typedef void (^BLTGridSummaryBuilderCallback)(NSArray *gridSummaries);
 typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 @protocol BLTLocationManagerDelegate;
@@ -42,6 +45,9 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 - (void)buildTrips:(BLTTripBuilderCallback)callback;
 - (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback;
+- (void)buildGridSummariesForBucketDistance:(CLLocationDistance)bucketDistance
+                            minimumDuration:(NSTimeInterval)minimumDuration
+                                   callback:(BLTGridSummaryBuilderCallback)callback;
 
 @end
 
