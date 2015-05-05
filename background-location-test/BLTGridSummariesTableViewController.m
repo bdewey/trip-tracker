@@ -107,7 +107,7 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 {
   mapView.delegate = self;
   CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(_selectedGridSummary.mapPoint);
-  MKCircle *gridCirle = [MKCircle circleWithCenterCoordinate:coordinate radius:10];
+  MKCircle *gridCirle = [MKCircle circleWithCenterCoordinate:coordinate radius:_selectedGridSummary.horizontalAccuracy];
   [mapView addOverlay:gridCirle level:MKOverlayLevelAboveRoads];
   mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
 }
