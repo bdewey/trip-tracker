@@ -15,8 +15,8 @@ static NSDateFormatter *_DateFormatter()
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterShortStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EEEEMMMMdd" options:0 locale:[NSLocale currentLocale]];
+    dateFormatter.dateFormat = formatString;
   });
   return dateFormatter;
 }
