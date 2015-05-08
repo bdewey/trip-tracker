@@ -38,7 +38,7 @@
             </objects>
             <point key="canvasLocation" x="2022" y="501"/>
         </scene>
-        <!--Grid Summaries Table View Controller-->
+        <!--Inferred Places-->
         <scene sceneID="JOu-s4-BCX">
             <objects>
                 <tableViewController id="OjZ-Ds-gdQ" customClass="BLTGridSummariesTableViewController" sceneMemberID="viewController">
@@ -76,7 +76,13 @@
                             <outlet property="delegate" destination="OjZ-Ds-gdQ" id="i4K-TK-cIj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="hPy-Zv-DAP"/>
+                    <navigationItem key="navigationItem" title="Inferred Places" id="hPy-Zv-DAP">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="qb3-Uz-3BX">
+                            <connections>
+                                <action selector="_refresh:" destination="OjZ-Ds-gdQ" id="lhg-Ge-C76"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pok-6U-kXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
