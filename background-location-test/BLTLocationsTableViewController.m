@@ -11,13 +11,15 @@
 #import "BLTLocationsTableViewController.h"
 
 #import "BLTDatabase.h"
+#import "BLTFormattingHelpers.h"
+#import "BLTGroupedItems.h"
 #import "BLTLocation.h"
 #import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
 
 static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 
-@interface BLTLocationsTableViewController () <NSFetchedResultsControllerDelegate>
+@interface BLTLocationsTableViewController () <BLTGroupedItemsDelegate>
 
 @end
 
@@ -25,8 +27,13 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 {
   BLTDatabase *_database;
   BLTLocationManager *_locationManager;
-  NSArray *_locationSummaries;
+  BLTGroupedItems *_groupedLocationSummaries;
   NSDateIntervalFormatter *_dateIntervalFormatter;
+}
+
+- (void)dealloc
+{
+  [self.refreshControl removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
 }
 
 - (void)viewDidLoad
@@ -38,16 +45,30 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   NSAssert(_locationManager != nil, @"Must have a location manager");
 
   _dateIntervalFormatter = [[NSDateIntervalFormatter alloc] init];
-  _dateIntervalFormatter.dateStyle = NSDateIntervalFormatterShortStyle;
+  _dateIntervalFormatter.dateStyle = NSDateIntervalFormatterNoStyle;
   _dateIntervalFormatter.timeStyle = NSDateIntervalFormatterMediumStyle;
+  
+  UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+  [refreshControl addTarget:self action:@selector(_refresh:) forControlEvents:UIControlEventValueChanged];
+  self.refreshControl = refreshControl;
   [self _refresh:nil];
 }
 
 - (IBAction)_refresh:(id)sender
 {
+  [self.refreshControl beginRefreshing];
   [_locationManager buildLocationSummaries:^(NSArray *locationSummaries) {
-    _locationSummaries = [locationSummaries copy];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      BLTGroupedItems *groupedSummaries = [[BLTGroupedItems alloc] initWithDelegate:self];
+      for (NSInteger i = 0; i < locationSummaries.count; i++) {
+        groupedSummaries = [groupedSummaries groupedItemsByAddingItem:locationSummaries[i]];
+      }
+      dispatch_async(dispatch_get_main_queue(), ^{
+        _groupedLocationSummaries = groupedSummaries;
+        [self.refreshControl endRefreshing];
+        [self.tableView reloadData];
+      });
+    });
   }];
 }
 
@@ -55,12 +76,17 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 1;
+  return _groupedLocationSummaries.countOfGroups;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+  return [_groupedLocationSummaries nameOfGroup:section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _locationSummaries.count;
+  return [_groupedLocationSummaries countOfItemsInGroup:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,10 +95,22 @@ static NSString *const kLocationReuseIdentifier = @"BLTLocation";
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kLocationReuseIdentifier];
   }
-  BLTLocationDataSummary *locationSummary = _locationSummaries[indexPath.row];
+  BLTLocationDataSummary *locationSummary = (BLTLocationDataSummary *)[_groupedLocationSummaries itemForIndexPath:indexPath];
   cell.textLabel.text = [_dateIntervalFormatter stringFromDate:locationSummary.startDate toDate:locationSummary.endDate];
   cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu locations", locationSummary.countOfLocationObservations];
   return cell;
+}
+
+#pragma mark - BLTGroupedItemsDelegate
+
+- (NSString *)groupedItems:(BLTGroupedItems *)groupedItems nameOfGroupForItem:(BLTLocationDataSummary *)item
+{
+  return [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:item.startDate];
+}
+
+- (BOOL)groupedItemsDisplayInReversedOrder:(BLTGroupedItems *)groupedItems
+{
+  return YES;
 }
 
 @end

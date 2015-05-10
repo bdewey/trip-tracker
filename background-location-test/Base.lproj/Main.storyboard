@@ -26,13 +26,7 @@
                             <outlet property="delegate" destination="8XK-DO-qiF" id="KzP-pw-EZs"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Location History" id="ei7-Rb-KP9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Gvz-ad-ihz">
-                            <connections>
-                                <action selector="_refresh:" destination="8XK-DO-qiF" id="fBz-9k-YyY"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Location History" id="ei7-Rb-KP9"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LzA-rj-m4r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

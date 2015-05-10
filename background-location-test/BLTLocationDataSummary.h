@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BLTLocationDataSummary : NSObject
+@interface BLTLocationDataSummary : NSObject <NSSecureCoding>
 
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
-@property (nonatomic, readonly, assign) NSUInteger countOfLocationObservations;
+@property (nonatomic, readonly, assign) NSInteger countOfLocationObservations;
 
 - (instancetype)initWithStartDate:(NSDate *)startDate
                           endDate:(NSDate *)endDate
-      countOfLocationObservations:(NSUInteger)countOfLocationObservations NS_DESIGNATED_INITIALIZER;
+      countOfLocationObservations:(NSInteger)countOfLocationObservations NS_DESIGNATED_INITIALIZER;
 
 @end
