@@ -15,6 +15,29 @@ NS_INLINE double BLTBucketizedValue(double mapPointValue,
   return round(mapPointValue * metersPerMapPoint * distancePerBucket) / (metersPerMapPoint * distancePerBucket);
 }
 
+NS_INLINE NSDateFormatter *_DateFormatterForDescription()
+{
+  static NSDateFormatter *dateFormatter;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterShortStyle;
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+  });
+  return dateFormatter;
+}
+
+NS_INLINE NSDateComponentsFormatter *_DateComponentsFormatterForDescription()
+{
+  static NSDateComponentsFormatter *dateComponentsFormatter;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    dateComponentsFormatter = [[NSDateComponentsFormatter alloc] init];
+    dateComponentsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
+  });
+  return dateComponentsFormatter;
+}
+
 @implementation BLTGridSummary
 
 - (instancetype)initWithMapPoint:(MKMapPoint)mapPoint
@@ -58,6 +81,15 @@ NS_INLINE double BLTBucketizedValue(double mapPointValue,
 + (BOOL)supportsSecureCoding
 {
   return YES;
+}
+
+- (NSString *)description
+{
+  NSDateComponents *durationComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute
+                                                                         fromDate:_dateEnteredGrid
+                                                                           toDate:_dateLeftGrid
+                                                                          options:0];
+  return [NSString stringWithFormat:@"%@ %@ %@", [super description], [_DateFormatterForDescription() stringFromDate:_dateEnteredGrid], [_DateComponentsFormatterForDescription() stringFromDateComponents:durationComponents]];
 }
 
 - (instancetype)gridSummaryByMergingSummary:(BLTGridSummary *)otherSummary

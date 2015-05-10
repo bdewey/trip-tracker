@@ -269,8 +269,8 @@ static BLTLocationManager *g_sharedLocationManager;
       }
       leftDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
     }];
-    if (!MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
-      emitSummaryBlock();
+    if (inProgressGridSummary != nil) {
+      [gridSummaries addObject:inProgressGridSummary];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
       callback(gridSummaries);
