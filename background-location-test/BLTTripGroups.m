@@ -6,20 +6,9 @@
 //  Copyright (c) 2015 Brian's Brain. All rights reserved.
 //
 
+#import "BLTFormattingHelpers.h"
 #import "BLTTrip.h"
 #import "BLTTripGroups.h"
-
-static NSDateFormatter *_DateFormatter()
-{
-  static NSDateFormatter *dateFormatter;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    dateFormatter = [[NSDateFormatter alloc] init];
-    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EEEEMMMMdd" options:0 locale:[NSLocale currentLocale]];
-    dateFormatter.dateFormat = formatString;
-  });
-  return dateFormatter;
-}
 
 @interface BLTTripGroups ()
 
@@ -95,7 +84,7 @@ static NSDateFormatter *_DateFormatter()
 {
   NSArray *newGroupNames = _tripGroupNames;
   NSArray *newGroups = _tripGroups;
-  NSString *groupNameForNewTrip = [_DateFormatter() stringFromDate:trip.startDate];
+  NSString *groupNameForNewTrip = [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:trip.startDate];
   NSUInteger indexOfGroupName = [_tripGroupNames indexOfObject:groupNameForNewTrip];
   if (indexOfGroupName == NSNotFound) {
     newGroupNames = [newGroupNames arrayByAddingObject:groupNameForNewTrip];

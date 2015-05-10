@@ -76,13 +76,7 @@
                             <outlet property="delegate" destination="OjZ-Ds-gdQ" id="i4K-TK-cIj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Inferred Places" id="hPy-Zv-DAP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="qb3-Uz-3BX">
-                            <connections>
-                                <action selector="_refresh:" destination="OjZ-Ds-gdQ" id="lhg-Ge-C76"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Inferred Places" id="hPy-Zv-DAP"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pok-6U-kXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

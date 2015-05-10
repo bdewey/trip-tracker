@@ -28,6 +28,7 @@
 		D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */; };
 		D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2B1ACD142E00C030EC /* BLTVisit.m */; };
 		D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */; };
+		D3C9E7681AFFAF7F005C3878 /* BLTFormattingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */; };
 		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
@@ -88,6 +89,8 @@
 		D3A82D2B1ACD142E00C030EC /* BLTVisit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisit.m; sourceTree = "<group>"; };
 		D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTVisitsTableViewController.h; sourceTree = "<group>"; };
 		D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTVisitsTableViewController.m; sourceTree = "<group>"; };
+		D3C9E7661AFFAF7F005C3878 /* BLTFormattingHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTFormattingHelpers.h; sourceTree = "<group>"; };
+		D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTFormattingHelpers.m; sourceTree = "<group>"; };
 		D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecord.h; sourceTree = "<group>"; };
 		D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecord.m; sourceTree = "<group>"; };
 		D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecordsTableViewController.h; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 				D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */,
 				D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */,
 				D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */,
+				D3C9E7661AFFAF7F005C3878 /* BLTFormattingHelpers.h */,
+				D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				D3A82D2C1ACD142E00C030EC /* BLTVisit.m in Sources */,
 				D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */,
 				D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */,
+				D3C9E7681AFFAF7F005C3878 /* BLTFormattingHelpers.m in Sources */,
 				D56C2AB81ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m in Sources */,
 				D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */,
 				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
@@ -490,6 +496,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "background-location-test/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -503,6 +510,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "background-location-test/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

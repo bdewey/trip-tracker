@@ -33,6 +33,12 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
   BLTGridSummary *_selectedGridSummary;
+  BOOL _reverseChronologicalOrder;
+}
+
+- (void)dealloc
+{
+  [self.refreshControl removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
 }
 
 - (void)viewDidLoad
@@ -50,12 +56,20 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   _dateComponentsFormatter = [[NSDateComponentsFormatter alloc] init];
   _dateComponentsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleFull;
   
+  UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+  [refreshControl addTarget:self action:@selector(_refresh:) forControlEvents:UIControlEventValueChanged];
+  self.refreshControl = refreshControl;
+  
+  _reverseChronologicalOrder = YES;
+  
   [self _refresh:nil];
 }
 
 - (IBAction)_refresh:(id)sender
 {
+  [self.refreshControl beginRefreshing];
   [_locationManager buildGridSummariesForBucketDistance:10 minimumDuration:5 * 60 callback:^(NSArray *gridSummaries) {
+    [self.refreshControl endRefreshing];
     _gridSummaries = [gridSummaries copy];
     [self.tableView reloadData];
   }];
@@ -76,7 +90,7 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLocationReuseIdentifier forIndexPath:indexPath];
-  BLTGridSummary *gridSummary = _gridSummaries[indexPath.row];
+  BLTGridSummary *gridSummary = [self _gridSummaryForIndexPath:indexPath];
   NSString *datePart = [_dateFormatter stringFromDate:gridSummary.dateEnteredGrid];
   NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute
                                                                      fromDate:gridSummary.dateEnteredGrid
@@ -87,6 +101,15 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(gridSummary.mapPoint);
   cell.detailTextLabel.text = [NSString stringWithFormat:@"%0.6f, %0.6f", coordinate.latitude, coordinate.longitude];
   return cell;
+}
+
+- (BLTGridSummary *)_gridSummaryForIndexPath:(NSIndexPath *)indexPath
+{
+  if (_reverseChronologicalOrder) {
+    return _gridSummaries[_gridSummaries.count - indexPath.row - 1];
+  } else {
+    return _gridSummaries[indexPath.row];
+  }
 }
 
 #pragma mark - Navigation
