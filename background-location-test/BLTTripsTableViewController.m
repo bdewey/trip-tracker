@@ -11,25 +11,33 @@
 #import "BLTTripsTableViewController.h"
 
 #import "BLTDatabase.h"
+#import "BLTFormattingHelpers.h"
 #import "BLTLocationManager.h"
 #import "BLTLocationsTableViewController.h"
 #import "BLTMapViewController.h"
 #import "BLTTrip.h"
-#import "BLTTripGroups.h"
+#import "BLTGroupedItems.h"
 #import "BLTTripSummaryTableViewCell.h"
 
 static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
-@interface BLTTripsTableViewController () <BLTMapViewControllerDelegate>
+@interface BLTTripsTableViewController () <
+  BLTGroupedItemsDelegate,
+  BLTMapViewControllerDelegate
+>
 
 @end
 
 @implementation BLTTripsTableViewController
 {
   BLTLocationManager *_locationManager;
-  BLTTripGroups *_tripGroups;
+  BLTGroupedItems *_tripGroups;
   BLTTrip *_selectedTripForMapView;
-  UIActivityIndicatorView *_activityIndicator;
+}
+
+- (void)dealloc
+{
+  [self.refreshControl removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
 }
 
 - (void)viewDidLoad
@@ -37,11 +45,9 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
   [super viewDidLoad];
   _locationManager = [BLTLocationManager sharedLocationManager];
   NSAssert(_locationManager != nil, @"We must have a location manager");
-  _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-  _activityIndicator.hidesWhenStopped = YES;
-  _activityIndicator.center = self.view.center;
-  _activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-  [self.view addSubview:_activityIndicator];
+  UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+  [refreshControl addTarget:self action:@selector(_didTapRefresh:) forControlEvents:UIControlEventValueChanged];
+  self.refreshControl = refreshControl;
   [self _didTapRefresh:nil];
 }
 
@@ -65,11 +71,11 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
 - (IBAction)_didTapRefresh:(UIBarButtonItem *)sender
 {
-  [_activityIndicator startAnimating];
-  [_locationManager buildTrips:^(BLTTripGroups *tripGroups) {
+  [self.refreshControl beginRefreshing];
+  [_locationManager buildTripsWithGroupedItemsDelegate:self callback:^(BLTGroupedItems *tripGroups) {
     _tripGroups = tripGroups;
     [self.tableView reloadData];
-    [_activityIndicator stopAnimating];
+    [self.refreshControl endRefreshing];
   }];
 }
 
@@ -124,23 +130,23 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return _tripGroups.countOfTripGroups;
+  return _tripGroups.countOfGroups;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return [_tripGroups countOfTripsInGroup:section];
+  return [_tripGroups countOfItemsInGroup:section];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-  return [_tripGroups nameOfTripGroup:section];
+  return [_tripGroups nameOfGroup:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   BLTTripSummaryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTripCellReuseIdentifier forIndexPath:indexPath];
-  cell.trip = [_tripGroups tripForIndexPath:indexPath];
+  cell.trip = (BLTTrip *)[_tripGroups itemForIndexPath:indexPath];
   return cell;
 }
 
@@ -150,7 +156,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 {
   if ([identifier isEqualToString:@"ShowTripMapSegue"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    BLTTrip *trip = [_tripGroups tripForIndexPath:indexPath];
+    BLTTrip *trip = (BLTTrip *)[_tripGroups itemForIndexPath:indexPath];
     return trip.route.pointCount > 0;
   } else {
     return YES;
@@ -160,7 +166,7 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-  BLTTrip *trip = [_tripGroups tripForIndexPath:indexPath];
+  BLTTrip *trip = (BLTTrip *)[_tripGroups itemForIndexPath:indexPath];
   if ([segue.identifier isEqualToString:@"ShowTripMapSegue"]) {
     BLTMapViewController *mapViewController = segue.destinationViewController;
     mapViewController.delegate = self;
@@ -169,6 +175,18 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
     BLTLocationsTableViewController *locationsTableViewController = segue.destinationViewController;
     locationsTableViewController.locationFilterPredicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", trip.startDate, trip.endDate];
   }
+}
+
+#pragma mark - BLTGroupedItemsDelegate
+
+- (NSString *)groupedItems:(BLTGroupedItems *)groupedItems nameOfGroupForItem:(BLTTrip *)item
+{
+  return [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:item.startDate];
+}
+
+- (BOOL)groupedItemsDisplayInReversedOrder:(BLTGroupedItems *)groupedItems
+{
+  return YES;
 }
 
 @end

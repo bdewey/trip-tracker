@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 
 #import "BLTTrip.h"
-#import "BLTTripGroups.h"
+#import "BLTGroupedItems.h"
 
 static BLTTrip *_TestTrip()
 {
@@ -27,19 +27,19 @@ static BLTTrip *_TestTrip()
 
 - (void)testEmpty
 {
-  BLTTripGroups *tripGroups = [[BLTTripGroups alloc] init];
-  XCTAssertEqual(0, tripGroups.countOfTripGroups);
+  BLTGroupedItems *tripGroups = [[BLTGroupedItems alloc] init];
+  XCTAssertEqual(0, tripGroups.countOfGroups);
 }
 
 - (void)testAddOne
 {
-  BLTTripGroups *tripGroups = [[BLTTripGroups alloc] init];
+  BLTGroupedItems *tripGroups = [[BLTGroupedItems alloc] init];
   BLTTrip *trip = _TestTrip();
-  tripGroups = [tripGroups tripGroupsByAddingTrip:trip];
-  XCTAssertEqual(1, tripGroups.countOfTripGroups);
-  XCTAssertEqualObjects(@"12/31/69", [tripGroups nameOfTripGroup:0]);
+  tripGroups = [tripGroups groupedItemsByAddingItem:trip];
+  XCTAssertEqual(1, tripGroups.countOfGroups);
+  XCTAssertEqualObjects(@"12/31/69", [tripGroups nameOfGroup:0]);
   NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-  XCTAssertEqual(trip, [tripGroups tripForIndexPath:indexPath]);
+  XCTAssertEqual(trip, [tripGroups itemForIndexPath:indexPath]);
 }
 
 @end

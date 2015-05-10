@@ -32,6 +32,34 @@ NS_INLINE double BLTBucketizedValue(double mapPointValue,
   return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+  double mapPointX = [aDecoder decodeDoubleForKey:@"map_point_x"];
+  double mapPointY = [aDecoder decodeDoubleForKey:@"map_point_y"];
+  MKMapPoint mapPoint = MKMapPointMake(mapPointX, mapPointY);
+  CLLocationDistance horizontalAccuracy = [aDecoder decodeDoubleForKey:@"horizontal_accuracy"];
+  NSDate *dateEnteredGrid = [aDecoder decodeObjectOfClass:[NSDate class] forKey:@"date_entered"];
+  NSDate *dateLeftGrid = [aDecoder decodeObjectOfClass:[NSDate class] forKey:@"date_left"];
+  return [self initWithMapPoint:mapPoint
+             horizontalAccuracy:horizontalAccuracy
+                dateEnteredGrid:dateEnteredGrid
+                   dateLeftGrid:dateLeftGrid];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+  [aCoder encodeDouble:_mapPoint.x forKey:@"map_point_x"];
+  [aCoder encodeDouble:_mapPoint.y forKey:@"map_point_y"];
+  [aCoder encodeDouble:_horizontalAccuracy forKey:@"horizontal_accuracy"];
+  [aCoder encodeObject:_dateEnteredGrid forKey:@"date_entered"];
+  [aCoder encodeObject:_dateLeftGrid forKey:@"date_left"];
+}
+
++ (BOOL)supportsSecureCoding
+{
+  return YES;
+}
+
 - (instancetype)gridSummaryByMergingSummary:(BLTGridSummary *)otherSummary
 {
   NSDate *dateEnteredGrid = [_dateEnteredGrid compare:otherSummary.dateEnteredGrid] == NSOrderedAscending ? _dateEnteredGrid : otherSummary.dateEnteredGrid;

@@ -11,11 +11,12 @@
 
 @class BLTDatabase;
 @class BLTGridSummary;
-@class BLTTripGroups;
+@class BLTGroupedItems;
+@protocol BLTGroupedItemsDelegate;
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
-typedef void (^BLTTripBuilderCallback)(BLTTripGroups *tripGroups);
+typedef void (^BLTTripBuilderCallback)(BLTGroupedItems *tripGroups);
 typedef void (^BLTGridSummaryBuilderCallback)(NSArray *gridSummaries);
 typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
@@ -43,7 +44,7 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 - (void)updateDatabaseWithMotionActivities;
 
-- (void)buildTrips:(BLTTripBuilderCallback)callback;
+- (void)buildTripsWithGroupedItemsDelegate:(id<BLTGroupedItemsDelegate>)delegate callback:(BLTTripBuilderCallback)callback;
 - (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback;
 - (void)buildGridSummariesForBucketDistance:(CLLocationDistance)bucketDistance
                             minimumDuration:(NSTimeInterval)minimumDuration

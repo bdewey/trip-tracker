@@ -13,7 +13,9 @@
 #import "BLTLocationsTableViewController.h"
 
 #import "BLTDatabase.h"
+#import "BLTFormattingHelpers.h"
 #import "BLTGridSummary.h"
+#import "BLTGroupedItems.h"
 #import "BLTLocation.h"
 #import "BLTLocationManager.h"
 #import "BLTMapViewController.h"
@@ -21,7 +23,11 @@
 static NSString *const kLocationReuseIdentifier = @"BLTGridSummaryCell";
 static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 
-@interface BLTGridSummariesTableViewController () <BLTMapViewControllerDelegate, MKMapViewDelegate>
+@interface BLTGridSummariesTableViewController () <
+  BLTGroupedItemsDelegate,
+  BLTMapViewControllerDelegate,
+  MKMapViewDelegate
+>
 
 @end
 
@@ -29,11 +35,10 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 {
   BLTDatabase *_database;
   BLTLocationManager *_locationManager;
-  NSArray *_gridSummaries;
+  BLTGroupedItems *_groupedGridSummaries;
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
   BLTGridSummary *_selectedGridSummary;
-  BOOL _reverseChronologicalOrder;
 }
 
 - (void)dealloc
@@ -50,7 +55,7 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   NSAssert(_locationManager != nil, @"Must have a location manager");
 
   _dateFormatter = [[NSDateFormatter alloc] init];
-  _dateFormatter.dateStyle = NSDateFormatterShortStyle;
+  _dateFormatter.dateStyle = NSDateFormatterNoStyle;
   _dateFormatter.timeStyle = NSDateFormatterShortStyle;
   
   _dateComponentsFormatter = [[NSDateComponentsFormatter alloc] init];
@@ -60,8 +65,6 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   [refreshControl addTarget:self action:@selector(_refresh:) forControlEvents:UIControlEventValueChanged];
   self.refreshControl = refreshControl;
   
-  _reverseChronologicalOrder = YES;
-  
   [self _refresh:nil];
 }
 
@@ -69,9 +72,17 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 {
   [self.refreshControl beginRefreshing];
   [_locationManager buildGridSummariesForBucketDistance:10 minimumDuration:5 * 60 callback:^(NSArray *gridSummaries) {
-    [self.refreshControl endRefreshing];
-    _gridSummaries = [gridSummaries copy];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      BLTGroupedItems *groupedGridSummaries = [[BLTGroupedItems alloc] initWithDelegate:self];
+      for (BLTGridSummary *gridSummary in gridSummaries) {
+        groupedGridSummaries = [groupedGridSummaries groupedItemsByAddingItem:gridSummary];
+      }
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
+        _groupedGridSummaries = groupedGridSummaries;
+        [self.tableView reloadData];
+      });
+    });
   }];
 }
 
@@ -79,18 +90,23 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 1;
+  return [_groupedGridSummaries countOfGroups];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _gridSummaries.count;
+  return [_groupedGridSummaries countOfItemsInGroup:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+  return [_groupedGridSummaries nameOfGroup:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLocationReuseIdentifier forIndexPath:indexPath];
-  BLTGridSummary *gridSummary = [self _gridSummaryForIndexPath:indexPath];
+  BLTGridSummary *gridSummary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
   NSString *datePart = [_dateFormatter stringFromDate:gridSummary.dateEnteredGrid];
   NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute
                                                                      fromDate:gridSummary.dateEnteredGrid
@@ -103,22 +119,13 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   return cell;
 }
 
-- (BLTGridSummary *)_gridSummaryForIndexPath:(NSIndexPath *)indexPath
-{
-  if (_reverseChronologicalOrder) {
-    return _gridSummaries[_gridSummaries.count - indexPath.row - 1];
-  } else {
-    return _gridSummaries[indexPath.row];
-  }
-}
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   if ([segue.identifier isEqualToString:kShowMapSegueIdentifier]) {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    _selectedGridSummary = _gridSummaries[indexPath.row];
+    _selectedGridSummary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
     BLTMapViewController *mapViewController = (BLTMapViewController *)segue.destinationViewController;
     mapViewController.delegate = self;
   }
@@ -140,6 +147,18 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
   renderer.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
   return renderer;
+}
+
+#pragma mark - BLTGroupedItemsDelegate
+
+- (NSString *)groupedItems:(BLTGroupedItems *)groupedItems nameOfGroupForItem:(BLTGridSummary *)item
+{
+  return [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:item.dateEnteredGrid];
+}
+
+- (BOOL)groupedItemsDisplayInReversedOrder:(BLTGroupedItems *)groupedItems
+{
+  return YES;
 }
 
 @end

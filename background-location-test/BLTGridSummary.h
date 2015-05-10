@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface BLTGridSummary : NSObject
+@interface BLTGridSummary : NSObject <NSSecureCoding>
 
 @property (nonatomic, readonly, assign) MKMapPoint mapPoint;
 @property (nonatomic, readonly, assign) CLLocationDistance horizontalAccuracy;
