@@ -85,7 +85,7 @@ static NSString *const kReuseIdentifier = @"ManagedLocationReuseIdentifier";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kReuseIdentifier forIndexPath:indexPath];
   BLTLocation *location = [_fetchedResultsController objectAtIndexPath:indexPath];
   cell.textLabel.text = [_dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:location.timestamp]];
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"%0.2f %0.2f (+/- %0.2f)", location.distanceFromLastLocation, location.speed, location.horizontalAccuracy];
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"d: %0.2f s: %0.2f accuracy: +/- %0.2f", location.distanceFromLastLocation, location.speed, location.horizontalAccuracy];
   return cell;
 }
 
