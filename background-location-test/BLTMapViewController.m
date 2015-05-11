@@ -21,17 +21,10 @@
   MKCoordinateRegion _annotationRegion;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-  [super viewDidLoad];
+  [super viewWillAppear:animated];
   [self.delegate mapViewController:self willAppearWithMapView:self.mapView];
-  _annotationRegion = self.mapView.region;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-  [super viewDidAppear:animated];
-  [self.mapView setRegion:_annotationRegion animated:animated];
 }
 
 @end

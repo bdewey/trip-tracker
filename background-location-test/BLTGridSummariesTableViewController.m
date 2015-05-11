@@ -17,11 +17,14 @@
 #import "BLTGridSummary.h"
 #import "BLTGroupedItems.h"
 #import "BLTLocation.h"
+#import "BLTLocationHelpers.h"
 #import "BLTLocationManager.h"
 #import "BLTMapViewController.h"
 
 static NSString *const kLocationReuseIdentifier = @"BLTGridSummaryCell";
 static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
+static const CLLocationDistance kBucketDistance = 10;
+static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 
 @interface BLTGridSummariesTableViewController () <
   BLTGroupedItemsDelegate,
@@ -39,6 +42,8 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
   BLTGridSummary *_selectedGridSummary;
+  NSArray *_unmergedGridSummariesForSelectedGridSummary;
+  MKMapView *_activeMapView;
 }
 
 - (void)dealloc
@@ -68,10 +73,19 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
   [self _refresh:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+  [super viewDidAppear:animated];
+  _activeMapView.delegate = nil;
+  _activeMapView = nil;
+  _selectedGridSummary = nil;
+  _unmergedGridSummariesForSelectedGridSummary = nil;
+}
+
 - (IBAction)_refresh:(id)sender
 {
   [self.refreshControl beginRefreshing];
-  [_locationManager buildGridSummariesForBucketDistance:10 minimumDuration:5 * 60 callback:^(NSArray *gridSummaries) {
+  [_locationManager buildGridSummariesForBucketDistance:kBucketDistance minimumDuration:kBucketTimeInterval callback:^(NSArray *gridSummaries) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       BLTGroupedItems *groupedGridSummaries = [[BLTGroupedItems alloc] initWithDelegate:self];
       for (BLTGridSummary *gridSummary in gridSummaries) {
@@ -125,28 +139,63 @@ static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 {
   if ([segue.identifier isEqualToString:kShowMapSegueIdentifier]) {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    _selectedGridSummary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
+    BLTGridSummary *summary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
+    _selectedGridSummary = summary;
+    [_locationManager buildUnmergedGridSummariesFromStartDate:_selectedGridSummary.dateEnteredGrid
+                                                      endDate:_selectedGridSummary.dateLeftGrid
+                                               bucketDistance:kBucketDistance
+                                              minimumDuration:kBucketTimeInterval callback:^(NSArray *gridSummaries) {
+                                                [self _setUnmergedGridSummaries:gridSummaries forSelectedGridSummary:summary];
+                                              }];
     BLTMapViewController *mapViewController = (BLTMapViewController *)segue.destinationViewController;
     mapViewController.delegate = self;
   }
+}
+
+- (void)_setUnmergedGridSummaries:(NSArray *)gridSummaries forSelectedGridSummary:(BLTGridSummary *)summary
+{
+  if (_selectedGridSummary != summary) {
+    return;
+  }
+  _unmergedGridSummariesForSelectedGridSummary = gridSummaries;
+  [self _addOverlayToActiveMapView];
+}
+
+- (void)_addOverlayToActiveMapView
+{
+  if (_activeMapView == nil || _unmergedGridSummariesForSelectedGridSummary.count == 0) {
+    return;
+  }
+  CLLocationCoordinate2D *coordinates = calloc(_unmergedGridSummariesForSelectedGridSummary.count, sizeof(CLLocationCoordinate2D));
+  if (coordinates == NULL) {
+    return;
+  }
+  for (NSUInteger i = 0; i < _unmergedGridSummariesForSelectedGridSummary.count; i++) {
+    BLTGridSummary *summary = _unmergedGridSummariesForSelectedGridSummary[i];
+    coordinates[i] = MKCoordinateForMapPoint(summary.mapPoint);
+  }
+  MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:_unmergedGridSummariesForSelectedGridSummary.count];
+  free(coordinates);
+  [_activeMapView addOverlay:route level:MKOverlayLevelAboveRoads];
+  _activeMapView.region = [BLTLocationHelpers coordinateRegionForMultiPoint:route];
 }
 
 #pragma mark - BLTMapViewControllerDelegate
 
 - (void)mapViewController:(BLTMapViewController *)mapViewController willAppearWithMapView:(MKMapView *)mapView
 {
+  _activeMapView = mapView;
   mapView.delegate = self;
-  CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(_selectedGridSummary.mapPoint);
-  MKCircle *gridCirle = [MKCircle circleWithCenterCoordinate:coordinate radius:_selectedGridSummary.horizontalAccuracy];
-  [mapView addOverlay:gridCirle level:MKOverlayLevelAboveRoads];
-  mapView.region = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
+  [self _addOverlayToActiveMapView];
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
-  MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
-  renderer.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
-  return renderer;
+  MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+  polylineRenderer.strokeColor = [UIColor blueColor];
+  polylineRenderer.alpha = 0.5;
+  polylineRenderer.lineWidth = 4;
+  return polylineRenderer;
 }
 
 #pragma mark - BLTGroupedItemsDelegate

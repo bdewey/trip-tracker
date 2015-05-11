@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @class BLTLocation;
 @class CLLocation;
@@ -14,6 +15,7 @@
 @interface BLTLocationHelpers : NSObject
 
 + (CLLocation *)locationFromManagedLocation:(BLTLocation *)managedLocation;
++ (MKCoordinateRegion)coordinateRegionForMultiPoint:(MKMultiPoint *)multiPoint;
 
 @end
 

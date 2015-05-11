@@ -278,7 +278,52 @@ static BLTLocationManager *g_sharedLocationManager;
   }];
 }
 
-- (void)_enumerateLocationsWithBlock:(void (^)(BLTLocation *managedLocation))block
+- (void)buildUnmergedGridSummariesFromStartDate:(NSDate *)startDate
+                                        endDate:(NSDate *)endDate
+                                 bucketDistance:(CLLocationDistance)bucketDistance
+                                minimumDuration:(NSTimeInterval)minimumDuration
+                                       callback:(BLTGridSummaryBuilderCallback)callback
+{
+  if (callback == NULL) {
+    return;
+  }
+  [_managedObjectContext performBlock:^{
+    NSMutableArray *gridSummaries = [[NSMutableArray alloc] init];
+    __block NSDate *enteredDate = nil;
+    __block NSTimeInterval leftTimestamp;
+    MKMapPoint invalidMapPoint = MKMapPointMake(-1, -1);
+    __block MKMapPoint currentMapPoint = invalidMapPoint;
+    [self _enumerateLocationsFromStartDate:startDate endDate:endDate block:^(BLTLocation *managedLocation) {
+      CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(managedLocation.latitude, managedLocation.longitude);
+      MKMapPoint bucketizedMapPoint = [BLTGridSummary bucketizedMapPointForCoordinate:coordinate distancePerBucket:bucketDistance];
+      if (MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
+        currentMapPoint = bucketizedMapPoint;
+        enteredDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
+      }
+      if (!MKMapPointEqualToPoint(currentMapPoint, bucketizedMapPoint)) {
+        BLTGridSummary *summary = [[BLTGridSummary alloc] initWithMapPoint:currentMapPoint
+                                                        horizontalAccuracy:bucketDistance
+                                                           dateEnteredGrid:enteredDate
+                                                              dateLeftGrid:[[NSDate alloc] initWithTimeIntervalSinceReferenceDate:leftTimestamp]];
+        [gridSummaries addObject:summary];
+        currentMapPoint = bucketizedMapPoint;
+        enteredDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
+      }
+      leftTimestamp = managedLocation.timestamp;
+    }];
+    if (!MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
+      BLTGridSummary *summary = [[BLTGridSummary alloc] initWithMapPoint:currentMapPoint horizontalAccuracy:bucketDistance dateEnteredGrid:enteredDate dateLeftGrid:[[NSDate alloc] initWithTimeIntervalSinceReferenceDate:leftTimestamp]];
+      [gridSummaries addObject:summary];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      callback(gridSummaries);
+    });
+  }];
+}
+
+- (void)_enumerateLocationsFromStartDate:(NSDate *)startDate
+                                 endDate:(NSDate *)endDate
+                                   block:(void (^)(BLTLocation *managedLocation))block
 {
   if (block == NULL) {
     return;
@@ -286,10 +331,18 @@ static BLTLocationManager *g_sharedLocationManager;
   NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BLTLocation"];
   NSSortDescriptor *sortByTimestamp = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
   fetchRequest.sortDescriptors = @[sortByTimestamp];
+  if (startDate != nil && endDate != nil) {
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", startDate, endDate];
+  }
   NSArray *locations = [_managedObjectContext executeFetchRequest:fetchRequest error:NULL];
   for (BLTLocation *managedLocation in locations) {
     block(managedLocation);
   }
+}
+
+- (void)_enumerateLocationsWithBlock:(void (^)(BLTLocation *managedLocation))block
+{
+  [self _enumerateLocationsFromStartDate:nil endDate:nil block:block];
 }
 
 - (void)_performBlockWhenAuthorized:(dispatch_block_t)block

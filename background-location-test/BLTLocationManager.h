@@ -49,6 +49,11 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 - (void)buildGridSummariesForBucketDistance:(CLLocationDistance)bucketDistance
                             minimumDuration:(NSTimeInterval)minimumDuration
                                    callback:(BLTGridSummaryBuilderCallback)callback;
+- (void)buildUnmergedGridSummariesFromStartDate:(NSDate *)startDate
+                                        endDate:(NSDate *)endDate
+                                 bucketDistance:(CLLocationDistance)bucketDistance
+                                minimumDuration:(NSTimeInterval)minimumDuration
+                                       callback:(BLTGridSummaryBuilderCallback)callback;
 
 @end
 
