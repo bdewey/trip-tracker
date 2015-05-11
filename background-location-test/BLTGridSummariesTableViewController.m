@@ -19,10 +19,12 @@
 #import "BLTLocation.h"
 #import "BLTLocationHelpers.h"
 #import "BLTLocationManager.h"
+#import "BLTLocationRecordsTableViewController.h"
 #import "BLTMapViewController.h"
 
 static NSString *const kLocationReuseIdentifier = @"BLTGridSummaryCell";
 static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
+static NSString *const kShowLocationDetailSegue = @"ShowLocationDetailSegue";
 static const CLLocationDistance kBucketDistance = 10;
 static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 
@@ -149,6 +151,13 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
                                               }];
     BLTMapViewController *mapViewController = (BLTMapViewController *)segue.destinationViewController;
     mapViewController.delegate = self;
+  } else if ([segue.identifier isEqualToString:kShowLocationDetailSegue]) {
+    BLTLocationRecordsTableViewController *locationRecordsTableViewController = (BLTLocationRecordsTableViewController *)segue.destinationViewController;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    BLTGridSummary *summary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
+    locationRecordsTableViewController.title = [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:summary.dateEnteredGrid];
+    locationRecordsTableViewController.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
+    locationRecordsTableViewController.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@ AND distanceFromLastLocation > 0", summary.dateEnteredGrid, summary.dateLeftGrid];
   }
 }
 
