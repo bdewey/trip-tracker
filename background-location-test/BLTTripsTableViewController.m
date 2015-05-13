@@ -14,6 +14,7 @@
 #import "BLTFormattingHelpers.h"
 #import "BLTLocationHelpers.h"
 #import "BLTLocationManager.h"
+#import "BLTLocationRecordsTableViewController.h"
 #import "BLTLocationsTableViewController.h"
 #import "BLTMapViewController.h"
 #import "BLTTrip.h"
@@ -146,8 +147,9 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
     mapViewController.delegate = self;
     _selectedTripForMapView = trip;
   } else if ([segue.identifier isEqualToString:@"ShowLocationDetailSegue"]) {
-    BLTLocationsTableViewController *locationsTableViewController = segue.destinationViewController;
-    locationsTableViewController.locationFilterPredicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", trip.startDate, trip.endDate];
+    BLTLocationRecordsTableViewController *locationRecordsTableViewController = segue.destinationViewController;
+    locationRecordsTableViewController.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", trip.startDate, trip.endDate];
+    locationRecordsTableViewController.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
   }
 }
 

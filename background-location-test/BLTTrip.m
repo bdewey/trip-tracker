@@ -43,12 +43,12 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
              locationSpeedSummary:(BLTStatisticsSummary *)locationSpeedSummary
       locationAccelerationSummary:(BLTStatisticsSummary *)locationAccelerationSummary
                                   NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+
 @end
 
 @implementation BLTTrip
 {
-  NSUInteger _countOfCoordinates;
-  NSData *_coordinateData;
   NSData *_altitudeData;
 }
 
@@ -62,14 +62,10 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
              locationSpeedSummary:(BLTStatisticsSummary *)locationSpeedSummary
       locationAccelerationSummary:(BLTStatisticsSummary *)locationAccelerationSummary
 {
-  self = [super init];
+  self = [super initWithStartDate:startDate endDate:endDate countOfCoordinates:countOfCoordinates coordinateData:coordinateData];
   if (self != nil) {
-    _startDate = startDate;
-    _endDate = endDate;
-    _countOfCoordinates = countOfCoordinates;
     _distance = distance;
     _altitudeGain = altitudeGain;
-    _coordinateData = [coordinateData copy];
     _altitudeData = [altitudeData copy];
     _locationSpeedSummary = [locationSpeedSummary copy];
     _locationAccelerationSummary = [locationAccelerationSummary copy];
@@ -124,15 +120,25 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
      locationAccelerationSummary:locationAccelerationSummary];
 }
 
-- (NSString *)description
+- (instancetype)initWithStartDate:(NSDate *)startDate
+                          endDate:(NSDate *)endDate
+               countOfCoordinates:(NSUInteger)countOfCoordinates
+                   coordinateData:(NSData *)coordinateData
 {
-  NSDictionary *properties = @{
-                               @"start": _startDate,
-                               @"end": _endDate,
-                               @"speed": _locationSpeedSummary,
-                               @"acceleration": _locationAccelerationSummary,
-                               };
-  return [NSString stringWithFormat:@"%@ %@", [super description], properties];
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"not designated initializer" userInfo:nil];
+  return [self initWithStartDate:nil endDate:nil locations:nil];
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+  NSMutableDictionary *mutableParent = [[super dictionaryRepresentation] mutableCopy];
+  [mutableParent addEntriesFromDictionary:@{
+                                            @"distance": @(_distance),
+                                            @"altitudeGain": @(_altitudeGain),
+                                            @"speed": _locationSpeedSummary,
+                                            @"acceleration": _locationAccelerationSummary,
+                                            }];
+  return mutableParent;
 }
 
 - (BOOL)isEqualToTrip:(BLTTrip *)trip
@@ -140,16 +146,12 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
   if (trip == nil) {
     return NO;
   }
-  return
-  [_startDate isEqualToDate:trip->_startDate] &&
-  [_endDate isEqualToDate:trip->_endDate] &&
-  _countOfCoordinates == trip->_countOfCoordinates &&
-  _CompareDouble(_distance, trip->_distance) &&
-  _CompareDouble(_altitudeGain, trip->_altitudeGain) &&
-  [_coordinateData isEqualToData:trip->_coordinateData] &&
-  [_altitudeData isEqualToData:trip->_altitudeData] &&
-  [_locationSpeedSummary isEqualToStatisticsSummary:trip->_locationSpeedSummary] &&
-  [_locationAccelerationSummary isEqualToStatisticsSummary:trip->_locationAccelerationSummary];
+  return [self isEqualToLocationSegment:trip] &&
+    _CompareDouble(_distance, trip->_distance) &&
+    _CompareDouble(_altitudeGain, trip->_altitudeGain) &&
+    [_altitudeData isEqualToData:trip->_altitudeData] &&
+    [_locationSpeedSummary isEqualToStatisticsSummary:trip->_locationSpeedSummary] &&
+    [_locationAccelerationSummary isEqualToStatisticsSummary:trip->_locationAccelerationSummary];
 }
 
 - (BOOL)isEqual:(id)object
@@ -169,11 +171,6 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
   return [data hash];
 }
 
-- (MKPolyline *)route
-{
-  return [MKPolyline polylineWithCoordinates:(void *)_coordinateData.bytes count:_countOfCoordinates];
-}
-
 #pragma mark - NSSecureCoding
 
 + (BOOL)supportsSecureCoding
@@ -183,34 +180,21 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-  NSDate *startDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:@"startDate"];
-  NSDate *endDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:@"endDate"];
-  NSUInteger countOfCoordinates = [aDecoder decodeIntegerForKey:@"countOfCoordinates"];
-  CLLocationDistance distance = [aDecoder decodeDoubleForKey:@"distance"];
-  CLLocationDistance altitudeGain = [aDecoder decodeDoubleForKey:@"altitudeGain"];
-  NSData *coordinateData = [aDecoder decodeObjectOfClass:[NSData class] forKey:@"coordinateData"];
-  NSData *altitudeData = [aDecoder decodeObjectOfClass:[NSData class] forKey:@"altitudeData"];
-  BLTStatisticsSummary *locationSpeedSummary = [aDecoder decodeObjectOfClass:[BLTStatisticsSummary class] forKey:@"locationSpeedSummary"];
-  BLTStatisticsSummary *locationAccelerationSummary = [aDecoder decodeObjectOfClass:[BLTStatisticsSummary class] forKey:@"locationAccelerationSummary"];
-  return [self initWithStartDate:startDate
-                         endDate:endDate
-              countOfCoordinates:countOfCoordinates
-                        distance:distance
-                    altitudeGain:altitudeGain
-                  coordinateData:coordinateData
-                    altitudeData:altitudeData
-            locationSpeedSummary:locationSpeedSummary
-     locationAccelerationSummary:locationAccelerationSummary];
+  self = [super initWithCoder:aDecoder];
+  if (self != nil) {
+    _distance = [aDecoder decodeDoubleForKey:@"distance"];
+    _altitudeGain = [aDecoder decodeDoubleForKey:@"altitudeGain"];
+    _altitudeData = [aDecoder decodeObjectOfClass:[NSData class] forKey:@"altitudeData"];
+    _locationSpeedSummary = [aDecoder decodeObjectOfClass:[BLTStatisticsSummary class] forKey:@"locationSpeedSummary"];
+    _locationAccelerationSummary = [aDecoder decodeObjectOfClass:[BLTStatisticsSummary class] forKey:@"locationAccelerationSummary"];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:_startDate forKey:@"startDate"];
-  [aCoder encodeObject:_endDate forKey:@"endDate"];
-  [aCoder encodeInteger:_countOfCoordinates forKey:@"countOfCoordinates"];
   [aCoder encodeDouble:_distance forKey:@"distance"];
   [aCoder encodeDouble:_altitudeGain forKey:@"altitudeGain"];
-  [aCoder encodeObject:_coordinateData forKey:@"coordinateData"];
   [aCoder encodeObject:_altitudeData forKey:@"altitudeData"];
   [aCoder encodeObject:_locationSpeedSummary forKey:@"locationSpeedSummary"];
   [aCoder encodeObject:_locationAccelerationSummary forKey:@"locationAccelerationSummary"];

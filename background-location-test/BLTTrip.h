@@ -12,11 +12,10 @@
 @class BLTStatisticsSummary;
 @class MKPolyline;
 
-@interface BLTTrip : NSObject <NSSecureCoding>
+#import "BLTLocationSegment.h"
 
-@property (nonatomic, readonly, strong) NSDate *startDate;
-@property (nonatomic, readonly, strong) NSDate *endDate;
-@property (nonatomic, readonly, strong) MKPolyline *route;
+@interface BLTTrip : BLTLocationSegment <NSSecureCoding>
+
 @property (nonatomic, readonly, assign) CLLocationDistance distance;
 @property (nonatomic, readonly, assign) CLLocationDistance altitudeGain;
 @property (nonatomic, readonly, strong) BLTStatisticsSummary *locationSpeedSummary;

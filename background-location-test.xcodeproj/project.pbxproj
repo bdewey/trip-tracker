@@ -30,6 +30,7 @@
 		D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */; };
 		D3C9E7681AFFAF7F005C3878 /* BLTFormattingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */; };
 		D3C9E76B1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */; };
+		D3C9E76E1B030036005C3878 /* BLTLocationSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */; };
 		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
@@ -94,6 +95,8 @@
 		D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTFormattingHelpers.m; sourceTree = "<group>"; };
 		D3C9E7691B00FF0A005C3878 /* BLTLocationRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationRecordsTableViewController.h; sourceTree = "<group>"; };
 		D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationRecordsTableViewController.m; sourceTree = "<group>"; };
+		D3C9E76C1B030036005C3878 /* BLTLocationSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = BLTLocationSegment.h; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
+		D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = BLTLocationSegment.m; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
 		D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecord.h; sourceTree = "<group>"; };
 		D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecord.m; sourceTree = "<group>"; };
 		D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecordsTableViewController.h; sourceTree = "<group>"; };
@@ -183,6 +186,8 @@
 				D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */,
 				D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */,
 				D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */,
+				D3C9E76C1B030036005C3878 /* BLTLocationSegment.h */,
+				D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */,
 				D396A48D1ACFB2F40021D0B4 /* BLTTrip.h */,
 				D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */,
 				D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */,
@@ -370,6 +375,7 @@
 				D56C2AB81ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m in Sources */,
 				D31D081E1ADA0C22006D95C7 /* BLTStatisticsSummary.m in Sources */,
 				D3C9E76B1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m in Sources */,
+				D3C9E76E1B030036005C3878 /* BLTLocationSegment.m in Sources */,
 				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
 				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
 				D5B2F5E31ADECD8300D56CD2 /* BLTLocationHelpers.m in Sources */,
