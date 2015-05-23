@@ -12,13 +12,14 @@
 #import <UIKit/UIKit.h>
 
 #import "BLTDatabase.h"
-#import "BLTGridSummary.h"
 #import "BLTLocation.h"
 #import "BLTLocationDataSummary.h"
 #import "BLTLocationManager.h"
+#import "BLTLocationSlidingWindow.h"
 #import "BLTMotionActivity.h"
 #import "BLTTrip.h"
 #import "BLTGroupedItems.h"
+#import "BLTPlaceDetectionStrategy.h"
 #import "BLTVisit.h"
 
 const BOOL kDebugNotificationsEnabled = YES;
@@ -216,107 +217,21 @@ static BLTLocationManager *g_sharedLocationManager;
   }];
 }
 
-- (BOOL)_canMergeGridSummary:(BLTGridSummary *)gridSummary
-             withGridSummary:(BLTGridSummary *)otherGridSummary
-           thresholdDuration:(NSTimeInterval)duration
-           thresholdDistance:(CLLocationDistance)distance
-{
-  return gridSummary != nil &&
-    otherGridSummary != nil &&
-    [gridSummary distanceFromSummary:otherGridSummary] <= distance;
-//    ABS([gridSummary timeIntervalSinceSummary:otherGridSummary]) <= duration;
-}
-
-- (void)buildGridSummariesForBucketDistance:(CLLocationDistance)bucketDistance
-                            minimumDuration:(NSTimeInterval)minimumDuration
-                                   callback:(BLTGridSummaryBuilderCallback)callback
+- (void)buildPlaceVisitsFromStartDate:(NSDate *)startDate
+                              endDate:(NSDate *)endDate
+                        usingStrategy:(id<BLTPlaceDetectionStrategy>)strategy
+                             callback:(BLTPlaceVisitBuilderCallback)callback
 {
   if (callback == NULL) {
     return;
   }
   [_managedObjectContext performBlock:^{
-    NSMutableArray *gridSummaries = [[NSMutableArray alloc] init];
-    MKMapPoint invalidMapPoint = MKMapPointMake(-1, -1);
-    __block MKMapPoint currentMapPoint = invalidMapPoint;
-    __block BLTGridSummary *inProgressGridSummary = nil;
-    __block NSDate *enteredDate = nil;
-    __block NSDate *leftDate = nil;
-    dispatch_block_t emitSummaryBlock = ^{
-      BLTGridSummary *summary = [[BLTGridSummary alloc] initWithMapPoint:currentMapPoint
-                                                      horizontalAccuracy:bucketDistance
-                                                         dateEnteredGrid:enteredDate
-                                                            dateLeftGrid:leftDate];
-      if (summary.duration >= minimumDuration) {
-        if ([self _canMergeGridSummary:inProgressGridSummary withGridSummary:summary thresholdDuration:10 * 60 thresholdDistance:bucketDistance * 10]) {
-          inProgressGridSummary = [inProgressGridSummary gridSummaryByMergingSummary:summary];
-        } else {
-          if (inProgressGridSummary != nil) {
-            [gridSummaries addObject:inProgressGridSummary];
-          }
-          inProgressGridSummary = summary;
-        }
-      }
-    };
-    [self _enumerateLocationsWithBlock:^(BLTLocation *managedLocation) {
-      CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(managedLocation.latitude, managedLocation.longitude);
-      MKMapPoint bucketizedMapPoint = [BLTGridSummary bucketizedMapPointForCoordinate:coordinate distancePerBucket:bucketDistance];
-      if (!MKMapPointEqualToPoint(currentMapPoint, bucketizedMapPoint)) {
-        if (!MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
-          emitSummaryBlock();
-        }
-        currentMapPoint = bucketizedMapPoint;
-        enteredDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
-      }
-      leftDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
-    }];
-    if (inProgressGridSummary != nil) {
-      [gridSummaries addObject:inProgressGridSummary];
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-      callback(gridSummaries);
-    });
-  }];
-}
-
-- (void)buildUnmergedGridSummariesFromStartDate:(NSDate *)startDate
-                                        endDate:(NSDate *)endDate
-                                 bucketDistance:(CLLocationDistance)bucketDistance
-                                minimumDuration:(NSTimeInterval)minimumDuration
-                                       callback:(BLTGridSummaryBuilderCallback)callback
-{
-  if (callback == NULL) {
-    return;
-  }
-  [_managedObjectContext performBlock:^{
-    NSMutableArray *gridSummaries = [[NSMutableArray alloc] init];
-    __block NSDate *enteredDate = nil;
-    __block NSTimeInterval leftTimestamp;
-    MKMapPoint invalidMapPoint = MKMapPointMake(-1, -1);
-    __block MKMapPoint currentMapPoint = invalidMapPoint;
     [self _enumerateLocationsFromStartDate:startDate endDate:endDate block:^(BLTLocation *managedLocation) {
-      CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(managedLocation.latitude, managedLocation.longitude);
-      MKMapPoint bucketizedMapPoint = [BLTGridSummary bucketizedMapPointForCoordinate:coordinate distancePerBucket:bucketDistance];
-      if (MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
-        currentMapPoint = bucketizedMapPoint;
-        enteredDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
-      }
-      if (!MKMapPointEqualToPoint(currentMapPoint, bucketizedMapPoint)) {
-        BLTGridSummary *summary = [[BLTGridSummary alloc] initWithMapPoint:currentMapPoint
-                                                        horizontalAccuracy:bucketDistance
-                                                           dateEnteredGrid:enteredDate
-                                                              dateLeftGrid:[[NSDate alloc] initWithTimeIntervalSinceReferenceDate:leftTimestamp]];
-        [gridSummaries addObject:summary];
-        currentMapPoint = bucketizedMapPoint;
-        enteredDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:managedLocation.timestamp];
-      }
-      leftTimestamp = managedLocation.timestamp;
+      [strategy addLocation:managedLocation];
     }];
-    if (!MKMapPointEqualToPoint(currentMapPoint, invalidMapPoint)) {
-      BLTGridSummary *summary = [[BLTGridSummary alloc] initWithMapPoint:currentMapPoint horizontalAccuracy:bucketDistance dateEnteredGrid:enteredDate dateLeftGrid:[[NSDate alloc] initWithTimeIntervalSinceReferenceDate:leftTimestamp]];
-      [gridSummaries addObject:summary];
-    }
+    NSArray *placeVisits = [strategy placeVisits];
     dispatch_async(dispatch_get_main_queue(), ^{
-      callback(gridSummaries);
+      callback(placeVisits);
     });
   }];
 }

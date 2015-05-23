@@ -12,21 +12,25 @@
 
 #import "BLTLocationsTableViewController.h"
 
-#import "BLTDatabase.h"
 #import "BLTFormattingHelpers.h"
-#import "BLTGridSummary.h"
+#import "BLTGridStrategy.h"
 #import "BLTGroupedItems.h"
 #import "BLTLocation.h"
 #import "BLTLocationHelpers.h"
 #import "BLTLocationManager.h"
 #import "BLTLocationRecordsTableViewController.h"
 #import "BLTMapViewController.h"
+#import "BLTPlaceVisit.h"
+#import "BLTLocationSlidingWindow.h"
 
 static NSString *const kLocationReuseIdentifier = @"BLTGridSummaryCell";
 static NSString *const kShowMapSegueIdentifier = @"ShowMapSegue";
 static NSString *const kShowLocationDetailSegue = @"ShowLocationDetailSegue";
-static const CLLocationDistance kBucketDistance = 10;
-static const NSTimeInterval kBucketTimeInterval = 5 * 60;
+
+typedef NS_ENUM(NSInteger, BLTPlaceDetectionStrategyType) {
+  BLTPlaceDetectionStrategyTypeGrid,
+  BLTPlaceDetectionStrategyTypeSlidingWindow,
+};
 
 @interface BLTGridSummariesTableViewController () <
   BLTGroupedItemsDelegate,
@@ -38,14 +42,12 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 
 @implementation BLTGridSummariesTableViewController
 {
-  BLTDatabase *_database;
   BLTLocationManager *_locationManager;
   BLTGroupedItems *_groupedGridSummaries;
   NSDateFormatter *_dateFormatter;
   NSDateComponentsFormatter *_dateComponentsFormatter;
-  BLTGridSummary *_selectedGridSummary;
-  NSArray *_unmergedGridSummariesForSelectedGridSummary;
-  MKMapView *_activeMapView;
+  BLTPlaceVisit *_selectedPlaceVisit;
+  BLTPlaceDetectionStrategyType _currentStrategyType;
 }
 
 - (void)dealloc
@@ -56,8 +58,6 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _database = [BLTDatabase sharedDatabase];
-  NSAssert(_database != nil, @"Must have a database");
   _locationManager = [BLTLocationManager sharedLocationManager];
   NSAssert(_locationManager != nil, @"Must have a location manager");
 
@@ -75,27 +75,30 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
   [self _refresh:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (id<BLTPlaceDetectionStrategy>)_newPlaceDetectionStrategy
 {
-  [super viewDidAppear:animated];
-  _activeMapView.delegate = nil;
-  _activeMapView = nil;
-  _selectedGridSummary = nil;
-  _unmergedGridSummariesForSelectedGridSummary = nil;
+  switch (_currentStrategyType) {
+    case BLTPlaceDetectionStrategyTypeGrid:
+      return [[BLTGridStrategy alloc] initWithBucketDistance:10 minimumDuration:2 * 60];
+
+    case BLTPlaceDetectionStrategyTypeSlidingWindow:
+      return [[BLTLocationSlidingWindow alloc] initWithThresholdDistance:50 thresholdInterval:5 * 60];
+  }
 }
 
 - (IBAction)_refresh:(id)sender
 {
   [self.refreshControl beginRefreshing];
-  [_locationManager buildGridSummariesForBucketDistance:kBucketDistance minimumDuration:kBucketTimeInterval callback:^(NSArray *gridSummaries) {
+  id<BLTPlaceDetectionStrategy> strategy = [self _newPlaceDetectionStrategy];
+  [_locationManager buildPlaceVisitsFromStartDate:nil endDate:nil usingStrategy:strategy callback:^(NSArray *placeVisits) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      BLTGroupedItems *groupedGridSummaries = [[BLTGroupedItems alloc] initWithDelegate:self];
-      for (BLTGridSummary *gridSummary in gridSummaries) {
-        groupedGridSummaries = [groupedGridSummaries groupedItemsByAddingItem:gridSummary];
+      BLTGroupedItems *groupedPlaces = [[BLTGroupedItems alloc] initWithDelegate:self];
+      for (BLTPlaceVisit *placeVisit in placeVisits) {
+        groupedPlaces = [groupedPlaces groupedItemsByAddingItem:placeVisit];
       }
       dispatch_async(dispatch_get_main_queue(), ^{
         [self.refreshControl endRefreshing];
-        _groupedGridSummaries = groupedGridSummaries;
+        _groupedGridSummaries = groupedPlaces;
         [self.tableView reloadData];
       });
     });
@@ -122,16 +125,14 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kLocationReuseIdentifier forIndexPath:indexPath];
-  BLTGridSummary *gridSummary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
-  NSString *datePart = [_dateFormatter stringFromDate:gridSummary.dateEnteredGrid];
+  BLTPlaceVisit *placeVisit = (BLTPlaceVisit *)[_groupedGridSummaries itemForIndexPath:indexPath];
+  NSString *datePart = [_dateFormatter stringFromDate:placeVisit.startDate];
   NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute
-                                                                     fromDate:gridSummary.dateEnteredGrid
-                                                                       toDate:gridSummary.dateLeftGrid
+                                                                     fromDate:placeVisit.startDate
+                                                                       toDate:placeVisit.endDate
                                                                       options:0];
   NSString *durationPart = [_dateComponentsFormatter stringFromDateComponents:dateComponents];
   cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", datePart, durationPart];
-  CLLocationCoordinate2D coordinate = MKCoordinateForMapPoint(gridSummary.mapPoint);
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"%0.6f, %0.6f", coordinate.latitude, coordinate.longitude];
   return cell;
 }
 
@@ -141,61 +142,27 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 {
   if ([segue.identifier isEqualToString:kShowMapSegueIdentifier]) {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    BLTGridSummary *summary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
-    _selectedGridSummary = summary;
-    [_locationManager buildUnmergedGridSummariesFromStartDate:_selectedGridSummary.dateEnteredGrid
-                                                      endDate:_selectedGridSummary.dateLeftGrid
-                                               bucketDistance:kBucketDistance
-                                              minimumDuration:kBucketTimeInterval callback:^(NSArray *gridSummaries) {
-                                                [self _setUnmergedGridSummaries:gridSummaries forSelectedGridSummary:summary];
-                                              }];
+    BLTPlaceVisit *placeVisit = (BLTPlaceVisit *)[_groupedGridSummaries itemForIndexPath:indexPath];
+    _selectedPlaceVisit = placeVisit;
     BLTMapViewController *mapViewController = (BLTMapViewController *)segue.destinationViewController;
     mapViewController.delegate = self;
   } else if ([segue.identifier isEqualToString:kShowLocationDetailSegue]) {
     BLTLocationRecordsTableViewController *locationRecordsTableViewController = (BLTLocationRecordsTableViewController *)segue.destinationViewController;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    BLTGridSummary *summary = (BLTGridSummary *)[_groupedGridSummaries itemForIndexPath:indexPath];
-    locationRecordsTableViewController.title = [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:summary.dateEnteredGrid];
+    BLTPlaceVisit *placeVisit = (BLTPlaceVisit *)[_groupedGridSummaries itemForIndexPath:indexPath];
+    locationRecordsTableViewController.title = [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:placeVisit.startDate];
     locationRecordsTableViewController.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]];
-    locationRecordsTableViewController.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@ AND distanceFromLastLocation > 0", summary.dateEnteredGrid, summary.dateLeftGrid];
+    locationRecordsTableViewController.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@ AND distanceFromLastLocation > 0", placeVisit.startDate, placeVisit.endDate];
   }
-}
-
-- (void)_setUnmergedGridSummaries:(NSArray *)gridSummaries forSelectedGridSummary:(BLTGridSummary *)summary
-{
-  if (_selectedGridSummary != summary) {
-    return;
-  }
-  _unmergedGridSummariesForSelectedGridSummary = gridSummaries;
-  [self _addOverlayToActiveMapView];
-}
-
-- (void)_addOverlayToActiveMapView
-{
-  if (_activeMapView == nil || _unmergedGridSummariesForSelectedGridSummary.count == 0) {
-    return;
-  }
-  CLLocationCoordinate2D *coordinates = calloc(_unmergedGridSummariesForSelectedGridSummary.count, sizeof(CLLocationCoordinate2D));
-  if (coordinates == NULL) {
-    return;
-  }
-  for (NSUInteger i = 0; i < _unmergedGridSummariesForSelectedGridSummary.count; i++) {
-    BLTGridSummary *summary = _unmergedGridSummariesForSelectedGridSummary[i];
-    coordinates[i] = MKCoordinateForMapPoint(summary.mapPoint);
-  }
-  MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:_unmergedGridSummariesForSelectedGridSummary.count];
-  free(coordinates);
-  [_activeMapView addOverlay:route level:MKOverlayLevelAboveRoads];
-  _activeMapView.region = [BLTLocationHelpers coordinateRegionForMultiPoint:route];
 }
 
 #pragma mark - BLTMapViewControllerDelegate
 
 - (void)mapViewController:(BLTMapViewController *)mapViewController willAppearWithMapView:(MKMapView *)mapView
 {
-  _activeMapView = mapView;
   mapView.delegate = self;
-  [self _addOverlayToActiveMapView];
+  [mapView addOverlay:_selectedPlaceVisit.route level:MKOverlayLevelAboveRoads];
+  mapView.region = [BLTLocationHelpers coordinateRegionForMultiPoint:_selectedPlaceVisit.route];
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
@@ -209,9 +176,9 @@ static const NSTimeInterval kBucketTimeInterval = 5 * 60;
 
 #pragma mark - BLTGroupedItemsDelegate
 
-- (NSString *)groupedItems:(BLTGroupedItems *)groupedItems nameOfGroupForItem:(BLTGridSummary *)item
+- (NSString *)groupedItems:(BLTGroupedItems *)groupedItems nameOfGroupForItem:(BLTPlaceVisit *)item
 {
-  return [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:item.dateEnteredGrid];
+  return [BLTDateFormatterWithDayOfWeekMonthDay() stringFromDate:item.startDate];
 }
 
 - (BOOL)groupedItemsDisplayInReversedOrder:(BLTGroupedItems *)groupedItems

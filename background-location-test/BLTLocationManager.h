@@ -10,15 +10,15 @@
 #import <CoreLocation/CoreLocation.h>
 
 @class BLTDatabase;
-@class BLTGridSummary;
 @class BLTGroupedItems;
 @protocol BLTGroupedItemsDelegate;
+@protocol BLTPlaceDetectionStrategy;
 @class CLLocationManager;
 @class NSManagedObjectContext;
 
 typedef void (^BLTTripBuilderCallback)(BLTGroupedItems *tripGroups);
-typedef void (^BLTGridSummaryBuilderCallback)(NSArray *gridSummaries);
 typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
+typedef void (^BLTPlaceVisitBuilderCallback)(NSArray *placeVisits);
 
 @protocol BLTLocationManagerDelegate;
 
@@ -46,14 +46,11 @@ typedef void (^BLTLocationSummaryBuilderCallback)(NSArray *locationSummaries);
 
 - (void)buildTripsWithGroupedItemsDelegate:(id<BLTGroupedItemsDelegate>)delegate callback:(BLTTripBuilderCallback)callback;
 - (void)buildLocationSummaries:(BLTLocationSummaryBuilderCallback)callback;
-- (void)buildGridSummariesForBucketDistance:(CLLocationDistance)bucketDistance
-                            minimumDuration:(NSTimeInterval)minimumDuration
-                                   callback:(BLTGridSummaryBuilderCallback)callback;
-- (void)buildUnmergedGridSummariesFromStartDate:(NSDate *)startDate
-                                        endDate:(NSDate *)endDate
-                                 bucketDistance:(CLLocationDistance)bucketDistance
-                                minimumDuration:(NSTimeInterval)minimumDuration
-                                       callback:(BLTGridSummaryBuilderCallback)callback;
+
+- (void)buildPlaceVisitsFromStartDate:(NSDate *)startDate
+                              endDate:(NSDate *)endDate
+                        usingStrategy:(id<BLTPlaceDetectionStrategy>)strategy
+                             callback:(BLTPlaceVisitBuilderCallback)callback;
 
 @end
 

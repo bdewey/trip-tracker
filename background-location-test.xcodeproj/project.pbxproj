@@ -31,10 +31,12 @@
 		D3C9E7681AFFAF7F005C3878 /* BLTFormattingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */; };
 		D3C9E76B1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */; };
 		D3C9E76E1B030036005C3878 /* BLTLocationSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */; };
+		D3C9E7711B0311F5005C3878 /* BLTPlaceVisit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7701B0311F5005C3878 /* BLTPlaceVisit.m */; };
+		D3C9E7741B0315D9005C3878 /* BLTLocationSlidingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7731B0315D9005C3878 /* BLTLocationSlidingWindow.m */; };
+		D3C9E77D1B037C3F005C3878 /* BLTGridStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E77C1B037C3F005C3878 /* BLTGridStrategy.m */; };
 		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
-		D3DD8DAD1AEBE26E001882D1 /* BLTGridSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */; };
 		D3DD8DB01AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */; };
 		D3DD8DB31AEBF0A5001882D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */; };
 		D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */; };
@@ -97,14 +99,19 @@
 		D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationRecordsTableViewController.m; sourceTree = "<group>"; };
 		D3C9E76C1B030036005C3878 /* BLTLocationSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = BLTLocationSegment.h; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
 		D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = BLTLocationSegment.m; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; wrapsLines = 1; };
+		D3C9E76F1B0311F5005C3878 /* BLTPlaceVisit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTPlaceVisit.h; sourceTree = "<group>"; };
+		D3C9E7701B0311F5005C3878 /* BLTPlaceVisit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTPlaceVisit.m; sourceTree = "<group>"; };
+		D3C9E7721B0315D9005C3878 /* BLTLocationSlidingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationSlidingWindow.h; sourceTree = "<group>"; };
+		D3C9E7731B0315D9005C3878 /* BLTLocationSlidingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationSlidingWindow.m; sourceTree = "<group>"; };
+		D3C9E7781B037999005C3878 /* BLTPlaceDetectionStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTPlaceDetectionStrategy.h; sourceTree = "<group>"; };
+		D3C9E77B1B037C3F005C3878 /* BLTGridStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGridStrategy.h; sourceTree = "<group>"; };
+		D3C9E77C1B037C3F005C3878 /* BLTGridStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGridStrategy.m; sourceTree = "<group>"; };
 		D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecord.h; sourceTree = "<group>"; };
 		D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecord.m; sourceTree = "<group>"; };
 		D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLogRecordsTableViewController.h; sourceTree = "<group>"; };
 		D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLogRecordsTableViewController.m; sourceTree = "<group>"; };
 		D3D7BF271AD87BE600BCC4CE /* BLTLocationDataSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTLocationDataSummary.h; sourceTree = "<group>"; };
 		D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTLocationDataSummary.m; sourceTree = "<group>"; };
-		D3DD8DAB1AEBE26E001882D1 /* BLTGridSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGridSummary.h; sourceTree = "<group>"; };
-		D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGridSummary.m; sourceTree = "<group>"; };
 		D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGridSummariesTableViewController.h; sourceTree = "<group>"; };
 		D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGridSummariesTableViewController.m; sourceTree = "<group>"; };
 		D3DD8DB21AEBF0A5001882D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -161,59 +168,64 @@
 		D30197721ACCF6DD00AF466B /* background-location-test */ = {
 			isa = PBXGroup;
 			children = (
-				D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */,
 				D30197771ACCF6DD00AF466B /* AppDelegate.h */,
 				D30197781ACCF6DD00AF466B /* AppDelegate.m */,
-				D30197831ACCF6DD00AF466B /* Images.xcassets */,
-				D30197851ACCF6DD00AF466B /* LaunchScreen.xib */,
 				D301977A1ACCF6DD00AF466B /* background_location_test.xcdatamodeld */,
-				D56C2AB31ADEE7AC00F5899C /* BLTMotionActivity.h */,
-				D56C2AB41ADEE7AC00F5899C /* BLTMotionActivity.m */,
-				D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */,
-				D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */,
-				D3A82D2A1ACD142E00C030EC /* BLTVisit.h */,
-				D3A82D2B1ACD142E00C030EC /* BLTVisit.m */,
-				D301979F1ACD011300AF466B /* BLTLocation.h */,
-				D30197A01ACD011300AF466B /* BLTLocation.m */,
-				D30197731ACCF6DD00AF466B /* Supporting Files */,
-				D301979C1ACCF8CE00AF466B /* BLTLocationManager.h */,
-				D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */,
 				D3A82D241ACD04BA00C030EC /* BLTDatabase.h */,
 				D3A82D251ACD04BA00C030EC /* BLTDatabase.m */,
-				D3A82D271ACD05A300C030EC /* BLTLocationsTableViewController.h */,
-				D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */,
-				D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */,
-				D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */,
-				D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */,
-				D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */,
+				D3C9E7661AFFAF7F005C3878 /* BLTFormattingHelpers.h */,
+				D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */,
+				D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */,
+				D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */,
+				D31D08271ADAD2DE006D95C7 /* BLTGroupedItems.h */,
+				D31D08281ADAD2DE006D95C7 /* BLTGroupedItems.m */,
+				D301979F1ACD011300AF466B /* BLTLocation.h */,
+				D30197A01ACD011300AF466B /* BLTLocation.m */,
+				D3D7BF271AD87BE600BCC4CE /* BLTLocationDataSummary.h */,
+				D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */,
+				D5B2F5E11ADECD8300D56CD2 /* BLTLocationHelpers.h */,
+				D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */,
+				D301979C1ACCF8CE00AF466B /* BLTLocationManager.h */,
+				D301979D1ACCF8CE00AF466B /* BLTLocationManager.m */,
+				D3C9E7691B00FF0A005C3878 /* BLTLocationRecordsTableViewController.h */,
+				D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */,
 				D3C9E76C1B030036005C3878 /* BLTLocationSegment.h */,
 				D3C9E76D1B030036005C3878 /* BLTLocationSegment.m */,
+				D3A82D271ACD05A300C030EC /* BLTLocationsTableViewController.h */,
+				D3A82D281ACD05A300C030EC /* BLTLocationsTableViewController.m */,
+				D3D6F6B31AD1B6FF00EE8723 /* BLTLogRecord.h */,
+				D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */,
+				D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */,
+				D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */,
+				D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */,
+				D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */,
+				D56C2AB61ADEEC7100F5899C /* BLTMotionActivitesTableViewController.h */,
+				D56C2AB71ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m */,
+				D56C2AB31ADEE7AC00F5899C /* BLTMotionActivity.h */,
+				D56C2AB41ADEE7AC00F5899C /* BLTMotionActivity.m */,
+				D3C9E76F1B0311F5005C3878 /* BLTPlaceVisit.h */,
+				D3C9E7701B0311F5005C3878 /* BLTPlaceVisit.m */,
+				D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */,
+				D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */,
 				D396A48D1ACFB2F40021D0B4 /* BLTTrip.h */,
 				D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */,
 				D3F2B8D81ACFB93E0035E028 /* BLTTripsTableViewController.h */,
 				D3F2B8D91ACFB93E0035E028 /* BLTTripsTableViewController.m */,
-				D3D6F6B61AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.h */,
-				D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */,
-				D3D7BF271AD87BE600BCC4CE /* BLTLocationDataSummary.h */,
-				D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */,
-				D31D081C1ADA0C22006D95C7 /* BLTStatisticsSummary.h */,
-				D31D081D1ADA0C22006D95C7 /* BLTStatisticsSummary.m */,
 				D31D08241ADAC900006D95C7 /* BLTTripSummaryTableViewCell.h */,
 				D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */,
-				D31D08271ADAD2DE006D95C7 /* BLTGroupedItems.h */,
-				D31D08281ADAD2DE006D95C7 /* BLTGroupedItems.m */,
-				D5B2F5E11ADECD8300D56CD2 /* BLTLocationHelpers.h */,
-				D5B2F5E21ADECD8300D56CD2 /* BLTLocationHelpers.m */,
-				D56C2AB61ADEEC7100F5899C /* BLTMotionActivitesTableViewController.h */,
-				D56C2AB71ADEEC7100F5899C /* BLTMotionActivitesTableViewController.m */,
-				D3DD8DAB1AEBE26E001882D1 /* BLTGridSummary.h */,
-				D3DD8DAC1AEBE26E001882D1 /* BLTGridSummary.m */,
-				D3DD8DAE1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.h */,
-				D3DD8DAF1AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m */,
-				D3C9E7661AFFAF7F005C3878 /* BLTFormattingHelpers.h */,
-				D3C9E7671AFFAF7F005C3878 /* BLTFormattingHelpers.m */,
-				D3C9E7691B00FF0A005C3878 /* BLTLocationRecordsTableViewController.h */,
-				D3C9E76A1B00FF0A005C3878 /* BLTLocationRecordsTableViewController.m */,
+				D3A82D2A1ACD142E00C030EC /* BLTVisit.h */,
+				D3A82D2B1ACD142E00C030EC /* BLTVisit.m */,
+				D3A82D2D1ACD181200C030EC /* BLTVisitsTableViewController.h */,
+				D3A82D2E1ACD181200C030EC /* BLTVisitsTableViewController.m */,
+				D30197831ACCF6DD00AF466B /* Images.xcassets */,
+				D30197851ACCF6DD00AF466B /* LaunchScreen.xib */,
+				D3DD8DB11AEBF0A5001882D1 /* Main.storyboard */,
+				D30197731ACCF6DD00AF466B /* Supporting Files */,
+				D3C9E7721B0315D9005C3878 /* BLTLocationSlidingWindow.h */,
+				D3C9E7731B0315D9005C3878 /* BLTLocationSlidingWindow.m */,
+				D3C9E7781B037999005C3878 /* BLTPlaceDetectionStrategy.h */,
+				D3C9E77B1B037C3F005C3878 /* BLTGridStrategy.h */,
+				D3C9E77C1B037C3F005C3878 /* BLTGridStrategy.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -360,11 +372,11 @@
 				D30197791ACCF6DD00AF466B /* AppDelegate.m in Sources */,
 				D31D08261ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m in Sources */,
 				D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */,
+				D3C9E77D1B037C3F005C3878 /* BLTGridStrategy.m in Sources */,
 				D30197A11ACD011300AF466B /* BLTLocation.m in Sources */,
 				D31D08291ADAD2DE006D95C7 /* BLTGroupedItems.m in Sources */,
 				D3DD8DB01AEBEBB1001882D1 /* BLTGridSummariesTableViewController.m in Sources */,
 				D3A82D261ACD04BA00C030EC /* BLTDatabase.m in Sources */,
-				D3DD8DAD1AEBE26E001882D1 /* BLTGridSummary.m in Sources */,
 				D3A82D2F1ACD181200C030EC /* BLTVisitsTableViewController.m in Sources */,
 				D30197761ACCF6DD00AF466B /* main.m in Sources */,
 				D56C2AB51ADEE7AC00F5899C /* BLTMotionActivity.m in Sources */,
@@ -379,6 +391,8 @@
 				D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */,
 				D3A82D291ACD05A300C030EC /* BLTLocationsTableViewController.m in Sources */,
 				D5B2F5E31ADECD8300D56CD2 /* BLTLocationHelpers.m in Sources */,
+				D3C9E7711B0311F5005C3878 /* BLTPlaceVisit.m in Sources */,
+				D3C9E7741B0315D9005C3878 /* BLTLocationSlidingWindow.m in Sources */,
 				D3F2B8DA1ACFB93E0035E028 /* BLTTripsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

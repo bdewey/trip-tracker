@@ -7,15 +7,31 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 #import "BLTLocation.h"
 #import "BLTLocationHelpers.h"
 #import "BLTLocationSegment.h"
 
+@interface BLTLocationSegment ()
+
+@property (nonatomic, readonly, assign) NSUInteger countOfCoordinates;
+@property (nonatomic, readonly, copy) NSData *coordinateData;
+
+- (CLLocationCoordinate2D)coordinateAtIndex:(NSUInteger)index;
+- (CLLocationCoordinate2D)firstCoordinate;
+- (CLLocationCoordinate2D)lastCoordinate;
+
+@end
+
 @implementation BLTLocationSegment
 {
   NSUInteger _countOfCoordinates;
   NSData *_coordinateData;
+  NSDate *_startDate;
+  NSDate *_endDate;
+  BLTLocationSegment *_firstSegment;
+  BLTLocationSegment *_secondSegment;
 }
 
 - (instancetype)initWithStartDate:(NSDate *)startDate
@@ -33,6 +49,16 @@
   return self;
 }
 
+- (instancetype)initWithFirstSegment:(BLTLocationSegment *)firstSegment secondSegment:(BLTLocationSegment *)secondSegment
+{
+  self = [super init];
+  if (self != nil) {
+    _firstSegment = firstSegment;
+    _secondSegment = secondSegment;
+  }
+  return self;
+}
+
 - (instancetype)initWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate locations:(NSArray *)locations
 {
   NSData *coordinateData = [[self class] coordinateDataForLocations:locations];
@@ -42,9 +68,30 @@
                   coordinateData:coordinateData];
 }
 
++ (instancetype)locationSegmentByMergingSegment:(BLTLocationSegment *)locationSegment
+                                    withSegment:(BLTLocationSegment *)otherLocationSegment
+{
+  if (locationSegment == nil) {
+    return otherLocationSegment;
+  }
+  if (otherLocationSegment == nil) {
+    return locationSegment;
+  }
+  BLTLocationSegment *firstLocationSegment;
+  BLTLocationSegment *secondLocationSegment;
+  if ([locationSegment->_startDate timeIntervalSinceDate:otherLocationSegment->_startDate] > 0) {
+    firstLocationSegment = otherLocationSegment;
+    secondLocationSegment = locationSegment;
+  } else {
+    firstLocationSegment = locationSegment;
+    secondLocationSegment = otherLocationSegment;
+  }
+  return [[self alloc] initWithFirstSegment:firstLocationSegment secondSegment:secondLocationSegment];
+}
+
 - (MKPolyline *)route
 {
-  return [MKPolyline polylineWithCoordinates:(void *)_coordinateData.bytes count:_countOfCoordinates];
+  return [MKPolyline polylineWithCoordinates:(void *)self.coordinateData.bytes count:self.countOfCoordinates];
 }
 
 + (NSData *)coordinateDataForLocations:(NSArray *)locations
@@ -60,6 +107,103 @@
   return coordinateData;
 }
 
+- (NSUInteger)countOfCoordinates
+{
+  if (_firstSegment != nil) {
+    return _firstSegment.countOfCoordinates + _secondSegment.countOfCoordinates;
+  } else {
+    return _countOfCoordinates;
+  }
+}
+
+- (NSData *)coordinateData
+{
+  if (_coordinateData != nil) {
+    return _coordinateData;
+  }
+  NSMutableData *mutableData = [[NSMutableData alloc] initWithCapacity:self.countOfCoordinates * sizeof(CLLocationCoordinate2D)];
+  NSUInteger offset = 0;
+  [self _appendCoordinatesToBuffer:mutableData.mutableBytes offset:&offset];
+  _coordinateData = mutableData;
+  return _coordinateData;
+}
+
+- (void)_appendCoordinatesToBuffer:(CLLocationCoordinate2D *)buffer offset:(NSUInteger *)offset
+{
+  if (_firstSegment == nil) {
+    // base case
+    memcpy(buffer + *offset, _coordinateData.bytes, _countOfCoordinates * sizeof(CLLocationCoordinate2D));
+    *offset += _countOfCoordinates;
+  } else {
+    [_firstSegment _appendCoordinatesToBuffer:buffer offset:offset];
+    [_secondSegment _appendCoordinatesToBuffer:buffer offset:offset];
+  }
+}
+
+- (NSDate *)startDate
+{
+  if (_firstSegment != nil) {
+    return _firstSegment.startDate;
+  } else {
+    return _startDate;
+  }
+}
+
+- (NSDate *)endDate
+{
+  if (_secondSegment != nil) {
+    return _secondSegment.endDate;
+  } else {
+    return _endDate;
+  }
+}
+
+- (CLLocationCoordinate2D)coordinateAtIndex:(NSUInteger)index
+{
+  if (_firstSegment != nil) {
+    NSUInteger countOfCoordinatesInFirstSegment = _firstSegment.countOfCoordinates;
+    if (index < countOfCoordinatesInFirstSegment) {
+      return [_firstSegment coordinateAtIndex:index];
+    } else {
+      return [_secondSegment coordinateAtIndex:index - countOfCoordinatesInFirstSegment];
+    }
+  } else {
+    if (index >= _countOfCoordinates) {
+      @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"index out of range" userInfo:@{ @"index" : @(index), @"maxIndex": @(_countOfCoordinates) }];
+    }
+    const CLLocationCoordinate2D *rawCoordinates = [_coordinateData bytes];
+    return rawCoordinates[index];
+  }
+}
+
+- (CLLocationCoordinate2D)firstCoordinate
+{
+  return [self coordinateAtIndex:0];
+}
+
+- (CLLocationCoordinate2D)lastCoordinate
+{
+  return [self coordinateAtIndex:self.countOfCoordinates - 1];
+}
+
+- (NSTimeInterval)timeIntervalFromLocationSegment:(BLTLocationSegment *)otherSegment
+{
+  if (otherSegment == nil) {
+    return DBL_MAX;
+  }
+  return [self.startDate timeIntervalSinceDate:otherSegment.endDate];
+}
+
+- (CLLocationDistance)distanceFromLocationSegment:(BLTLocationSegment *)otherSegment
+{
+  if (otherSegment == nil) {
+    return CLLocationDistanceMax;
+  }
+  MKMapPoint firstMapPoint = MKMapPointForCoordinate([self firstCoordinate]);
+  MKMapPoint lastMapPointFromOtherSegment = MKMapPointForCoordinate([otherSegment lastCoordinate]);
+  return MKMetersBetweenMapPoints(firstMapPoint, lastMapPointFromOtherSegment);
+}
+
 #pragma mark NSObject
 
 - (NSDictionary *)dictionaryRepresentation
@@ -67,7 +211,7 @@
   return @{
            @"start": _startDate,
            @"end": _endDate,
-           @"count": @(_countOfCoordinates),
+           @"count": @(self.countOfCoordinates),
            };
 }
 

@@ -129,6 +129,12 @@ NS_INLINE BOOL _CompareDouble(double x, double y)
   return [self initWithStartDate:nil endDate:nil locations:nil];
 }
 
+- (instancetype)initWithFirstSegment:(BLTLocationSegment *)firstSegment secondSegment:(BLTLocationSegment *)secondSegment
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"not designated initializer" userInfo:nil];
+  return [self initWithStartDate:nil endDate:nil locations:nil];
+}
+
 - (NSDictionary *)dictionaryRepresentation
 {
   NSMutableDictionary *mutableParent = [[super dictionaryRepresentation] mutableCopy];
