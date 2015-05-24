@@ -1,0 +1,447 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		239D3FE282D2CCE5A1110AA7 /* JBChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24A64CC1D315F33DBD051BDC /* JBChartView.h */; };
+		25B1D0A4A78237DE91B7D26F /* JBBarChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 11ED689639F8C2238CFE0C67 /* JBBarChartView.h */; };
+		3D2485C00F18BE876CC68B43 /* JBLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AC370A1622E0029EDB42E6 /* JBLineChartView.m */; };
+		467A06BC702D293681FF49A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B139CF2D9441BB3B7CDEAD85 /* Foundation.framework */; };
+		5652BA8D0399C5085DD2A743 /* JBBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC69A82E5EE90291337CE41 /* JBBarChartView.m */; };
+		6814EC05F3EEA63B24152184 /* Pods-background-location-test-JBChartView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A0242BB153E43DB4F5D60318 /* Pods-background-location-test-JBChartView-dummy.m */; };
+		796C33559B0A04A91B366AAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B139CF2D9441BB3B7CDEAD85 /* Foundation.framework */; };
+		ED6BEB7D0DE11BFD2B323F18 /* JBChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF758DEF4B796D74EE89E34 /* JBChartView.m */; };
+		FBE0CA2AABCA8A848A07097C /* JBLineChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29749AAEFA751C4DE5AD0E5B /* JBLineChartView.h */; };
+		FE3923DCB1F724AA4DC8A609 /* Pods-background-location-test-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAE1F175FADAB6ADFD77E2E /* Pods-background-location-test-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B3ACE1275D6DFAB98754942 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8A0650CCF78BA4845BAB830 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B5F3968D8EA955BFEE94EA30;
+			remoteInfo = "Pods-background-location-test-JBChartView";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		110BF2CACF66B7EE60FD50A7 /* Pods-background-location-test-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-background-location-test-environment.h"; sourceTree = "<group>"; };
+		11ED689639F8C2238CFE0C67 /* JBBarChartView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JBBarChartView.h; path = Classes/JBBarChartView.h; sourceTree = "<group>"; };
+		166B95C8F85B75E2DC6F6961 /* Pods-background-location-test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-background-location-test.debug.xcconfig"; sourceTree = "<group>"; };
+		21D65715C7D4798A2C29ADAB /* Pods-background-location-test-JBChartView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-background-location-test-JBChartView.xcconfig"; sourceTree = "<group>"; };
+		24A64CC1D315F33DBD051BDC /* JBChartView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JBChartView.h; path = Classes/JBChartView.h; sourceTree = "<group>"; };
+		29749AAEFA751C4DE5AD0E5B /* JBLineChartView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JBLineChartView.h; path = Classes/JBLineChartView.h; sourceTree = "<group>"; };
+		39AF74A04CFE6E1085363851 /* libPods-background-location-test-JBChartView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-background-location-test-JBChartView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A360319C11F55D8080EF00D /* Pods-background-location-test-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-background-location-test-acknowledgements.plist"; sourceTree = "<group>"; };
+		3B811C6B8AE467A0D7D09473 /* Pods-background-location-test-JBChartView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-background-location-test-JBChartView-prefix.pch"; sourceTree = "<group>"; };
+		4AC985B454DBE64333F5A4BD /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4E788252258FD24EEDF7A2E1 /* Pods-background-location-test-JBChartView-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-background-location-test-JBChartView-Private.xcconfig"; sourceTree = "<group>"; };
+		7328A1BCFF53F441198D8E13 /* libPods-background-location-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-background-location-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96AC370A1622E0029EDB42E6 /* JBLineChartView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JBLineChartView.m; path = Classes/JBLineChartView.m; sourceTree = "<group>"; };
+		A0242BB153E43DB4F5D60318 /* Pods-background-location-test-JBChartView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-background-location-test-JBChartView-dummy.m"; sourceTree = "<group>"; };
+		A28AA610F38B09F6622D40BD /* Pods-background-location-test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-background-location-test.release.xcconfig"; sourceTree = "<group>"; };
+		ACC69A82E5EE90291337CE41 /* JBBarChartView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JBBarChartView.m; path = Classes/JBBarChartView.m; sourceTree = "<group>"; };
+		B139CF2D9441BB3B7CDEAD85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		BDF758DEF4B796D74EE89E34 /* JBChartView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JBChartView.m; path = Classes/JBChartView.m; sourceTree = "<group>"; };
+		BE13B9CECE9313CC4F68DB0C /* Pods-background-location-test-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-background-location-test-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CCAE1F175FADAB6ADFD77E2E /* Pods-background-location-test-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-background-location-test-dummy.m"; sourceTree = "<group>"; };
+		F5502BB9BE189C7B393458AC /* Pods-background-location-test-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-background-location-test-resources.sh"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3BF2CE3DC9CBF7AF583F92AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				467A06BC702D293681FF49A3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF351065F761030FA3CEF739 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				796C33559B0A04A91B366AAA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16207ED542925E7311EFF392 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4667C003EA9BDDC4BFAB9107 /* JBChartView */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		1890E81F295F63E60A6FCFCC /* Pods-background-location-test */ = {
+			isa = PBXGroup;
+			children = (
+				BE13B9CECE9313CC4F68DB0C /* Pods-background-location-test-acknowledgements.markdown */,
+				3A360319C11F55D8080EF00D /* Pods-background-location-test-acknowledgements.plist */,
+				CCAE1F175FADAB6ADFD77E2E /* Pods-background-location-test-dummy.m */,
+				110BF2CACF66B7EE60FD50A7 /* Pods-background-location-test-environment.h */,
+				F5502BB9BE189C7B393458AC /* Pods-background-location-test-resources.sh */,
+				166B95C8F85B75E2DC6F6961 /* Pods-background-location-test.debug.xcconfig */,
+				A28AA610F38B09F6622D40BD /* Pods-background-location-test.release.xcconfig */,
+			);
+			name = "Pods-background-location-test";
+			path = "Target Support Files/Pods-background-location-test";
+			sourceTree = "<group>";
+		};
+		19A255E104C275440B6FAA74 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1890E81F295F63E60A6FCFCC /* Pods-background-location-test */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		1CB3A8CFDB9FE9A804DF782F = {
+			isa = PBXGroup;
+			children = (
+				4AC985B454DBE64333F5A4BD /* Podfile */,
+				1DE7A7D762F3E3ACF3DE6EA1 /* Frameworks */,
+				16207ED542925E7311EFF392 /* Pods */,
+				487DE78824035821529F3CA2 /* Products */,
+				19A255E104C275440B6FAA74 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		1DE7A7D762F3E3ACF3DE6EA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5737979C10DA912F1A5FD432 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4667C003EA9BDDC4BFAB9107 /* JBChartView */ = {
+			isa = PBXGroup;
+			children = (
+				11ED689639F8C2238CFE0C67 /* JBBarChartView.h */,
+				ACC69A82E5EE90291337CE41 /* JBBarChartView.m */,
+				24A64CC1D315F33DBD051BDC /* JBChartView.h */,
+				BDF758DEF4B796D74EE89E34 /* JBChartView.m */,
+				29749AAEFA751C4DE5AD0E5B /* JBLineChartView.h */,
+				96AC370A1622E0029EDB42E6 /* JBLineChartView.m */,
+				5EF302883F6073B4F97EBDD0 /* Support Files */,
+			);
+			path = JBChartView;
+			sourceTree = "<group>";
+		};
+		487DE78824035821529F3CA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7328A1BCFF53F441198D8E13 /* libPods-background-location-test.a */,
+				39AF74A04CFE6E1085363851 /* libPods-background-location-test-JBChartView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5737979C10DA912F1A5FD432 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B139CF2D9441BB3B7CDEAD85 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5EF302883F6073B4F97EBDD0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				21D65715C7D4798A2C29ADAB /* Pods-background-location-test-JBChartView.xcconfig */,
+				4E788252258FD24EEDF7A2E1 /* Pods-background-location-test-JBChartView-Private.xcconfig */,
+				A0242BB153E43DB4F5D60318 /* Pods-background-location-test-JBChartView-dummy.m */,
+				3B811C6B8AE467A0D7D09473 /* Pods-background-location-test-JBChartView-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-background-location-test-JBChartView";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B71944B6320188256979A91D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25B1D0A4A78237DE91B7D26F /* JBBarChartView.h in Headers */,
+				239D3FE282D2CCE5A1110AA7 /* JBChartView.h in Headers */,
+				FBE0CA2AABCA8A848A07097C /* JBLineChartView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		1BEFB052D360C7EE31848A73 /* Pods-background-location-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D517D31CED7EC76BACAA8BE /* Build configuration list for PBXNativeTarget "Pods-background-location-test" */;
+			buildPhases = (
+				EEC7F4FA557AA76FA2EFD44D /* Sources */,
+				3BF2CE3DC9CBF7AF583F92AD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98919FE707EDBBFC1DF21F55 /* PBXTargetDependency */,
+			);
+			name = "Pods-background-location-test";
+			productName = "Pods-background-location-test";
+			productReference = 7328A1BCFF53F441198D8E13 /* libPods-background-location-test.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B5F3968D8EA955BFEE94EA30 /* Pods-background-location-test-JBChartView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78FD6DCFA6F3A68EED2154E0 /* Build configuration list for PBXNativeTarget "Pods-background-location-test-JBChartView" */;
+			buildPhases = (
+				CEAAF060DADCA726D5B61CDF /* Sources */,
+				FF351065F761030FA3CEF739 /* Frameworks */,
+				B71944B6320188256979A91D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-background-location-test-JBChartView";
+			productName = "Pods-background-location-test-JBChartView";
+			productReference = 39AF74A04CFE6E1085363851 /* libPods-background-location-test-JBChartView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C8A0650CCF78BA4845BAB830 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = 585D860F3E0D8D1B6360AF38 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1CB3A8CFDB9FE9A804DF782F;
+			productRefGroup = 487DE78824035821529F3CA2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1BEFB052D360C7EE31848A73 /* Pods-background-location-test */,
+				B5F3968D8EA955BFEE94EA30 /* Pods-background-location-test-JBChartView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEAAF060DADCA726D5B61CDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5652BA8D0399C5085DD2A743 /* JBBarChartView.m in Sources */,
+				ED6BEB7D0DE11BFD2B323F18 /* JBChartView.m in Sources */,
+				3D2485C00F18BE876CC68B43 /* JBLineChartView.m in Sources */,
+				6814EC05F3EEA63B24152184 /* Pods-background-location-test-JBChartView-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEC7F4FA557AA76FA2EFD44D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE3923DCB1F724AA4DC8A609 /* Pods-background-location-test-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		98919FE707EDBBFC1DF21F55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-background-location-test-JBChartView";
+			target = B5F3968D8EA955BFEE94EA30 /* Pods-background-location-test-JBChartView */;
+			targetProxy = 2B3ACE1275D6DFAB98754942 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1432900956CC1E5DA0E4BBE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 166B95C8F85B75E2DC6F6961 /* Pods-background-location-test.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		48B85BB12687D56EFDB4ED12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E788252258FD24EEDF7A2E1 /* Pods-background-location-test-JBChartView-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-background-location-test-JBChartView/Pods-background-location-test-JBChartView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		7505843F737CE06395212C31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		78CFD068B701BB017EF43D55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		80ECFCFFDB31E6953FC1A5CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E788252258FD24EEDF7A2E1 /* Pods-background-location-test-JBChartView-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-background-location-test-JBChartView/Pods-background-location-test-JBChartView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		950181BD6D2678CC44305DCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A28AA610F38B09F6622D40BD /* Pods-background-location-test.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		585D860F3E0D8D1B6360AF38 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7505843F737CE06395212C31 /* Debug */,
+				78CFD068B701BB017EF43D55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78FD6DCFA6F3A68EED2154E0 /* Build configuration list for PBXNativeTarget "Pods-background-location-test-JBChartView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48B85BB12687D56EFDB4ED12 /* Debug */,
+				80ECFCFFDB31E6953FC1A5CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D517D31CED7EC76BACAA8BE /* Build configuration list for PBXNativeTarget "Pods-background-location-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1432900956CC1E5DA0E4BBE3 /* Debug */,
+				950181BD6D2678CC44305DCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C8A0650CCF78BA4845BAB830 /* Project object */;
+}

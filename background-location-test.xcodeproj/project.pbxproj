@@ -21,6 +21,7 @@
 		D31D08261ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D08251ADAC900006D95C7 /* BLTTripSummaryTableViewCell.m */; };
 		D31D08291ADAD2DE006D95C7 /* BLTGroupedItems.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D08281ADAD2DE006D95C7 /* BLTGroupedItems.m */; };
 		D31D082B1ADADAB8006D95C7 /* BLTTripGroupsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */; };
+		D33228431B121AC200A9578F /* BLTGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D33228421B121AC200A9578F /* BLTGraphViewController.m */; };
 		D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */; };
 		D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */; };
 		D396A48F1ACFB2F40021D0B4 /* BLTTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = D396A48E1ACFB2F40021D0B4 /* BLTTrip.m */; };
@@ -34,6 +35,7 @@
 		D3C9E7711B0311F5005C3878 /* BLTPlaceVisit.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7701B0311F5005C3878 /* BLTPlaceVisit.m */; };
 		D3C9E7741B0315D9005C3878 /* BLTLocationSlidingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E7731B0315D9005C3878 /* BLTLocationSlidingWindow.m */; };
 		D3C9E77D1B037C3F005C3878 /* BLTGridStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9E77C1B037C3F005C3878 /* BLTGridStrategy.m */; };
+		D3D271739FB48C1D416CA6F5 /* libPods-background-location-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A6383733151521E95DFC69 /* libPods-background-location-test.a */; };
 		D3D6F6B51AD1B6FF00EE8723 /* BLTLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B41AD1B6FF00EE8723 /* BLTLogRecord.m */; };
 		D3D6F6B81AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D6F6B71AD1BB4D00EE8723 /* BLTLogRecordsTableViewController.m */; };
 		D3D7BF291AD87BE600BCC4CE /* BLTLocationDataSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D7BF281AD87BE600BCC4CE /* BLTLocationDataSummary.m */; };
@@ -56,6 +58,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		38D88F8C9A8379324B96003B /* Pods-background-location-test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-background-location-test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-background-location-test/Pods-background-location-test.debug.xcconfig"; sourceTree = "<group>"; };
+		39A6383733151521E95DFC69 /* libPods-background-location-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-background-location-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B37E639C5FA45FC3B609B0A /* Pods-background-location-test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-background-location-test.release.xcconfig"; path = "Pods/Target Support Files/Pods-background-location-test/Pods-background-location-test.release.xcconfig"; sourceTree = "<group>"; };
 		D30197701ACCF6DD00AF466B /* background-location-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "background-location-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D30197741ACCF6DD00AF466B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D30197751ACCF6DD00AF466B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -80,6 +85,8 @@
 		D31D08271ADAD2DE006D95C7 /* BLTGroupedItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGroupedItems.h; sourceTree = "<group>"; };
 		D31D08281ADAD2DE006D95C7 /* BLTGroupedItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGroupedItems.m; sourceTree = "<group>"; };
 		D31D082A1ADADAB8006D95C7 /* BLTTripGroupsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTTripGroupsTests.m; sourceTree = "<group>"; };
+		D33228411B121AC200A9578F /* BLTGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTGraphViewController.h; sourceTree = "<group>"; };
+		D33228421B121AC200A9578F /* BLTGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTGraphViewController.m; sourceTree = "<group>"; };
 		D376BB171ACFAB9F00DD5EF1 /* BLTMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTMapViewController.h; sourceTree = "<group>"; };
 		D376BB181ACFAB9F00DD5EF1 /* BLTMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTMapViewController.m; sourceTree = "<group>"; };
 		D376BB1A1ACFACBF00DD5EF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -131,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D376BB1B1ACFACBF00DD5EF1 /* MapKit.framework in Frameworks */,
+				D3D271739FB48C1D416CA6F5 /* libPods-background-location-test.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +152,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20A43731D6742879370747CF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				38D88F8C9A8379324B96003B /* Pods-background-location-test.debug.xcconfig */,
+				9B37E639C5FA45FC3B609B0A /* Pods-background-location-test.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D30197671ACCF6DD00AF466B = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +168,8 @@
 				D30197721ACCF6DD00AF466B /* background-location-test */,
 				D301978F1ACCF6DD00AF466B /* background-location-testTests */,
 				D30197711ACCF6DD00AF466B /* Products */,
+				20A43731D6742879370747CF /* Pods */,
+				F0B54B7249D01286D93647F6 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -226,6 +245,8 @@
 				D3C9E7781B037999005C3878 /* BLTPlaceDetectionStrategy.h */,
 				D3C9E77B1B037C3F005C3878 /* BLTGridStrategy.h */,
 				D3C9E77C1B037C3F005C3878 /* BLTGridStrategy.m */,
+				D33228411B121AC200A9578F /* BLTGraphViewController.h */,
+				D33228421B121AC200A9578F /* BLTGraphViewController.m */,
 			);
 			path = "background-location-test";
 			sourceTree = "<group>";
@@ -259,6 +280,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F0B54B7249D01286D93647F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				39A6383733151521E95DFC69 /* libPods-background-location-test.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -266,9 +295,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D30197961ACCF6DD00AF466B /* Build configuration list for PBXNativeTarget "background-location-test" */;
 			buildPhases = (
+				78BC2BDF8EC80673556E0FBA /* Check Pods Manifest.lock */,
 				D301976C1ACCF6DD00AF466B /* Sources */,
 				D301976D1ACCF6DD00AF466B /* Frameworks */,
 				D301976E1ACCF6DD00AF466B /* Resources */,
+				51CDFEFFC752CD082C58F4F2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -361,11 +392,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		51CDFEFFC752CD082C58F4F2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-background-location-test/Pods-background-location-test-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		78BC2BDF8EC80673556E0FBA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D301976C1ACCF6DD00AF466B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D33228431B121AC200A9578F /* BLTGraphViewController.m in Sources */,
 				D301979E1ACCF8CE00AF466B /* BLTLocationManager.m in Sources */,
 				D301977C1ACCF6DD00AF466B /* background_location_test.xcdatamodeld in Sources */,
 				D376BB191ACFAB9F00DD5EF1 /* BLTMapViewController.m in Sources */,
@@ -518,6 +583,7 @@
 		};
 		D30197971ACCF6DD00AF466B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38D88F8C9A8379324B96003B /* Pods-background-location-test.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -532,6 +598,7 @@
 		};
 		D30197981ACCF6DD00AF466B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B37E639C5FA45FC3B609B0A /* Pods-background-location-test.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
