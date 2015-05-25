@@ -12,6 +12,7 @@
 
 #import "BLTDatabase.h"
 #import "BLTFormattingHelpers.h"
+#import "BLTGraphViewController.h"
 #import "BLTLocationHelpers.h"
 #import "BLTLocationManager.h"
 #import "BLTLocationRecordsTableViewController.h"
@@ -22,6 +23,7 @@
 #import "BLTTripSummaryTableViewCell.h"
 
 static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
+static NSString *const kGraphSegueIdentifier = @"ShowTripGraphSegue";
 
 @interface BLTTripsTableViewController () <
   BLTGroupedItemsDelegate,
@@ -150,6 +152,11 @@ static NSString *const kTripCellReuseIdentifier = @"BLTTrip";
     BLTLocationRecordsTableViewController *locationRecordsTableViewController = segue.destinationViewController;
     locationRecordsTableViewController.predicate = [NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", trip.startDate, trip.endDate];
     locationRecordsTableViewController.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
+  } else if ([segue.identifier isEqualToString:kGraphSegueIdentifier]) {
+    BLTGraphViewController *graphViewController = segue.destinationViewController;
+    graphViewController.startDate = trip.startDate;
+    graphViewController.endDate = trip.endDate;
+    graphViewController.database = _locationManager.database;
   }
 }
 

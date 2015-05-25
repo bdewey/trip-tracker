@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class BLTDatabase;
+
 @interface BLTGraphViewController : UIViewController
+
+@property (nonatomic, readwrite, strong) NSDate *startDate;
+@property (nonatomic, readwrite, strong) NSDate *endDate;
+@property (nonatomic, readwrite, strong) BLTDatabase *database;
 
 @end

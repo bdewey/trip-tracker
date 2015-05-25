@@ -22,6 +22,7 @@ static BLTDatabase *g_database;
 }
 
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize defaultBackgroundManagedObjectContext = _defaultBackgroundManagedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
@@ -201,6 +202,15 @@ static BLTDatabase *g_database;
   _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
   [_managedObjectContext setPersistentStoreCoordinator:coordinator];
   return _managedObjectContext;
+}
+
+- (NSManagedObjectContext *)defaultBackgroundManagedObjectContext
+{
+  if (_defaultBackgroundManagedObjectContext != nil) {
+    return _defaultBackgroundManagedObjectContext;
+  }
+  _defaultBackgroundManagedObjectContext = [self newPrivateQueueManagedObjectContextWithName:@"background moc"];
+  return _defaultBackgroundManagedObjectContext;
 }
 
 #pragma mark - Core Data Saving support

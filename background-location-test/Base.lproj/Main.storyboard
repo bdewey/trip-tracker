@@ -134,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6X-gA-Mw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1210" y="501"/>
+            <point key="canvasLocation" x="3598" y="2730"/>
         </scene>
         <!--Locations-->
         <scene sceneID="YuO-cy-zdZ">
@@ -244,7 +244,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="41i-xO-srG" kind="relationship" relationship="viewControllers" id="uJG-KG-P4H"/>
-                        <segue destination="Fcr-7W-YGu" kind="relationship" relationship="viewControllers" id="i5f-2f-3xl"/>
                         <segue destination="Gfg-5U-jK5" kind="relationship" relationship="viewControllers" id="G20-HI-Gl5"/>
                         <segue destination="z3s-QU-mHx" kind="relationship" relationship="viewControllers" id="Z1i-cD-yOH"/>
                         <segue destination="PzJ-Dy-DhV" kind="relationship" relationship="viewControllers" id="chC-UN-pdo"/>
@@ -334,7 +333,7 @@
                                     <outlet property="speedLabel" destination="Dl5-bw-vru" id="HyU-yv-Lif"/>
                                     <outlet property="titleLabel" destination="Plx-Cx-pJy" id="NUr-gy-qin"/>
                                     <segue destination="BB6-Xs-beF" kind="show" identifier="ShowTripMapSegue" id="qG1-30-mu6"/>
-                                    <segue destination="Xjv-pp-k23" kind="show" identifier="ShowLocationDetailSegue" trigger="accessoryAction" id="Xt8-3o-JDn"/>
+                                    <segue destination="Fcr-7W-YGu" kind="show" identifier="ShowTripGraphSegue" trigger="accessoryAction" id="4HA-X1-TPb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -545,6 +544,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="x5f-TG-WFT"/>
-        <segue reference="Xt8-3o-JDn"/>
     </inferredMetricsTieBreakers>
 </document>
