@@ -118,6 +118,7 @@ static BLTDatabase *g_database;
   
   _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
   NSURL *storeURL = [self _storeURL];
+  NSLog(@"Looking for database at %@", storeURL);
   NSError *error = nil;
   NSDictionary *pscOptions = @{
                                NSMigratePersistentStoresAutomaticallyOption: @YES,

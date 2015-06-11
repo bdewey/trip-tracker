@@ -56,6 +56,12 @@ static BLTLocationManager *g_sharedLocationManager;
   return self;
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithDatabase:nil];
+}
+
 - (void)dealloc
 {
   _locationManager.delegate = nil;

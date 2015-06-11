@@ -51,6 +51,12 @@ NS_INLINE double BLTBucketizedValue(double mapPointValue,
   return self;
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithBucketDistance:0 minimumDuration:0];
+}
+
 - (void)addLocation:(BLTLocation *)managedLocation
 {
   CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(managedLocation.latitude, managedLocation.longitude);

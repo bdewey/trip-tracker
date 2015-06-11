@@ -43,6 +43,12 @@
   return [self initWithTripGroupNames:@[] tripGroups:@[] delegate:delegate];
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithDelegate:nil];
+}
+
 - (NSString *)description
 {
   NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];

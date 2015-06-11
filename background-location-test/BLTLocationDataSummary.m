@@ -29,6 +29,12 @@
   return [self initWithStartDate:startDate endDate:endDate countOfLocationObservations:count];
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithStartDate:nil endDate:nil countOfLocationObservations:0];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
   [aCoder encodeObject:_startDate forKey:@"start_date"];

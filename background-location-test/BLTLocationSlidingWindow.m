@@ -61,6 +61,12 @@
   return self;
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithThresholdDistance:0 thresholdInterval:0];
+}
+
 - (NSArray *)placeVisits
 {
   return [_placeVisits copy];

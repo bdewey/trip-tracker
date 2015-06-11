@@ -68,6 +68,12 @@
                   coordinateData:coordinateData];
 }
 
+- (instancetype)init
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:nil userInfo:nil];
+  return [self initWithStartDate:nil endDate:nil locations:nil];
+}
+
 + (instancetype)locationSegmentByMergingSegment:(BLTLocationSegment *)locationSegment
                                     withSegment:(BLTLocationSegment *)otherLocationSegment
 {
